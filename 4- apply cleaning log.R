@@ -18,7 +18,8 @@ rm("file_name", "form", "forms", "path", "check_column_names", "dates_to_charact
 
 # read the cleaning log --------------------------------------------------
 url <- "https://docs.google.com/spreadsheets/d/1GxSV76XoQSBF45zmd8r1LX7r3cUQWB1I7aJ7b9KA51U/edit#gid=0"
-browseURL(url)
+#browseURL(url)
+googlesheets4::gs4_deauth()
 cleaning_log <- googlesheets4::read_sheet(url, sheet = "cleaning_log", col_types = "c")
 count(cleaning_log, changed)
 cleaning_log <- cleaning_log %>% filter(changed == "Yes") %>% 
