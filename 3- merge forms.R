@@ -549,7 +549,7 @@ mmo_list <- list(
 )
 
 identical(names(mmo_w1), names(mmo_list))
-writexl::write_xlsx(mmo_w1, glue::glue("{output_path}CPI_MMOs_Dataset_merge.xlsx"))
+writexl::write_xlsx(mmo_list, glue::glue("{output_path}CPI_MMOs_Dataset_merge.xlsx"))
 
 
 ## form 10: Government Employee_Salary_Payment_Verification. Available only in week 8
