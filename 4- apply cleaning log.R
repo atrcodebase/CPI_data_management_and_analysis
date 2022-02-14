@@ -18,21 +18,30 @@ rm("file_name", "form", "forms", "path", "check_column_names", "dates_to_charact
 
 # read the cleaning log --------------------------------------------------
 url <- "https://docs.google.com/spreadsheets/d/1GxSV76XoQSBF45zmd8r1LX7r3cUQWB1I7aJ7b9KA51U/edit#gid=0"
-#browseURL(url)
+# browseURL(url)
 googlesheets4::gs4_deauth()
 cleaning_log <- googlesheets4::read_sheet(url, sheet = "cleaning_log", col_types = "c")
 count(cleaning_log, changed)
 cleaning_log <- cleaning_log %>% filter(changed == "Yes") %>% 
   mutate(uuid = str_trim(uuid))
 
-# check the dataset names & sheet names in cleaning log and merged datasets --------------------------------------------------
+# check the dataset, sheet, and questions names in cleaning log and merged datasets --------------------------------------------------
 sheet_names <- c()
 for (i in names(data)) {
   sheet_names <- c(sheet_names, names(data[[i]]))
 }
 
-unique(cleaning_log$sheet_name)[!unique(cleaning_log$sheet_name) %in% sheet_names]
+col_names <- c()
+for (i in names(data)) {
+  for (sheet in names(data[[i]])) {
+    col <- colnames(data[[i]][[sheet]])
+    col_names <- c(col_names, col)
+  }
+}
+
 unique(cleaning_log$dataset_name)[!unique(cleaning_log$dataset_name) %in% names(data)]
+unique(cleaning_log$sheet_name)[!unique(cleaning_log$sheet_name) %in% sheet_names]
+unique(cleaning_log$question)[!unique(cleaning_log$question) %in% col_names]
 
 data[["CPI_Border_Count_of_Transport_Traffic_Dataset"]][["data"]] <- data[["CPI_Border_Count_of_Transport_Traffic_Dataset"]][["data"]] %>% 
   mutate(Number_of_TPMA_visits_by_Sector = as.numeric(Number_of_TPMA_visits_by_Sector))
