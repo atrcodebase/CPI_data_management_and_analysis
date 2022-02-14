@@ -7,7 +7,6 @@
 *.DS_Store
 *.zip
 
-artf_data_for_dashboard/
 raw_data/
 raw_data_PMT response to integrity's QA findings/
 
