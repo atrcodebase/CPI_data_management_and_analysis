@@ -139,10 +139,10 @@ check_column_names(target = telecome_service_w1, check_with = telecome_service_w
 check_column_names(target = telecome_service_w1, check_with = telecome_service_w12)
 
 ## form 9: MMOs
-all(sapply(list(names(mmo_w8)
-), FUN = identical, names(mmo_w1)))
-
-check_column_names(target = mmo_w1, check_with = mmo_w8)
+# all(sapply(list(names(mmo_w8)
+# ), FUN = identical, names(mmo_w1)))
+# 
+# check_column_names(target = mmo_w1, check_with = mmo_w8)
 
 ## Form 5.1: Bank Operationality Status, from week 8 onwards
 all(sapply(list(
@@ -154,7 +154,7 @@ check_column_names(target = bank_operationality_w8, check_with = bank_operationa
 check_column_names(target = bank_operationality_w8, check_with = bank_operationality_w11)
 check_column_names(target = bank_operationality_w8, check_with = bank_operationality_w12)
 
-## form 10: Government Employee_Salary_Payment_Verification. Available only in week 8
+## form 10: Government Employee_Salary_Payment_Verification. Available only in week 8 (pilot data)
 ## form 11: Railway Count. Available only in week 10
 
 

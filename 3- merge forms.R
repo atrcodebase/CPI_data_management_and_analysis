@@ -508,34 +508,35 @@ telecome_service <- rbind(
 
 writexl::write_xlsx(list(telecom_data = telecome_service), glue::glue("{output_path}CPI_Telecom_Service_Providers_Dataset_merge.xlsx"))
 
-## Form 9 - MMOs - available for week 1 and 8
+## Form 9 - MMOs - available for week 1 and 8 (week 1 is considered pilot data)
+# please add the data from coming weeks in the rbind
 mmo_main <- rbind(
-  mmo_w1[["main"]],
+  # mmo_w1[["main"]],
   mmo_w8[["main"]]
 )
 
 mmo_sub_resp <- rbind(
-  mmo_w1[["mmo_sub_resp"]],
+  # mmo_w1[["mmo_sub_resp"]],
   mmo_w8[["mmo_sub_resp"]]
 )
 
 mmo_percentage_fee_per_transfer <- rbind(
-  mmo_w1[["mmo_percentage_fee_per_transfer"]],
+  # mmo_w1[["mmo_percentage_fee_per_transfer"]],
   mmo_w8[["mmo_percentage_fee_per_transfer"]]
 )
 
 mmo_amount_fee_per_transfer <- rbind(
-  mmo_w1[["mmo_amount_fee_per_transfer"]],
+  # mmo_w1[["mmo_amount_fee_per_transfer"]],
   mmo_w8[["mmo_amount_fee_per_transfer"]]
 )
 
 mmo_pecentage_fee_per_withdraw <- rbind(
-  mmo_w1[["mmo_pecentage_fee_per_withdraw"]],
+  # mmo_w1[["mmo_pecentage_fee_per_withdraw"]],
   mmo_w8[["mmo_pecentage_fee_per_withdraw"]]
 )
 
 mmo_amount_fee_per_withdraw <- rbind(
-  mmo_w1[["mmo_amount_fee_per_withdraw"]],
+  # mmo_w1[["mmo_amount_fee_per_withdraw"]],
   mmo_w8[["mmo_amount_fee_per_withdraw"]]
 )
 
@@ -548,12 +549,11 @@ mmo_list <- list(
   mmo_amount_fee_per_withdraw = mmo_amount_fee_per_withdraw
 )
 
-identical(names(mmo_w1), names(mmo_list))
+# identical(names(mmo_w8), names(mmo_list))
 writexl::write_xlsx(mmo_list, glue::glue("{output_path}CPI_MMOs_Dataset_merge.xlsx"))
 
 
-## form 10: Government Employee_Salary_Payment_Verification. Available only in week 8
-#### please copy the file from input and put it in the output, there isn't data from other weeks to merge with them
+## form 10: Government Employee_Salary_Payment_Verification. Available only in week 8 (pilot)
 
 ## form 11: Railway Count. Available only in week 10
 #### please copy the file from input and put it in the output, there isn't data from other weeks to merge with them
