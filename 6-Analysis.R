@@ -32,7 +32,7 @@ source("R/analysis/8_IME exchange rate and availability.R") # IME exchange rate 
 source("R/analysis/9_Hawala changes in transactions, common destination, ability to transfer money.R") # IME Hawala operators (domestic and international)
 # TODO: IME exchange rate, availability, and hawal operators (version 2)
 
-# export results (ATR data)
+# export results into "output/analysis/" folder
 writexl::write_xlsx(FI_prices_list, glue::glue("{output_path}FI prices - {date}.xlsx")) # FI price
 writexl::write_xlsx(FI_availability_list, glue::glue("{output_path}FI availability - {date}.xlsx")) # FI availability 
 writexl::write_xlsx(NFI_prices_list, glue::glue("{output_path}NFI price - {date}.xlsx")) # NFI price
