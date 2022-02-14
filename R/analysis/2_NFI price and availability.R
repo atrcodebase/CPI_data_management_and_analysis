@@ -2,9 +2,14 @@
 nfi_atr <- nfi_atr %>% 
   filter(!Items %in% c("Painter", "Unskilled labourer", "Tile worker", "Plumber", "Electrician", "Carpenter", "Mason")) %>% 
   mutate(
+    Items = case_when(
+      Items %in% c("Shared rickshaw", "Shared taxi", "Shared van", "Shared taxi/van/risckshaw  driver") ~ "Shared taxi/van/risckshaw driver",
+      TRUE ~ Items
+    ),
     Availability_NFI = str_trim(gsub("\\(.*", "", Availability_NFI)),
     week = paste0("week-", week)
   )
+
 telecom_atr <- telecom_atr %>% mutate(week = paste0("week-", week))
 
 ## by week

@@ -3,7 +3,7 @@ fi_atr <- fi_atr %>%
   mutate(
     Availability_FI = str_trim(gsub("\\(.*", "", Availability_FI)),
     Items = case_when(
-      Items == "Nan (small loaf)" ~ "Nan (bread)",
+      Items %in% c("Nan (small loaf)", "bread") ~ "Nan (bread)",
       TRUE ~ Items
     ),
     week = paste0("week-", week)
