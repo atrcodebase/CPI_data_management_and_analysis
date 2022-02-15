@@ -81,8 +81,14 @@ tryCatch(
     mmo_path <- paste0(data_path, mmo_data_name); rm("mmo_data_name")
     }
     
-    employee_salary_payment_path <- paste0(data_path, employee_salary_payment_data_name); rm("employee_salary_payment_data_name")
-    railway_count_path <- paste0(data_path, railway_count_data_name); rm("railway_count_data_name")
+    if(exists("employee_salary_payment_data_name")){
+      employee_salary_payment_path <- paste0(data_path, employee_salary_payment_data_name); rm("employee_salary_payment_data_name")
+    }
+    
+    if(exists("railway_count_data_name")){
+      railway_count_path <- paste0(data_path, railway_count_data_name); rm("railway_count_data_name")
+    }
+    
     
     # 1 - Food Items
     fi_main <- read_xlsx(fi_path, sheet = "main", guess_max = 50000)
@@ -157,13 +163,18 @@ tryCatch(
     # }
     
     # 10: Government Employee_Salary_Payment_Verification
-    employee_salary_payment_data  <- read_excel(employee_salary_payment_path, sheet = "data", guess_max = 50000)
+    if(exists("employee_salary_payment_path")){
+      employee_salary_payment_data  <- read_excel(employee_salary_payment_path, sheet = "data", guess_max = 50000)
+    }
     
-    # 11: Railway Count.
-    railway_count_main <- read_excel(railway_count_path, sheet = "Main", guess_max = 50000)
-    railway_count_interviewee_respondent <- read_excel(railway_count_path, sheet = "Interviewee_Respondent", guess_max = 50000)
-    railway_count_train_info <- read_excel(railway_count_path, sheet = "Train_Info", guess_max = 50000)
-    railway_count_wagon_count_and_info <- read_excel(railway_count_path, sheet = "Wagon_Count_and_Info", guess_max = 50000)
+    # 11: Railway Count
+    if(exists("railway_count_path")){
+      railway_count_main <- read_excel(railway_count_path, sheet = "Main", guess_max = 50000)
+      railway_count_interviewee_respondent <- read_excel(railway_count_path, sheet = "Interviewee_Respondent", guess_max = 50000)
+      railway_count_train_info <- read_excel(railway_count_path, sheet = "Train_Info", guess_max = 50000)
+      railway_count_wagon_count_and_info <- read_excel(railway_count_path, sheet = "Wagon_Count_and_Info", guess_max = 50000)
+    }
+
     
     # Print success message
     cat("1 - Successsfully Read the Data!")
@@ -184,8 +195,13 @@ tryCatch(
     if(exists("mmo_path")){
       remove(mmo_path)
     }
-    remove(employee_salary_payment_path)
-    remove(railway_count_path)
+    if(exists("employee_salary_payment_path")){
+      remove(employee_salary_payment_path)
+    }
+    if(exists("railway_count_path")){
+      remove(railway_count_path)
+    }
+    
   },
   
   error=function(cond){
