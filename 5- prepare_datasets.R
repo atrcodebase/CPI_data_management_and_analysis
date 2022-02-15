@@ -31,9 +31,11 @@ fi_sub_items <- fi_sub_items %>% mutate(
     TRUE ~ Unit_Amount_FI
   ),
   PRICE_FI_CALCULATED = case_when(
-    Item_In_Stock_Shop == "Yes" & choice == "Imported vegetable oil" & Unit_FI == "Liter (L)" ~ Price_FI * 1.136,
+    Item_In_Stock_Shop == "Yes" & choice == "Bananas" & Unit_FI == "Kilogram (KG)" ~ Price_FI / (Unit_Amount_FI*0.54054),
+    Item_In_Stock_Shop == "Yes" & choice == "Garlic" & Unit_FI == "grams" ~ (Price_FI / Unit_Amount_FI) * 1000,
+    Item_In_Stock_Shop == "Yes" & choice == "Imported vegetable oil" & Unit_FI == "Liter (L)" ~ Price_FI * 1.0845,
     Item_In_Stock_Shop == "Yes" & choice == "Imported vegetable oil" & Unit_FI == "grams" ~ Price_FI / Unit_Amount_FI * 1000,
-    Item_In_Stock_Shop == "Yes" & choice == "Nan (small loaf)" & Unit_FI == "Small loaf" ~ (Price_FI / weight_nan) * 1000,
+    Item_In_Stock_Shop == "Yes" & choice == "bread" ~ (Price_FI / weight_nan) * 1000,
     Item_In_Stock_Shop == "Yes" & choice == "Milk (fresh)" & Unit_FI == "Kilogram (KG)" ~ Price_FI * 0.961,
     Item_In_Stock_Shop == "Yes" & choice == "Milk (fresh)" & Unit_FI == "grams" ~ (Price_FI / Unit_Amount_FI) * 1000 * 0.961,
     Item_In_Stock_Shop == "Yes" & choice == "Yogurt" & Unit_FI == "grams" ~ (Price_FI / Unit_Amount_FI) * 1000,
@@ -46,6 +48,7 @@ fi_sub_items <- fi_sub_items %>% mutate(
     Item_In_Stock_Shop == "Yes" & choice == "Wrapped sweets" & Unit_FI == "grams" ~ (Price_FI / Unit_Amount_FI) * 1000,
     Item_In_Stock_Shop == "Yes" & choice == "Chickpeas" & Unit_FI == "grams" ~ (Price_FI / Unit_Amount_FI) * 1000,
     Item_In_Stock_Shop == "Yes" & choice == "Toothpaste" & Unit_FI == "milliliter (mL)" ~ (Price_FI / Unit_Amount_FI) * 100,
+    Item_In_Stock_Shop == "Yes" & choice == "Toothpaste" & Unit_FI == "grams" ~ ((Price_FI / Unit_Amount_FI) / 0.769) * 100,
     Item_In_Stock_Shop == "Yes" & choice == "Imported vegetable oil" & Unit_FI == "milliliter (mL)" ~ (Price_FI / Unit_Amount_FI) * 1000 * 1.136,
     Item_In_Stock_Shop == "Yes" & choice == "Milk (fresh)" & Unit_FI == "milliliter (mL)" ~ (Price_FI / Unit_Amount_FI) * 1000,
     Item_In_Stock_Shop == "Yes" & choice == "Shampoo" ~ (Price_FI / UNIT_AMOUNT_FI_CALCULATED) * 400,
@@ -55,6 +58,8 @@ fi_sub_items <- fi_sub_items %>% mutate(
   ),
   
   UNIT_AMOUNT_FI_CALCULATED = case_when(
+    Item_In_Stock_Shop == "Yes" & choice == "Bananas" & Unit_FI == "Kilogram (KG)" ~ 1,
+    Item_In_Stock_Shop == "Yes" & choice == "Garlic" & Unit_FI == "grams" ~ 1,
     Item_In_Stock_Shop == "Yes" & choice == "Yogurt" & Unit_FI == "grams" ~ 1,
     Item_In_Stock_Shop == "Yes" & choice == "Imported vegetable oil" & Unit_FI == "milliliter (mL)" ~ 1,
     Item_In_Stock_Shop == "Yes" & choice == "Imported vegetable oil" & Unit_FI == "grams" ~ 1,
@@ -68,13 +73,15 @@ fi_sub_items <- fi_sub_items %>% mutate(
     Item_In_Stock_Shop == "Yes" & choice == "Chickpeas" & Unit_FI == "grams" ~ 1,
     Item_In_Stock_Shop == "Yes" & choice == "Shampoo" ~ 1,
     Item_In_Stock_Shop == "Yes" & choice == "Toothpaste" ~ 1,
-    Item_In_Stock_Shop == "Yes" & choice == "Nan (small loaf)" ~ 1,
+    Item_In_Stock_Shop == "Yes" & choice == "bread" ~ 1,
     Item_In_Stock_Shop == "Yes" & choice == "Salt" & Unit_FI == "grams"  ~ 1,
     Item_In_Stock_Shop == "Yes" & choice == "White sugar" & Unit_FI == "grams"  ~ 1,
     TRUE ~ UNIT_AMOUNT_FI_CALCULATED
   ),
   
   UNIT_FI_STANDARDIZED = case_when(
+    Item_In_Stock_Shop == "Yes" & choice == "Bananas" ~ "Set of 12 (Dozen)",
+    Item_In_Stock_Shop == "Yes" & choice == "Garlic" ~ "Kilogram (KG)",
     Item_In_Stock_Shop == "Yes" & choice == "Imported vegetable oil" ~ "Kilogram (KG)",
     Item_In_Stock_Shop == "Yes" & choice == "Milk (fresh)" ~ "Liter (L)",
     Item_In_Stock_Shop == "Yes" & choice == "Yogurt" ~ "Kilogram (KG)",
@@ -87,7 +94,7 @@ fi_sub_items <- fi_sub_items %>% mutate(
     Item_In_Stock_Shop == "Yes" & choice == "Toothpaste" ~ "100 ML",
     Item_In_Stock_Shop == "Yes" & choice == "Shampoo" ~ "400 ML",
     Item_In_Stock_Shop == "Yes" & choice == "Soap (bar)" ~ "1 bar soap",
-    Item_In_Stock_Shop == "Yes" & choice == "Nan (small loaf)" ~ "Kilogram (KG)",
+    Item_In_Stock_Shop == "Yes" & choice == "bread" ~ "Kilogram (KG)",
     Item_In_Stock_Shop == "Yes" & choice == "Salt" ~ "Kilogram (KG)",
     Item_In_Stock_Shop == "Yes" & choice == "White sugar" ~ "Kilogram (KG)",
     
