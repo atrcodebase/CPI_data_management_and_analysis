@@ -6,11 +6,9 @@ nfi_atr <- nfi_atr %>%
       Items %in% c("Shared rickshaw", "Shared taxi", "Shared van", "Shared taxi/van/risckshaw  driver") ~ "Shared taxi/van/risckshaw driver",
       TRUE ~ Items
     ),
-    Availability_NFI = str_trim(gsub("\\(.*", "", Availability_NFI)),
-    week = paste0("week-", week)
+    Availability_NFI = str_trim(gsub("\\(.*", "", Availability_NFI))
   )
 
-telecom_atr <- telecom_atr %>% mutate(week = paste0("week-", week))
 
 ## by week
 nfi_prices_by_week_atr <- nfi_atr %>% 

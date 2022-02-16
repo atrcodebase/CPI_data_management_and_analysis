@@ -5,8 +5,7 @@ fi_atr <- fi_atr %>%
     Items = case_when(
       Items %in% c("Nan (small loaf)", "bread") ~ "Nan (bread)",
       TRUE ~ Items
-    ),
-    week = paste0("week-", week)
+    )
   )
 
 ## by week
@@ -64,11 +63,4 @@ FI_availability_list <- list(
   by_week = fi_availability_by_week_atr,
   by_week_and_provincde = fi_availability_by_week_province_atr
 )
-
-
-
-
-
-
-
 

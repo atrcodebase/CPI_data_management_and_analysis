@@ -5,8 +5,7 @@ bank_atr <- bank_atr %>%
     Total_Number_Withdraws_Changed %in% c("The total number of withdraws have increased", "The total number of withdrawals has increased a bit", "The total number of withdrawals has increased a lot") ~ "Increased",
     Total_Number_Withdraws_Changed %in% c("The total number of withdraws have stayed the same", "The total number of withdrawals has stayed the same") ~ "Stayed the same",
     TRUE ~ Total_Number_Withdraws_Changed
-  )) %>% 
-  mutate(week = paste0("week-", week))
+  ))
 
 ### by week
 bank_functionality_by_week_atr <- bank_atr %>%
@@ -26,7 +25,8 @@ bank_functionality_by_week_atr <- bank_atr %>%
       mutate(atr_percent = round(Freq/sum(Freq)*100, 2), atr_freq = Freq, Freq = NULL) %>% 
       ungroup()
   ) %>% 
-  data.table::rbindlist(idcol = "question")
+  data.table::rbindlist(idcol = "question") %>% 
+  relocate(question, .after = week)
 
 ### by week and province
 bank_functionality_by_week_province_atr <- bank_atr %>% 
@@ -48,14 +48,13 @@ bank_functionality_by_week_province_atr <- bank_atr %>%
       ungroup()
   ) %>% 
   data.table::rbindlist(idcol = "question") %>% 
+  relocate(question, .after = province) %>% 
   filter(!is.na(atr_percent))
 
 bank_functionality_list <- list(
   by_week = bank_functionality_by_week_atr,
   by_week_and_province = bank_functionality_by_week_province_atr
 )
-
-
 
 
 

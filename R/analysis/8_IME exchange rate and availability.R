@@ -1,9 +1,6 @@
 # exchange rate --------------
 ime_atr <- ime_atr %>% 
-  mutate(
-    Currency_Availability = str_trim(gsub("\\(.*", "", Currency_Availability)),
-    week = paste0("week-", week)
-  )
+  mutate(Currency_Availability = str_trim(gsub("\\(.*", "", Currency_Availability)))
 
 ## by week
 ime_rate_by_week_atr <- ime_atr %>% 

@@ -1,9 +1,6 @@
 # changes in number of transactions -------------
 hawala_atr <- hawala_atr %>% 
-  mutate(
-    Transfer_Changes = gsub("The total number of domestic transfers has |The total number of domestic transfers |The total number of international transfers has |The total number of international transfers ", "", Transfer_Changes),
-    week = paste0("week-", week)
-  )
+  mutate(Transfer_Changes = gsub("The total number of domestic transfers has |The total number of domestic transfers |The total number of international transfers has |The total number of international transfers ", "", Transfer_Changes))
 
 ## by week
 transaction_changes_by_week_atr <- hawala_atr %>% 
@@ -14,7 +11,8 @@ transaction_changes_by_week_atr <- hawala_atr %>%
   count(status = Transfer_Changes) %>% 
   drop_na() %>%
   mutate(atr_percent = round(n/sum(n)*100)) %>% 
-  ungroup()
+  ungroup() %>% 
+  rename(atr_freq = n)
 
 ## by week and province
 transaction_changes_by_week_province_atr <- hawala_atr %>% 
@@ -26,7 +24,8 @@ transaction_changes_by_week_province_atr <- hawala_atr %>%
   count(status = Transfer_Changes) %>% 
   drop_na() %>%
   mutate(atr_percent = round(n/sum(n)*100)) %>% 
-  ungroup()
+  ungroup() %>% 
+  rename(atr_freq = n)
 
 transaction_changes_atr <- list(
   domestic_by_week = transaction_changes_by_week_atr %>% 
@@ -79,7 +78,6 @@ common_destination_atr_all <- rbind(destination_atr_1st, destination_atr_2nd, de
   pivot_wider(names_from = rank, values_from = n, values_fill = 0) %>% 
   relocate(total, .after = `3rd`)
   
-
 common_destination_atr <- list(
   domestic_destination = common_destination_atr_all %>%
     filter(destination_type == "Domestic"),
@@ -95,7 +93,8 @@ transfer_money_by_week_atr <- hawala_atr %>%
     ) %>% 
   count(Money_Transfer_Availability) %>% 
   mutate(atr_percent = round(n/sum(n)*100)) %>% 
-  ungroup()
+  ungroup() %>% 
+  rename(atr_freq = n)
 
 transfer_money_by_week_province_atr <- hawala_atr %>% 
   group_by(
@@ -105,7 +104,8 @@ transfer_money_by_week_province_atr <- hawala_atr %>%
     ) %>% 
   count(Money_Transfer_Availability) %>% 
   mutate(atr_percent = round(n/sum(n)*100)) %>% 
-  ungroup()
+  ungroup() %>% 
+  rename(atr_freq = n)
 
 transfer_money_atr <- list(
   by_week = transfer_money_by_week_atr,

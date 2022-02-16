@@ -4,8 +4,7 @@ bank_respondents_atr <- bank_respondents_atr %>%
     (Come_To_Bank_Widthdraw_Money == "Yes" & Perform_Transaction_Cashier == "No" & Use_ATM == "No") ~ "Could not withdraw money",
     Withdraw_Full_Amount == "Yes" ~ "Full amount",
     TRUE ~ Withdraw_Full_Amount
-  )) %>%
-  mutate(week = paste0("week-", week))
+  ))
 
 ## by week
 bank_withdraw_ability_and_waiting_time_by_week_atr <- bank_respondents_atr %>% 
