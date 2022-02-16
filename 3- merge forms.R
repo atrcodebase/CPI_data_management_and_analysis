@@ -15,7 +15,8 @@ fi_main <- rbind(
   fi_w9[["main"]],
   fi_w10[["main"]],
   fi_w11[["main"]],
-  fi_w12[["main"]]
+  fi_w12[["main"]],
+  fi_w13[["main"]]
 )
 
 fi_subresps <- rbind(
@@ -30,7 +31,8 @@ fi_subresps <- rbind(
   fi_w9[["fi_subresps"]],
   fi_w10[["fi_subresps"]],
   fi_w11[["fi_subresps"]],
-  fi_w12[["fi_subresps"]]
+  fi_w12[["fi_subresps"]],
+  fi_w13[["fi_subresps"]]
 )
 
 fi_subreps_ava_nava_tax_bartering <- rbind(
@@ -45,7 +47,8 @@ fi_subreps_ava_nava_tax_bartering <- rbind(
   fi_w9[["subreps_ava_nava_tax_bartering"]],
   fi_w10[["subreps_ava_nava_tax_bartering"]],
   fi_w11[["subreps_ava_nava_tax_bartering"]],
-  fi_w12[["subreps_ava_nava_tax_bartering"]]
+  fi_w12[["subreps_ava_nava_tax_bartering"]],
+  fi_w13[["subreps_ava_nava_tax_bartering"]]
 )
 
 fi_items_prices_avail_notavail <- rbind(
@@ -60,7 +63,8 @@ fi_items_prices_avail_notavail <- rbind(
   fi_w9[["fi_items_prices_avail_notavail"]],
   fi_w10[["fi_items_prices_avail_notavail"]],
   fi_w11[["fi_items_prices_avail_notavail"]],
-  fi_w12[["fi_items_prices_avail_notavail"]]
+  fi_w12[["fi_items_prices_avail_notavail"]],
+  fi_w13[["fi_items_prices_avail_notavail"]]
 )
 
 fi_list <- list(
@@ -86,7 +90,8 @@ nfi_main <- rbind(
   nfi_w9[["main"]],
   nfi_w10[["main"]],
   nfi_w11[["main"]],
-  nfi_w12[["main"]]
+  nfi_w12[["main"]],
+  nfi_w13[["main"]]
 )
 
 nfi_subresps <- rbind(
@@ -101,7 +106,8 @@ nfi_subresps <- rbind(
   nfi_w9[["nfi_subresps"]],
   nfi_w10[["nfi_subresps"]],
   nfi_w11[["nfi_subresps"]],
-  nfi_w12[["nfi_subresps"]]
+  nfi_w12[["nfi_subresps"]],
+  nfi_w13[["nfi_subresps"]]
 )
 
 nfi_nsubreps_ava_nava_tax_bartering <- rbind(
@@ -116,7 +122,8 @@ nfi_nsubreps_ava_nava_tax_bartering <- rbind(
   nfi_w9[["nsubreps_ava_nava_tax_bartering"]],
   nfi_w10[["nsubreps_ava_nava_tax_bartering"]],
   nfi_w11[["nsubreps_ava_nava_tax_bartering"]],
-  nfi_w12[["nsubreps_ava_nava_tax_bartering"]]
+  nfi_w12[["nsubreps_ava_nava_tax_bartering"]],
+  nfi_w13[["nsubreps_ava_nava_tax_bartering"]]
 )
 
 nfi_items_prices_avail_notavail <- rbind(
@@ -131,7 +138,8 @@ nfi_items_prices_avail_notavail <- rbind(
   nfi_w9[["nfi_items_prices_avail_notavail"]],
   nfi_w10[["nfi_items_prices_avail_notavail"]],
   nfi_w11[["nfi_items_prices_avail_notavail"]],
-  nfi_w12[["nfi_items_prices_avail_notavail"]]
+  nfi_w12[["nfi_items_prices_avail_notavail"]],
+  nfi_w13[["nfi_items_prices_avail_notavail"]]
 )
 
 nfi_list <- list(
@@ -157,7 +165,8 @@ market_services_main <- rbind(
   market_services_w9[["main"]],
   market_services_w10[["main"]],
   market_services_w11[["main"]],
-  market_services_w12[["main"]]
+  market_services_w12[["main"]],
+  market_services_w13[["main"]]
   )
 
 market_services_subrespondents <- rbind(
@@ -172,7 +181,8 @@ market_services_subrespondents <- rbind(
   market_services_w9[["subrespondents"]],
   market_services_w10[["subrespondents"]],
   market_services_w11[["subrespondents"]],
-  market_services_w12[["subrespondents"]]
+  market_services_w12[["subrespondents"]],
+  market_services_w13[["subrespondents"]]
 )
 
 market_services_subrespondents_avail_notavail <- rbind(
@@ -187,7 +197,8 @@ market_services_subrespondents_avail_notavail <- rbind(
   market_services_w9[["subrespondents_avail_notavail"]],
   market_services_w10[["subrespondents_avail_notavail"]],
   market_services_w11[["subrespondents_avail_notavail"]],
-  market_services_w12[["subrespondents_avail_notavail"]]
+  market_services_w12[["subrespondents_avail_notavail"]],
+  market_services_w13[["subrespondents_avail_notavail"]]
 )
 
 market_services_subrespondents_available_data <- rbind(
@@ -202,7 +213,8 @@ market_services_subrespondents_available_data <- rbind(
   market_services_w9[["subrespondents_available_data"]],
   market_services_w10[["subrespondents_available_data"]],
   market_services_w11[["subrespondents_available_data"]],
-  market_services_w12[["subrespondents_available_data"]]
+  market_services_w12[["subrespondents_available_data"]],
+  market_services_w13[["subrespondents_available_data"]]
 )
 
 market_services_Labour <- rbind(
@@ -217,7 +229,8 @@ market_services_Labour <- rbind(
   market_services_w9[["Labour"]],
   market_services_w10[["Labour"]],
   market_services_w11[["Labour"]],
-  market_services_w12[["Labour"]]
+  market_services_w12[["Labour"]],
+  market_services_w13[["Labour"]]
 )
 
 market_services_list <- list(
@@ -350,25 +363,29 @@ ime_hawala_list <- list(
 identical(names(ime_hawala_w1), names(ime_hawala_list))
 writexl::write_xlsx(ime_hawala_list,  glue::glue("{output_path}CPI_Market_IME_Hawala_Dataset_merge.xlsx"))
 
-## IME version 2 (from week 11 onwards). The data from coming weeks should be added in the rbind() for each sheet
+## IME version 2 (from week 11 onwards).
 ime_hawala_main_v2 <- rbind(
   ime_hawala_w11[["main"]],
-  ime_hawala_w12[["main"]]
+  ime_hawala_w12[["main"]],
+  ime_hawala_w13[["main"]]
 )
 
 ime_hawala_subresps_v2 <- rbind(
   ime_hawala_w11[["ime_hawala_subresps"]],
-  ime_hawala_w12[["ime_hawala_subresps"]]
+  ime_hawala_w12[["ime_hawala_subresps"]],
+  ime_hawala_w13[["ime_hawala_subresps"]]
 )
 
 ime_hawala_Currency_Exchange_v2 <- rbind(
   ime_hawala_w11[["ime_hawala_Currency_Exchange"]],
-  ime_hawala_w12[["ime_hawala_Currency_Exchange"]]
+  ime_hawala_w12[["ime_hawala_Currency_Exchange"]],
+  ime_hawala_w13[["ime_hawala_Currency_Exchange"]]
 )
 
 ime_hawala_Hawala_Transfer_v2 <- rbind(
   ime_hawala_w11[["ime_hawala_Hawala_Transfer"]],
-  ime_hawala_w12[["ime_hawala_Hawala_Transfer"]]
+  ime_hawala_w12[["ime_hawala_Hawala_Transfer"]],
+  ime_hawala_w13[["ime_hawala_Hawala_Transfer"]]
 )
 
 ime_hawala_list_v2 <- list(
@@ -394,7 +411,8 @@ bank_manager <- rbind(
   bank_w9[["bank_manager"]],
   bank_w10[["bank_manager"]],
   bank_w11[["bank_manager"]],
-  bank_w12[["bank_manager"]]
+  bank_w12[["bank_manager"]],
+  bank_w13[["bank_manager"]]
 )
 
 bank_queues_interview <- rbind(
@@ -409,7 +427,8 @@ bank_queues_interview <- rbind(
   bank_w9[["queues_interview"]],
   bank_w10[["queues_interview"]],
   bank_w11[["queues_interview"]],
-  bank_w12[["queues_interview"]]
+  bank_w12[["queues_interview"]],
+  bank_w13[["queues_interview"]]
 )
 
 bank_list <- list(
@@ -426,7 +445,8 @@ bank_operationality_data <- rbind(
   bank_operationality_w9[["bank_operationality_data"]],
   bank_operationality_w10[["bank_operationality_data"]],
   bank_operationality_w11[["bank_operationality_data"]],
-  bank_operationality_w12[["bank_operationality_data"]]
+  bank_operationality_w12[["bank_operationality_data"]],
+  bank_operationality_w13[["bank_operationality_data"]]
 )
 
 no_bank <- rbind(
@@ -434,7 +454,8 @@ no_bank <- rbind(
   bank_operationality_w9[["no_bank"]],
   bank_operationality_w10[["no_bank"]],
   bank_operationality_w11[["no_bank"]],
-  bank_operationality_w12[["no_bank"]]
+  bank_operationality_w12[["no_bank"]],
+  bank_operationality_w13[["no_bank"]]
 )
 
 bank_operationality_list <- list(
@@ -457,7 +478,8 @@ border_traffic_count_data <- rbind(
   border_traffic_count_w9[["data"]],
   border_traffic_count_w10[["data"]],
   border_traffic_count_w11[["data"]],
-  border_traffic_count_w12[["data"]]
+  border_traffic_count_w12[["data"]],
+  border_traffic_count_w13[["data"]]
 )
 
 border_traffic_count_Traffic_count <- rbind(
@@ -471,7 +493,8 @@ border_traffic_count_Traffic_count <- rbind(
   border_traffic_count_w9[["Traffic_count"]],
   border_traffic_count_w10[["Traffic_count"]],
   border_traffic_count_w11[["Traffic_count"]],
-  border_traffic_count_w12[["Traffic_count"]]
+  border_traffic_count_w12[["Traffic_count"]],
+  border_traffic_count_w13[["Traffic_count"]]
 )
 
 border_traffic_count_list <- list(
@@ -482,7 +505,7 @@ border_traffic_count_list <- list(
 identical(names(border_traffic_count_w2), names(border_traffic_count_list))
 writexl::write_xlsx(border_traffic_count_list,  glue::glue("{output_path}CPI_Border_Count_of_Transport_Traffic_Dataset_merge.xlsx"))
 
-## Form 7: Border Transport Driver Surveys, only available for week 1 and 2
+## Form 7: Border Transport Driver Surveys. Available only for week 1 and 2
 border_transport_driver <- rbind(
   border_transport_driver_w1[["data"]],
   border_transport_driver_w2[["data"]]
@@ -503,60 +526,61 @@ telecome_service <- rbind(
   telecome_service_w9[["telecom_data"]],
   telecome_service_w10[["telecom_data"]],
   telecome_service_w11[["telecom_data"]],
-  telecome_service_w12[["telecom_data"]]
+  telecome_service_w12[["telecom_data"]],
+  telecome_service_w13[["telecom_data"]]
 )
 
 writexl::write_xlsx(list(telecom_data = telecome_service), glue::glue("{output_path}CPI_Telecom_Service_Providers_Dataset_merge.xlsx"))
 
-## Form 9 - MMOs - available for week 1 and 8 (week 1 is considered pilot data)
-# please add the data from coming weeks in the rbind
-mmo_main <- rbind(
-  # mmo_w1[["main"]],
-  mmo_w8[["main"]]
-)
+## Form 9 - MMOs (available only for week 1 and 8. Both are pilot data)
+# mmo_main <- rbind(
+#   mmo_w1[["main"]],
+#   mmo_w8[["main"]]
+# )
 
-mmo_sub_resp <- rbind(
-  # mmo_w1[["mmo_sub_resp"]],
-  mmo_w8[["mmo_sub_resp"]]
-)
+# mmo_sub_resp <- rbind(
+#   mmo_w1[["mmo_sub_resp"]],
+#   mmo_w8[["mmo_sub_resp"]]
+# )
 
-mmo_percentage_fee_per_transfer <- rbind(
-  # mmo_w1[["mmo_percentage_fee_per_transfer"]],
-  mmo_w8[["mmo_percentage_fee_per_transfer"]]
-)
+# mmo_percentage_fee_per_transfer <- rbind(
+#   mmo_w1[["mmo_percentage_fee_per_transfer"]],
+#   mmo_w8[["mmo_percentage_fee_per_transfer"]]
+# )
 
-mmo_amount_fee_per_transfer <- rbind(
-  # mmo_w1[["mmo_amount_fee_per_transfer"]],
-  mmo_w8[["mmo_amount_fee_per_transfer"]]
-)
+# mmo_amount_fee_per_transfer <- rbind(
+#   mmo_w1[["mmo_amount_fee_per_transfer"]],
+#   mmo_w8[["mmo_amount_fee_per_transfer"]]
+# )
 
-mmo_pecentage_fee_per_withdraw <- rbind(
-  # mmo_w1[["mmo_pecentage_fee_per_withdraw"]],
-  mmo_w8[["mmo_pecentage_fee_per_withdraw"]]
-)
+# mmo_pecentage_fee_per_withdraw <- rbind(
+#   mmo_w1[["mmo_pecentage_fee_per_withdraw"]],
+#   mmo_w8[["mmo_pecentage_fee_per_withdraw"]]
+# )
 
-mmo_amount_fee_per_withdraw <- rbind(
-  # mmo_w1[["mmo_amount_fee_per_withdraw"]],
-  mmo_w8[["mmo_amount_fee_per_withdraw"]]
-)
+# mmo_amount_fee_per_withdraw <- rbind(
+#   mmo_w1[["mmo_amount_fee_per_withdraw"]],
+#   mmo_w8[["mmo_amount_fee_per_withdraw"]]
+# )
 
-mmo_list <- list(
-  main = mmo_main,
-  mmo_sub_resp = mmo_sub_resp,
-  mmo_percentage_fee_per_transfer = mmo_percentage_fee_per_transfer,
-  mmo_amount_fee_per_transfer = mmo_amount_fee_per_transfer,
-  mmo_pecentage_fee_per_withdraw = mmo_pecentage_fee_per_withdraw,
-  mmo_amount_fee_per_withdraw = mmo_amount_fee_per_withdraw
-)
+# mmo_list <- list(
+#   main = mmo_main,
+#   mmo_sub_resp = mmo_sub_resp,
+#   mmo_percentage_fee_per_transfer = mmo_percentage_fee_per_transfer,
+#   mmo_amount_fee_per_transfer = mmo_amount_fee_per_transfer,
+#   mmo_pecentage_fee_per_withdraw = mmo_pecentage_fee_per_withdraw,
+#   mmo_amount_fee_per_withdraw = mmo_amount_fee_per_withdraw
+# )
 
 # identical(names(mmo_w8), names(mmo_list))
-writexl::write_xlsx(mmo_list, glue::glue("{output_path}CPI_MMOs_Dataset_merge.xlsx"))
+# writexl::write_xlsx(mmo_list, glue::glue("{output_path}CPI_MMOs_Dataset_merge.xlsx"))
 
 
-## form 10: Government Employee_Salary_Payment_Verification. Available only in week 8 (pilot)
+## form 10: Government Employee_Salary_Payment_Verification. Available only for week 8 (pilot)
 
 ## form 11: Railway Count. Available only in week 10
-#### please copy the file from input and put it in the output, there isn't data from other weeks to merge with them
+### There isn't data from other weeks to merge with
+#### please copy the file from "input/raw_data_fixed column names/W10 datasets_Economic Monitoring/" and put it in the "output/merged data forms/".
 
 
 
