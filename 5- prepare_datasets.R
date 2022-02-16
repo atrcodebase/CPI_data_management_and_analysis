@@ -10,7 +10,6 @@
 source("R/required_packages.R")
 
 # Custom Functions --------------------------------------------------------
-
 `%notin%` <- Negate(`%in%`)
 
 perc_fun <- function(var, level){
@@ -223,7 +222,7 @@ fi_merged_data_NFI <- fi_merged_data %>%
     .after = PRICE_NFI_STANDARDIZED
   )
 
-nfi_merged_final <- rbind(nfi_merged_data, fi_merged_data_NFI) 
+nfi_merged_final <- rbind(nfi_merged_data, fi_merged_data_NFI)
 nfi_merged_final <- nfi_merged_final %>% mutate(
   Labour_Weekly_Working_Days = "",
   .after = Availability_NFI
@@ -422,7 +421,7 @@ NFI_all_merged_final <- NFI_all_merged_final %>% select(-c(SubmissionDate,
 )) %>% rename(Items = choice) 
 
 NFI_all_merged_final$Labour_Weekly_Working_Days <- as.numeric(NFI_all_merged_final$Labour_Weekly_Working_Days)
-NFI_all_merged_final$PRICE_NFI_STANDARDIZED <- round(NFI_all_merged_final$PRICE_NFI_STANDARDIZED, 4)
+NFI_all_merged_final$PRICE_NFI_STANDARDIZED <- round(as.numeric(NFI_all_merged_final$PRICE_NFI_STANDARDIZED), 4)
 
 NFI_all_merged_final <- NFI_all_merged_final %>% mutate(
   PRICE_NFI_STANDARDIZED = case_when(
@@ -977,19 +976,6 @@ openxlsx::write.xlsx(Trafic_count_list, "output/Client_Datasets/BORDER_TRAFFIC_C
 openxlsx::write.xlsx(br_driver_main, "output/Client_Datasets/BORDER_DRIVER_SURVEY_DATA_Merged.xlsx")
 openxlsx::write.xlsx(telecom_data_sub, "output/Client_Datasets/TELECOM_DATA_Merged.xlsx")
 # openxlsx::write.xlsx(MMO_LIST, "output/Client_Datasets/merged/MMO_DATA_Merged.xlsx")
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
