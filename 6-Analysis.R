@@ -31,6 +31,7 @@ source("R/analysis/7_Bank withdraw ability and waiting time.R") # bank withdraw 
 source("R/analysis/8_IME exchange rate and availability.R") # IME exchange rate and availability of foreing currency
 source("R/analysis/9_Hawala changes in transactions, common destination, ability to transfer money.R") # IME Hawala operators (domestic and international)
 # TODO: IME exchange rate, availability, and hawal operators (version 2)
+# TODO: Border Crossing
 
 # export results into "output/analysis/" folder
 writexl::write_xlsx(FI_prices_list, glue::glue("{output_path}FI prices - {date}.xlsx")) # FI price
@@ -49,7 +50,6 @@ writexl::write_xlsx(ime_rate_list, glue::glue("{output_path}IME rate - {date}.xl
 writexl::write_xlsx(transaction_changes_atr, glue::glue("{output_path}Hawala_changes in transactions - {date}.xlsx")) # IME changes in domestic and international transactions
 writexl::write_xlsx(common_destination_atr, glue::glue("{output_path}Hawala_most common destination - {date}.xlsx")) # IME common domestic and interntional destinations
 writexl::write_xlsx(transfer_money_atr, glue::glue("{output_path}Hawala_ability to transfer money - {date}.xlsx")) # IME ability to transfer money (domestic & international)
-
 
 
 
