@@ -3,7 +3,7 @@ read_excel_func <- function(file) {
   file %>% 
     excel_sheets() %>%
     set_names() %>%
-    map(read_excel, path = file)
+    map(read_excel, path = file, guess_max = 100000)
 }
 
 check_column_names <- function(target, check_with){
