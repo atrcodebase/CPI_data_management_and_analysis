@@ -17,6 +17,8 @@ ime_atr <- readxl::read_excel(glue::glue("{atr_data_path}HAWALA_EXCHANGE_DATA_Me
 hawala_atr <- readxl::read_excel(glue::glue("{atr_data_path}HAWALA_EXCHANGE_DATA_Merged.xlsx"), sheet = "HAWALA_MAIN", na = convert_to_na, guess_max = 100000)
 bank_atr <- readxl::read_excel(glue::glue("{atr_data_path}BANK_DATA_Merged.xlsx"), sheet = "BANK_BRANCH_LEVEL", na = convert_to_na, guess_max = 100000)
 bank_respondents_atr <- readxl::read_excel(glue::glue("{atr_data_path}BANK_DATA_Merged.xlsx"), sheet = "BANK_RESPONDENT_LEVEL", na = convert_to_na, guess_max = 100000)
+border_traffice_count_atr <- readxl::read_excel(glue::glue("{atr_data_path}BORDER_TRAFFIC_COUNT_DATA_Merged.xlsx"), sheet = "BORDER_TRAFFIC_COUNT", na = convert_to_na, guess_max = 100000)
+border_driver_survey <- readxl::read_excel(glue::glue("{atr_data_path}BORDER_DRIVER_SURVEY_DATA_Merged.xlsx"), na = convert_to_na, guess_max = 100000)
 
 # Analysis (ATR data) -----------------
 source("R/analysis/1_FI price and availability.R") # FI price and availability
@@ -31,25 +33,36 @@ source("R/analysis/7_Bank withdraw ability and waiting time.R") # bank withdraw 
 source("R/analysis/8_IME exchange rate and availability.R") # IME exchange rate and availability of foreing currency
 source("R/analysis/9_Hawala changes in transactions, common destination, ability to transfer money.R") # IME Hawala operators (domestic and international)
 # TODO: IME exchange rate, availability, and hawal operators (version 2)
-# TODO: Border Crossing
+source("R/analysis/10_border crossings.R")
 
 # export results into "output/analysis/" folder
-writexl::write_xlsx(FI_prices_list, glue::glue("{output_path}FI prices - {date}.xlsx")) # FI price
-writexl::write_xlsx(FI_availability_list, glue::glue("{output_path}FI availability - {date}.xlsx")) # FI availability 
-writexl::write_xlsx(NFI_prices_list, glue::glue("{output_path}NFI price - {date}.xlsx")) # NFI price
-writexl::write_xlsx(NFI_availability_list, glue::glue("{output_path}NFI availability - {date}.xlsx")) # NFI availability 
-writexl::write_xlsx(tax_list, glue::glue("{output_path}Taxes - {date}.xlsx"))  # FI and NFI taxes
-writexl::write_xlsx(cashless_transaction_list, glue::glue("{output_path}Cashless transactions - {date}.xlsx"))  # FI and NFI cashless transaction
-writexl::write_xlsx(labour_wage_list, glue::glue("{output_path}Labour wage - {date}.xlsx"))  # labour wage
-writexl::write_xlsx(labour_availability_list, glue::glue("{output_path}Labour availability - {date}.xlsx"))  # labour no. of available days
-writexl::write_xlsx(bank_functionality_list, glue::glue("{output_path}Bank functionality - {date}.xlsx")) # bank functionality 
-writexl::write_xlsx(withdrawal_limit_list, glue::glue("{output_path}Bank withdrawal limit - {date}.xlsx"))  # bank withdrawal limit
-writexl::write_xlsx(withdraw_ability_and_waiting_time_list, glue::glue("{output_path}Bank withdraw ability and waiting time - {date}.xlsx"))  # bank withdraw ability and waiting time
-writexl::write_xlsx(ime_availability_list, glue::glue("{output_path}IME availability - {date}.xlsx")) # IME availability of foreing currency
-writexl::write_xlsx(ime_rate_list, glue::glue("{output_path}IME rate - {date}.xlsx")) # IME exchange rate
-writexl::write_xlsx(transaction_changes_atr, glue::glue("{output_path}Hawala_changes in transactions - {date}.xlsx")) # IME changes in domestic and international transactions
-writexl::write_xlsx(common_destination_atr, glue::glue("{output_path}Hawala_most common destination - {date}.xlsx")) # IME common domestic and interntional destinations
-writexl::write_xlsx(transfer_money_atr, glue::glue("{output_path}Hawala_ability to transfer money - {date}.xlsx")) # IME ability to transfer money (domestic & international)
+writexl::write_xlsx(FI_prices_list, glue::glue("{output_path}FI prices_{date}.xlsx")) # FI price
+writexl::write_xlsx(FI_availability_list, glue::glue("{output_path}FI availability_{date}.xlsx")) # FI availability 
+writexl::write_xlsx(NFI_prices_list, glue::glue("{output_path}NFI price-{date}.xlsx")) # NFI price
+writexl::write_xlsx(NFI_availability_list, glue::glue("{output_path}NFI availability_{date}.xlsx")) # NFI availability 
+writexl::write_xlsx(tax_list, glue::glue("{output_path}Taxes_{date}.xlsx"))  # FI and NFI taxes
+writexl::write_xlsx(cashless_transaction_list, glue::glue("{output_path}Cashless transactions_{date}.xlsx"))  # FI and NFI cashless transaction
+writexl::write_xlsx(labour_wage_list, glue::glue("{output_path}Labour wage_{date}.xlsx"))  # labour wage
+writexl::write_xlsx(labour_availability_list, glue::glue("{output_path}Labour availability-{date}.xlsx"))  # labour no. of available days
+writexl::write_xlsx(bank_functionality_list, glue::glue("{output_path}Bank functionality-{date}.xlsx")) # bank functionality 
+writexl::write_xlsx(withdrawal_limit_list, glue::glue("{output_path}Bank withdrawal limit_{date}.xlsx"))  # bank withdrawal limit
+writexl::write_xlsx(withdraw_ability_and_waiting_time_list, glue::glue("{output_path}Bank withdraw ability and waiting time_{date}.xlsx"))  # bank withdraw ability and waiting time
+writexl::write_xlsx(ime_availability_list, glue::glue("{output_path}IME availability_{date}.xlsx")) # IME availability of foreing currency
+writexl::write_xlsx(ime_rate_list, glue::glue("{output_path}IME rate_{date}.xlsx")) # IME exchange rate
+writexl::write_xlsx(transaction_changes_atr, glue::glue("{output_path}Hawala_changes in transactions_{date}.xlsx")) # IME changes in domestic and international transactions
+writexl::write_xlsx(common_destination_atr, glue::glue("{output_path}Hawala_most common destination_{date}.xlsx")) # IME common domestic and interntional destinations
+writexl::write_xlsx(transfer_money_atr, glue::glue("{output_path}Hawala_ability to transfer money_{date}.xlsx")) # IME ability to transfer money (domestic & international)
+writexl::write_xlsx(border_crossing_trucks_list, glue::glue("{output_path}Border crossing-trucks_{date}.xlsx")) # Border crossing-trucks
+writexl::write_xlsx(border_crossing_tonnage_list, glue::glue("{output_path}Border crossing-tonnage_{date}.xlsx")) # Border crossing-tonnage
+writexl::write_xlsx(border_crossing_aid_commodities_list, glue::glue("{output_path}Border crossing-aid commodities_{date}.xlsx")) # Border crossing-aid commodities
+writexl::write_xlsx(border_crossing_taxes_list, glue::glue("{output_path}Border crossing-taxes_{date}.xlsx")) # Border crossing-taxes
+
+
+
+
+
+
+
 
 
 
