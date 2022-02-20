@@ -66,7 +66,7 @@ for (rowi in 1:nrow(cleaning_log)){
   print(count);count <- count + 1
   print(glue::glue("data:{form_i}, sheet:{sheet_i} - {old_i} changed to {new_i} for {var_i} in {uuid_i}"))
   
-  data[[form_i]][[sheet_i]][data[[form_i]][[sheet_i]]$KEY == uuid_i, var_i] <- new_i
+  data[[form_i]][[sheet_i]][data[[form_i]][[sheet_i]]$KEY %in% uuid_i, var_i] <- new_i
 }
 
 # export files  -------------------------------------------------
