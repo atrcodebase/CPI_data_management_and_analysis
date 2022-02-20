@@ -1,10 +1,10 @@
-##### The script should be updated for below forms -------------------------
+# TODO: Update the script for below forms
 # Form 4: IME version 2 (from week 11 onwards)
 # Form 5.1: Bank Operationality Status
 # form 9: MMOs
 # form 10: Government Employee_Salary_Payment_Verification
 # form 11: Railway Count
-####
+
 
 # load required packages --------------------------------------------------------
 source("R/required_packages.R")
