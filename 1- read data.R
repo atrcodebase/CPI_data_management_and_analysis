@@ -172,11 +172,9 @@ telecome_service_w14 <- weekly[["W14 datasets"]][["CPI_Telecom_Service_Providers
 # mmo_w1 <- weekly[["W1 datasets"]][["CPI_MMOs_Dataset"]] (pilot data)
 # mmo_w8 <- weekly[["W8 datasets"]][["CPI_MMOs_Dataset"]] (pilot data)
 
-## form 10: Government Employee_Salary_Payment_Verification (week 8 is pilot data)
+## form 10: Government Employee_Salary_Payment_Verification (week 8 is pilot data) 
 # gov_emp_salary_w8 <- weekly[["W8 datasets"]][["Government Employee_Salary_Payment_Verification_Dataset"]] (pilot data)
 
 ## form 11: Railway Count, available for week 10
 railway_w10 <- weekly[["W10 datasets"]][["CPI_Railway_Count_Dataset"]]
-
-
 
