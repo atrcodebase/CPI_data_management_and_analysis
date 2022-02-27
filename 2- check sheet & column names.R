@@ -1,4 +1,4 @@
-##### check sheet/column names in each forms for all weeks --------------------------------------------------
+##### check sheet/column names in each forms for all weeks -------------------------------------------------
 source("1- read data.R")
 
 # form 1: FI
