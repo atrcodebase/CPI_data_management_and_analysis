@@ -7,6 +7,14 @@ trucks <- rbind(
     select(week, enter_exist, TPMA_Location_Name)
 )
 
+trucks_transit_portion <- border_traffice_count_atr %>% 
+  mutate(transit_portion = case_when(
+    !is.na(transport_third_country_or_to_AFG) ~ transport_third_country_or_to_AFG,
+    !is.na(transport_third_country_or_to_AFG_from_second_country) ~ transport_third_country_or_to_AFG_from_second_country
+  )) %>% 
+  select(week, transit_portion) %>% 
+  filter(!is.na(transit_portion))
+
 ## by week
 border_crossing_trucks_by_week_atr <- trucks %>% 
   group_by(week = week) %>% 
@@ -26,9 +34,18 @@ border_crossing_trucks_by_week_and_location_atr <- trucks %>%
   drop_na() %>% 
   rename(atr_freq = n)
 
+## by week
+trucks_transit_portion_by_week_atr <- trucks_transit_portion %>% 
+  group_by(week = week) %>% 
+  count(transit_portion) %>% 
+  mutate(atr_percent = round((n/sum(n))*100,1)) %>% 
+  ungroup() %>% 
+  rename(atr_freq = n)
+
 border_crossing_trucks_list <- list(
   by_week = border_crossing_trucks_by_week_atr,
-  by_week_and_location = border_crossing_trucks_by_week_and_location_atr
+  by_week_and_location = border_crossing_trucks_by_week_and_location_atr,
+  trucks_transit_portion = trucks_transit_portion_by_week_atr
 )
 
 # Border crossing: Tonnage -------------
