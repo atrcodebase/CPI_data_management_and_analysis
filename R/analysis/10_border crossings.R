@@ -7,13 +7,25 @@ trucks <- rbind(
     select(week, enter_exist, TPMA_Location_Name)
 )
 
-trucks_transit_portion <- border_traffice_count_atr %>% 
-  mutate(transit_portion = case_when(
-    !is.na(transport_third_country_or_to_AFG) ~ transport_third_country_or_to_AFG,
-    !is.na(transport_third_country_or_to_AFG_from_second_country) ~ transport_third_country_or_to_AFG_from_second_country
-  )) %>% 
-  select(week, transit_portion) %>% 
-  filter(!is.na(transit_portion))
+trucks_transit_portion <- rbind(
+  border_traffice_count_atr %>% 
+    mutate(transit_portion = case_when(
+      transport_third_country_or_to_AFG %in% "No, my final destination is to Afghanistan" ~ "Entering trucks with Afghanistan as final destination",
+      transport_third_country_or_to_AFG %in% "Yes, my transported load is in transit to a third country" ~ "Entering trucks in transit",
+      transport_third_country_or_to_AFG_from_second_country %in% "No, my destination is directly from Afghanistan to a second country" ~ "Exiting trucks with Afghanistan as departure point",
+      transport_third_country_or_to_AFG_from_second_country %in% "Yes, my transported load is in transit to a third country" ~ "Entering trucks in transit",
+      is.na(transport_third_country_or_to_AFG) & is.na(transport_third_country_or_to_AFG_from_second_country) ~ "Destination not clear"
+    )) %>% 
+    select(week, transit_portion)
+  ,
+  border_driver_survey %>% 
+    mutate(transit_portion = case_when(
+      transported_load_transit %in% "No, my destination is to/from Afghanistan" ~ "Entering trucks with Afghanistan as final destination",
+      transported_load_transit %in% "Yes, my transported load is in transit to/from another country" ~ "Exiting trucks in transit from a third country",
+      is.na(transported_load_transit) ~ "Destination not clear"
+    )) %>% 
+    select(week, transit_portion)
+) %>% filter(!is.na(transit_portion))
 
 ## by week
 border_crossing_trucks_by_week_atr <- trucks %>% 
