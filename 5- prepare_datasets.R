@@ -767,8 +767,8 @@ bank_list <- list(
 # 6 - Border Traffic Count
 br_traf_count_main <- br_traf_count_main %>% mutate(
   enter_exist = case_when(
-    enter_exist == "Enter each vehicle as it enters into the Afghan border from outside" ~ "Vehicles that are exiting Afghanistan",
-    enter_exist == "Enter each vehicle as it exits the Afghan border" ~ "Vehicles that are entering Afghanistan",
+    enter_exist == "Enter each vehicle as it enters into the Afghan border from outside" ~ "Vehicles that are entering Afghanistan",
+    enter_exist == "Enter each vehicle as it exits the Afghan border" ~ "Vehicles that are exiting Afghanistan",
     TRUE ~ enter_exist
   )
 ) %>% select(-c(SubmissionDate,
