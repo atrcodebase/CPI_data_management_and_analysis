@@ -35,6 +35,7 @@ fi_sub_items <- fi_sub_items %>% mutate(
     Item_In_Stock_Shop == "Yes" & choice == "Imported vegetable oil" & Unit_FI == "Liter (L)" ~ Price_FI * 1.0845,
     Item_In_Stock_Shop == "Yes" & choice == "Imported vegetable oil" & Unit_FI == "grams" ~ Price_FI / Unit_Amount_FI * 1000,
     Item_In_Stock_Shop == "Yes" & choice == "bread" ~ (Price_FI / weight_nan) * 1000,
+    Item_In_Stock_Shop == "Yes" & choice == "Nan (small loaf)" ~ (Price_FI / weight_nan) * 1000,
     Item_In_Stock_Shop == "Yes" & choice == "Milk (fresh)" & Unit_FI == "Kilogram (KG)" ~ Price_FI / 0.970873786,
     Item_In_Stock_Shop == "Yes" & choice == "Milk (fresh)" & Unit_FI == "grams" ~ (Price_FI / Unit_Amount_FI) * 1000 / 0.970873786,
     Item_In_Stock_Shop == "Yes" & choice == "Yogurt" & Unit_FI == "grams" ~ (Price_FI / Unit_Amount_FI) * 1000,
@@ -94,6 +95,7 @@ fi_sub_items <- fi_sub_items %>% mutate(
     Item_In_Stock_Shop == "Yes" & choice == "Shampoo" ~ "400 ML",
     Item_In_Stock_Shop == "Yes" & choice == "Soap (bar)" ~ "1 bar soap",
     Item_In_Stock_Shop == "Yes" & choice == "bread" ~ "Kilogram (KG)",
+    Item_In_Stock_Shop == "Yes" & choice == "Nan (small loaf)" ~ "Kilogram (KG)",
     Item_In_Stock_Shop == "Yes" & choice == "Salt" ~ "Kilogram (KG)",
     Item_In_Stock_Shop == "Yes" & choice == "White sugar" ~ "Kilogram (KG)",
     
@@ -307,7 +309,7 @@ ms_sub_items_reshaped <- ms_sub_items %>%
       choice == "One girl’s dress" ~ Tailor_Fee_Perahan,
       choice == "One man’s perahan wa tonban" ~ Tailor_Fee_Perahan,
       choice == "One women’s perahan" ~ Tailor_Fee_Perahan,
-      choice == "Shared taxi/van/risckshaw driver" ~ Price_Taxi,
+      choice %in% c("Shared taxi/van/risckshaw driver", "Shared taxi/van/risckshaw  driver") ~ Price_Taxi,
       TRUE ~ Price_Cost_NFI,
     ),
       choice = case_when(
