@@ -1,5 +1,4 @@
 # bank functionality ------------
-# test
 bank_atr <- bank_atr %>% 
   mutate(Total_Number_Withdraws_Changed = case_when(
     Total_Number_Withdraws_Changed %in% c("The total number of withdraws has decreased", "The total number of withdraws has decreased a bit", "The total number of withdrawals has decreased a lot") ~ "Decrease",
