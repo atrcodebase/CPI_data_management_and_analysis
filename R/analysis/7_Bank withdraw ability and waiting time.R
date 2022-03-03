@@ -20,7 +20,7 @@ bank_withdraw_ability_and_waiting_time_by_week_atr <- bank_respondents_atr %>%
       ) %>%
       data.frame() %>% 
       group_by(week) %>%
-      mutate(atr_percent = round(Freq/sum(Freq)*100)) %>% 
+      mutate(atr_percent = round(Freq/sum(Freq)*100, 2)) %>% 
       select(everything(), atr_freq = Freq)
   ) %>% 
   data.table::rbindlist(idcol = "question") %>% 
@@ -41,7 +41,7 @@ bank_withdraw_ability_and_waiting_time_by_week_province_atr <- bank_respondents_
       ) %>%
       data.frame() %>% 
       group_by(week, province) %>%
-      mutate(atr_percent = round(Freq/sum(Freq)*100)) %>% 
+      mutate(atr_percent = round(Freq/sum(Freq)*100, 2)) %>% 
       select(everything(), atr_freq = Freq)
   ) %>% 
   data.table::rbindlist(idcol = "question") %>% 

@@ -9,10 +9,10 @@ ime_rate_by_week_atr <- ime_atr %>%
     currency = Currency
   ) %>% 
   summarise(
-    mean_buying = round(mean(Exchange_Rate_buying, na.rm = T), 3),
-    mean_selling = round(mean(Exchange_Rate_selling, na.rm = T), 3),
-    median_buying = round(median(Exchange_Rate_buying, na.rm = T), 3),
-    median_selling = round(median(Exchange_Rate_selling, na.rm = T), 3)
+    mean_buying = round(mean(Exchange_Rate_buying, na.rm = T), 2),
+    mean_selling = round(mean(Exchange_Rate_selling, na.rm = T), 2),
+    median_buying = round(median(Exchange_Rate_buying, na.rm = T), 2),
+    median_selling = round(median(Exchange_Rate_selling, na.rm = T), 2)
   ) %>% 
   pivot_longer(-c(week, currency), names_to = "stats", values_to = "atr_values")
 
@@ -24,10 +24,10 @@ ime_rate_by_week_province_atr <- ime_atr %>%
     currency = Currency
   ) %>% 
   summarise(
-    mean_buying = round(mean(Exchange_Rate_buying, na.rm = T), 3),
-    mean_selling = round(mean(Exchange_Rate_selling, na.rm = T), 3),
-    median_buying = round(median(Exchange_Rate_buying, na.rm = T), 3),
-    median_selling = round(median(Exchange_Rate_selling, na.rm = T), 3)
+    mean_buying = round(mean(Exchange_Rate_buying, na.rm = T), 2),
+    mean_selling = round(mean(Exchange_Rate_selling, na.rm = T), 2),
+    median_buying = round(median(Exchange_Rate_buying, na.rm = T), 2),
+    median_selling = round(median(Exchange_Rate_selling, na.rm = T), 2)
   ) %>% 
   pivot_longer(-c(week, province, currency), names_to = "stats", values_to = "atr_values") %>% 
   filter(!is.na(atr_values))
@@ -46,7 +46,7 @@ ime_availability_by_week_atr <- ime_atr %>%
   ) %>% 
   count(availability = Currency_Availability) %>% 
   drop_na() %>% 
-  mutate(atr_percent = round(n/sum(n)*100), n = NULL) %>% 
+  mutate(atr_percent = round(n/sum(n)*100, 2), n = NULL) %>% 
   ungroup()
 
 ### by week and province
@@ -58,7 +58,7 @@ ime_availability_by_week_province_atr <- ime_atr %>%
   ) %>% 
   count(availability = Currency_Availability) %>% 
   drop_na() %>% 
-  mutate(atr_percent = round(n/sum(n)*100), n = NULL) %>% 
+  mutate(atr_percent = round(n/sum(n)*100, 2), n = NULL) %>% 
   ungroup()
 
 ime_availability_list <- list(

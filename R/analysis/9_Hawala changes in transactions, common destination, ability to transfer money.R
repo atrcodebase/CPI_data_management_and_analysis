@@ -10,7 +10,7 @@ transaction_changes_by_week_atr <- hawala_atr %>%
   ) %>% 
   count(status = Transfer_Changes) %>% 
   drop_na() %>%
-  mutate(atr_percent = round(n/sum(n)*100)) %>% 
+  mutate(atr_percent = round(n/sum(n)*100, 2)) %>% 
   ungroup() %>% 
   rename(atr_freq = n)
 
@@ -23,7 +23,7 @@ transaction_changes_by_week_province_atr <- hawala_atr %>%
   ) %>% 
   count(status = Transfer_Changes) %>% 
   drop_na() %>%
-  mutate(atr_percent = round(n/sum(n)*100)) %>% 
+  mutate(atr_percent = round(n/sum(n)*100, 2)) %>% 
   ungroup() %>% 
   rename(atr_freq = n)
 
@@ -92,7 +92,7 @@ transfer_money_by_week_atr <- hawala_atr %>%
     destination_type = Hawala_Type
     ) %>% 
   count(Money_Transfer_Availability) %>% 
-  mutate(atr_percent = round(n/sum(n)*100)) %>% 
+  mutate(atr_percent = round(n/sum(n)*100, 2)) %>% 
   ungroup() %>% 
   rename(atr_freq = n)
 
@@ -103,7 +103,7 @@ transfer_money_by_week_province_atr <- hawala_atr %>%
     destination_type = Hawala_Type
     ) %>% 
   count(Money_Transfer_Availability) %>% 
-  mutate(atr_percent = round(n/sum(n)*100)) %>% 
+  mutate(atr_percent = round(n/sum(n)*100, 2)) %>% 
   ungroup() %>% 
   rename(atr_freq = n)
 

@@ -14,8 +14,8 @@ fi_prices_by_week_atr <- fi_atr %>%
            items = Items
            ) %>% 
   summarise(
-    mean = round(mean(PRICE_FI_STANDARDIZED, na.rm = T)),
-    median = round(median(PRICE_FI_STANDARDIZED, na.rm = T)),
+    mean = round(mean(PRICE_FI_STANDARDIZED, na.rm = T), 2),
+    median = round(median(PRICE_FI_STANDARDIZED, na.rm = T), 2),
   ) %>% 
   ungroup() %>% 
   pivot_longer(-c(week, items), names_to = "stats", values_to = "atr_values")
@@ -26,8 +26,8 @@ fi_prices_by_week_province_atr <- fi_atr %>%
            province = Province,
            items = Items) %>% 
   summarise(
-    mean = round(mean(PRICE_FI_STANDARDIZED, na.rm = T)),
-    median = round(median(PRICE_FI_STANDARDIZED, na.rm = T)),
+    mean = round(mean(PRICE_FI_STANDARDIZED, na.rm = T), 2),
+    median = round(median(PRICE_FI_STANDARDIZED, na.rm = T), 2),
   ) %>% 
   ungroup() %>% 
   pivot_longer(-c(week, province, items), names_to = "stats", values_to = "atr_values")
@@ -45,7 +45,7 @@ fi_availability_by_week_atr <- fi_atr %>%
     items = Items
     ) %>% 
   count(availability = Availability_FI) %>% 
-  mutate(atr_percent = round(n/sum(n)*100), n = NULL) %>% 
+  mutate(atr_percent = round(n/sum(n)*100, 2), n = NULL) %>% 
   ungroup()
 
 ## by week and province
@@ -56,7 +56,7 @@ fi_availability_by_week_province_atr <- fi_atr %>%
     items = Items
     ) %>% 
   count(availability = Availability_FI) %>% 
-  mutate(atr_percent = round(n/sum(n)*100), n = NULL) %>% 
+  mutate(atr_percent = round(n/sum(n)*100, 2), n = NULL) %>% 
   ungroup()
 
 FI_availability_list <- list(

@@ -8,7 +8,7 @@ fi_tax_by_week_atr <- fi_tax_atr %>%
   lapply(function(levels)
     table(levels, week = fi_tax_atr$week) %>% data.frame() %>% 
       group_by(week) %>% 
-      mutate(atr_percent = round(Freq/sum(Freq)*100), Freq = NULL) %>% 
+      mutate(atr_percent = round(Freq/sum(Freq)*100, 2), Freq = NULL) %>% 
       ungroup()
     ) %>%   
   data.table::rbindlist(idcol = "question") %>% 
@@ -25,7 +25,7 @@ nfi_tax_by_week_atr <- nfi_tax_atr %>%
   lapply(function(levels)
     table(levels, week = nfi_tax_atr$week) %>% data.frame() %>% 
       group_by(week) %>% 
-      mutate(atr_percent = round(Freq/sum(Freq)*100), Freq = NULL) %>% 
+      mutate(atr_percent = round(Freq/sum(Freq)*100, 2), Freq = NULL) %>% 
       ungroup()
   ) %>%   
   data.table::rbindlist(idcol = "question") %>% 
@@ -48,7 +48,7 @@ fi_tax_by_week_province_atr <- fi_tax_atr %>%
   lapply(function(levels)
     table(levels, week = fi_tax_atr$week, province = fi_tax_atr$Province) %>% data.frame() %>% 
       group_by(week, province) %>%
-      mutate(atr_percent = round(Freq/sum(Freq)*100), Freq = NULL) %>%
+      mutate(atr_percent = round(Freq/sum(Freq)*100, 2), Freq = NULL) %>%
       ungroup()
   ) %>%  
   data.table::rbindlist(idcol = "question") %>% 
@@ -65,7 +65,7 @@ nfi_tax_by_week_province_atr <- nfi_tax_atr %>%
   lapply(function(levels)
     table(levels, week = nfi_tax_atr$week, province = nfi_tax_atr$Province) %>% data.frame() %>% 
       group_by(week, province) %>%
-      mutate(atr_percent = round(Freq/sum(Freq)*100), Freq = NULL) %>%
+      mutate(atr_percent = round(Freq/sum(Freq)*100, 2), Freq = NULL) %>%
       ungroup()
   ) %>%  
   data.table::rbindlist(idcol = "question") %>% 

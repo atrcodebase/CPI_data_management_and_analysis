@@ -19,7 +19,7 @@ withdrawal_limit_by_week_atr <- bank_atr %>%
   group_by(week) %>% 
   summarise(across(everything(),
                    function(x)
-                     round(mean(x, na.rm = T), 0)
+                     round(mean(x, na.rm = T), 2)
   )
   ) %>% 
   ungroup() %>% 
@@ -38,7 +38,7 @@ withdrawal_limit_by_week_province_atr <- bank_atr %>%
   group_by(week, province) %>% 
   summarise(across(everything(),
                    function(x)
-                     round(mean(x, na.rm = T), 0)
+                     round(mean(x, na.rm = T), 2)
   )
   ) %>% 
   ungroup() %>% 
