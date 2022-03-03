@@ -703,6 +703,53 @@ hawala_list <- list(
   KI = mex_sub_rep
 )
 
+
+# 4.1 - Hawala V2, 11th week onward
+
+mex_main_sub_v2 <- mex_main_v2 %>% select(
+  Starttime,
+  Endtime,
+  year,
+  month,
+  week,
+  Planned_data_collection_period_TPMA,
+  Site_Visit_ID,
+  Site_Visit_Subcategory_ID,
+  TPMA_Location_Name,
+  TPMA_Location_ID,
+  Type_Of_Visit,
+  Location_Type,
+  Type_of_center,
+  Region,
+  Province,
+  District,
+  Interviewee_Respondent_Type,
+  KEY
+  
+)
+
+
+mex_cur_ex_v2 <- mex_cur_ex_v2 %>% select(
+  -c(
+    Site_Visit_ID,
+    Site_Visit_Subcategory_ID,
+    TPMA_Location_Name,
+    TPMA_Location_ID,
+    Province,
+    District,
+    `SET-OF-Currency_Exchangers`,
+    exchange
+    
+  )
+)
+
+mex_cur_ex_merged_v2 <- mex_main_sub_v2 %>% right_join(mex_cur_ex_v2, by = c("KEY" = "KEY_Main"), keep = T) %>% 
+  select( -KEY.x ) %>% 
+  rename(KEY = KEY.y) %>%
+  rename(Currency = choice)
+
+
+
 # 5 - Banks
 bank_manager <- banks_main %>% select(
   -c(SubmissionDate,
