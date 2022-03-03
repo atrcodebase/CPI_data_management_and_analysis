@@ -706,6 +706,7 @@ hawala_list <- list(
 
 # 4.1 - Hawala V2, 11th week onward
 
+# Exchange Data
 mex_main_sub_v2 <- mex_main_v2 %>% select(
   Starttime,
   Endtime,
@@ -747,6 +748,50 @@ mex_cur_ex_merged_v2 <- mex_main_sub_v2 %>% right_join(mex_cur_ex_v2, by = c("KE
   select( -KEY.x ) %>% 
   rename(KEY = KEY.y) %>%
   rename(Currency = choice)
+
+
+# Hawala
+mex_hawala_transfer_v2_s.ame_per_dest1 <- mex_hawala_transfer_v2 %>% 
+  filter(!is.na(Transfer_Fee_10000_Same_dest_range1_Per)) %>% 
+  select(Hawala_Type = choice,
+         Money_Transfer_Availability,
+         HAWALA_ORIGIN = Province,
+         HAWALA_DESTINATION = Money_Transfer_Destination1st,
+         Transfer_Fee_10000_Same_dest_range1_Per,
+         Transfer_Fee_50000_Same_dest_range2_Per,
+         Transfer_Fee_100000_Same_dest_range3_Per,
+         Transfer_Fee_500000_Same_dest_range4_Per,
+         Transfer_Max_Amount,
+         Transfer_Changes,
+         PARENT_KEY,
+         KEY,
+         KEY_Main
+         ) %>% 
+           mutate(
+             Fee_Percentage_OR_Amount = "Set fee based on the total amount being transferred",
+             HAWALA_TOP3_DESTINATION_RANK = 1,
+             Transfer_Fee_Amount_Destination_Fee_Type = "Percentage"
+           ) %>% 
+           relocate(HAWALA_TOP3_DESTINATION_RANK , .after = HAWALA_DESTINATION) %>%
+           pivot_longer(!c(Hawala_Type:HAWALA_TOP3_DESTINATION_RANK, 
+                  Transfer_Max_Amount:Transfer_Fee_Amount_Destination_Fee_Type),
+               names_to = "Range",
+               values_to = "Transfer_Fee_Amount_Destination_Fee"
+               
+               ) 
+
+
+
+mex_hawala_transfer_v2_same_per_dest2 <- mex_hawala_transfer_v2 %>% 
+  filter(!is.na(Transfer_Fee_10000_Same_dest_range1_Per))
+
+
+mex_hawala_transfer_v2_same_per_dest3 <- mex_hawala_transfer_v2 %>% 
+  filter(!is.na(Transfer_Fee_10000_Same_dest_range1_Per))
+
+
+mex_hawala_transfer_v2_same_amount <- mex_hawala_transfer_v2 %>% 
+  filter(!is.na(Transfer_Fee_10000_Same_dest_range1_Amo))
 
 
 
