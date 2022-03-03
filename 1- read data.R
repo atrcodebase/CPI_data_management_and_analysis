@@ -15,6 +15,19 @@ for (week in weeks) {
     weekly[[str_remove(week, "_Economic Monitoring")]][[str_remove(file, ".xlsx")]] <- read_excel_func(file_name)
   }
 }
+# remove leading and trailing spaces from column names --------------------------------------------------
+
+for (weeks in names(weekly)) {
+  print(glue::glue("# week: {weeks} ----------------------------------"))
+  for (forms in names(weekly[[weeks]])) {
+    print(glue::glue("## form: {forms} -----------------"))
+    for (sheets in names(weekly[[weeks]][[forms]])) {
+      print(glue::glue("### whitespaces removed from '{sheets}' sheet column names."))
+      col_names <- colnames(weekly[[weeks]][[forms]][[sheets]])
+      colnames(weekly[[weeks]][[forms]][[sheets]]) <- str_squish(col_names)
+    }
+  }
+}
 
 # check whether the year, month & week columns are added in main sheet of each form in every week --------------------------------------------------
 for (weeks in names(weekly)) {
