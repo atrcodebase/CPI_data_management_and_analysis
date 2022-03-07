@@ -756,462 +756,129 @@ mex_hawala_transfer_v2 <- mex_hawala_transfer_v2 %>% select(
 ) %>% left_join(mex_main_sub_v2, by = c("KEY_Main" = "KEY")) %>% 
   relocate(Starttime:Interviewee_Respondent_Type, .before = choice)
 
+#Reshapes Hawala V2 data for all destinations
+reshape_hawala <- function(data, transfer_fee_cols, dest_type, fee_type){
+  
+  mex_hawala_transfer_v2_reshaped <- data.frame()
+  for(i in 1:3){
+    
+    destination <- case_when(
+      i == 1 ~ "Money_Transfer_Destination1st",
+      i == 2 ~ "Money_Transfer_Destination2nd",
+      i == 3 ~ "Money_Transfer_Destination3rd"
+    )
+    fee_percentage_amount <- case_when(
+      fee_type == "Percentage" ~ "Percentage of the total amount being transferred",
+      fee_type == "Amount" ~ "Set fee based on the total amount being transferred"
+    )
+    
+    if(dest_type == "diff"){
+      transfer_fee_cols_sub <- case_when(
+        destination == "Money_Transfer_Destination1st" ~ transfer_fee_cols[[1]],
+        destination == "Money_Transfer_Destination2nd" ~ transfer_fee_cols[[2]],
+        destination == "Money_Transfer_Destination3rd" ~ transfer_fee_cols[[3]]
+      )
+    } else {
+      transfer_fee_cols_sub <- transfer_fee_cols
+    }
+    
+    
+    # Hawala destination fee
+    mex_hawala_transfer_v2_reshaped_sub <- data %>% 
+      filter(!is.na(get(transfer_fee_cols_sub[1])),
+             get(destination) %notin% c("No Second Destination", "No Third Destination")) %>% 
+      select(Starttime:Interviewee_Respondent_Type,
+             Hawala_Type = choice,
+             Money_Transfer_Availability,
+             # HAWALA_ORIGIN = Province,
+             HAWALA_DESTINATION = destination,
+             all_of(transfer_fee_cols_sub),
+             Transfer_Max_Amount,
+             Transfer_Changes,
+             PARENT_KEY,
+             KEY,
+             KEY_Main
+      ) %>% 
+      mutate(
+        Fee_Percentage_OR_Amount = fee_percentage_amount,
+        HAWALA_TOP3_DESTINATION_RANK = i,
+        HAWALA_ORIGIN = Province,
+        Transfer_Fee_Amount_Destination_Fee_Type = fee_type,
+      ) %>% 
+      relocate(HAWALA_TOP3_DESTINATION_RANK , .after = HAWALA_DESTINATION) %>%
+      relocate(HAWALA_ORIGIN, .before = HAWALA_DESTINATION) %>% 
+      pivot_longer(!c(Starttime:HAWALA_TOP3_DESTINATION_RANK, 
+                      Transfer_Max_Amount:Transfer_Fee_Amount_Destination_Fee_Type),
+                   names_to = "Range",
+                   values_to = "Transfer_Fee_Amount_Destination_Fee"
+      ) %>% 
+      relocate(Transfer_Fee_Amount_Destination_Fee_Type:Transfer_Fee_Amount_Destination_Fee,
+               .after = HAWALA_TOP3_DESTINATION_RANK)
+    
+    mex_hawala_transfer_v2_reshaped <- rbind(mex_hawala_transfer_v2_reshaped, mex_hawala_transfer_v2_reshaped_sub)
+  }
+  return(mex_hawala_transfer_v2_reshaped)
+}
 
-## Same Destination
-# Hawala 1st destination percentage fee - Same fee
-mex_hawala_transfer_v2_same_per_dest1 <- mex_hawala_transfer_v2 %>% 
-  filter(!is.na(Transfer_Fee_10000_Same_dest_range1_Per)) %>% 
-  select(Starttime:Interviewee_Respondent_Type,
-         Hawala_Type = choice,
-         Money_Transfer_Availability,
-         # HAWALA_ORIGIN = Province,
-         HAWALA_DESTINATION = Money_Transfer_Destination1st,
-         Transfer_Fee_10000_Same_dest_range1_Per,
-         Transfer_Fee_50000_Same_dest_range2_Per,
-         Transfer_Fee_100000_Same_dest_range3_Per,
-         Transfer_Fee_500000_Same_dest_range4_Per,
-         Transfer_Max_Amount,
-         Transfer_Changes,
-         PARENT_KEY,
-         KEY,
-         KEY_Main
-         ) %>% 
-           mutate(
-             Fee_Percentage_OR_Amount = "Percentage of the total amount being transferred",
-             HAWALA_TOP3_DESTINATION_RANK = 1,
-             HAWALA_ORIGIN = Province,
-             Transfer_Fee_Amount_Destination_Fee_Type = "Percentage"
-           ) %>% 
-           relocate(HAWALA_TOP3_DESTINATION_RANK , .after = HAWALA_DESTINATION) %>%
-           relocate(HAWALA_ORIGIN, .before = HAWALA_DESTINATION) %>% 
-           pivot_longer(!c(Starttime:HAWALA_TOP3_DESTINATION_RANK, 
-                  Transfer_Max_Amount:Transfer_Fee_Amount_Destination_Fee_Type),
-               names_to = "Range",
-               values_to = "Transfer_Fee_Amount_Destination_Fee"
-               ) %>% 
-                relocate(Transfer_Fee_Amount_Destination_Fee_Type:Transfer_Fee_Amount_Destination_Fee,
-                         .after = HAWALA_TOP3_DESTINATION_RANK)
-
-
-# Hawala 2nd destination percentage fee - Same fee
-mex_hawala_transfer_v2_same_per_dest2 <- mex_hawala_transfer_v2 %>% 
-  filter(!is.na(Transfer_Fee_10000_Same_dest_range1_Per),
-         Money_Transfer_Destination2nd %notin% "No Second Destination") %>% 
-  select(Starttime:Interviewee_Respondent_Type,
-         Hawala_Type = choice,
-         Money_Transfer_Availability,
-         # HAWALA_ORIGIN = Province,
-         HAWALA_DESTINATION = Money_Transfer_Destination2nd,
-         Transfer_Fee_10000_Same_dest_range1_Per,
-         Transfer_Fee_50000_Same_dest_range2_Per,
-         Transfer_Fee_100000_Same_dest_range3_Per,
-         Transfer_Fee_500000_Same_dest_range4_Per,
-         Transfer_Max_Amount,
-         Transfer_Changes,
-         PARENT_KEY,
-         KEY,
-         KEY_Main
-  ) %>% 
-  mutate(
-    Fee_Percentage_OR_Amount = "Percentage of the total amount being transferred",
-    HAWALA_TOP3_DESTINATION_RANK = 2,
-    HAWALA_ORIGIN = Province,
-    Transfer_Fee_Amount_Destination_Fee_Type = "Percentage"
-  ) %>% 
-  relocate(HAWALA_TOP3_DESTINATION_RANK , .after = HAWALA_DESTINATION) %>%
-  relocate(HAWALA_ORIGIN, .before = HAWALA_DESTINATION) %>% 
-  pivot_longer(!c(Starttime:HAWALA_TOP3_DESTINATION_RANK, 
-                  Transfer_Max_Amount:Transfer_Fee_Amount_Destination_Fee_Type),
-               names_to = "Range",
-               values_to = "Transfer_Fee_Amount_Destination_Fee"
-  ) %>% 
-  relocate(Transfer_Fee_Amount_Destination_Fee_Type:Transfer_Fee_Amount_Destination_Fee,
-           .after = HAWALA_TOP3_DESTINATION_RANK)
-
-
-
-# Hawala 3st destination percentage fee - Same fee
-mex_hawala_transfer_v2_same_per_dest3 <- mex_hawala_transfer_v2 %>% 
-  filter(!is.na(Transfer_Fee_10000_Same_dest_range1_Per),
-         Money_Transfer_Destination3rd %notin% "No Third Destination") %>% 
-  select(Starttime:Interviewee_Respondent_Type,
-         Hawala_Type = choice,
-         Money_Transfer_Availability,
-         # HAWALA_ORIGIN = Province,
-         HAWALA_DESTINATION = Money_Transfer_Destination3rd,
-         Transfer_Fee_10000_Same_dest_range1_Per,
-         Transfer_Fee_50000_Same_dest_range2_Per,
-         Transfer_Fee_100000_Same_dest_range3_Per,
-         Transfer_Fee_500000_Same_dest_range4_Per,
-         Transfer_Max_Amount,
-         Transfer_Changes,
-         PARENT_KEY,
-         KEY,
-         KEY_Main
-  ) %>% 
-  mutate(
-    Fee_Percentage_OR_Amount = "Percentage of the total amount being transferred",
-    HAWALA_TOP3_DESTINATION_RANK = 3,
-    HAWALA_ORIGIN = Province,
-    Transfer_Fee_Amount_Destination_Fee_Type = "Percentage"
-  ) %>% 
-  relocate(HAWALA_TOP3_DESTINATION_RANK , .after = HAWALA_DESTINATION) %>%
-  relocate(HAWALA_ORIGIN, .before = HAWALA_DESTINATION) %>% 
-  pivot_longer(!c(Starttime:HAWALA_TOP3_DESTINATION_RANK, 
-                  Transfer_Max_Amount:Transfer_Fee_Amount_Destination_Fee_Type),
-               names_to = "Range",
-               values_to = "Transfer_Fee_Amount_Destination_Fee"
-  ) %>% 
-  relocate(Transfer_Fee_Amount_Destination_Fee_Type:Transfer_Fee_Amount_Destination_Fee,
-           .after = HAWALA_TOP3_DESTINATION_RANK)
-
-# Hawala all 3 destinations percentage - same fee
-mex_hawala_transfer_same_dest_per <- rbind(
-  mex_hawala_transfer_v2_same_per_dest1,
-  mex_hawala_transfer_v2_same_per_dest2,
-  mex_hawala_transfer_v2_same_per_dest3
+transfer_fee_cols <- list(
+  same_dest_per = c(
+    "Transfer_Fee_10000_Same_dest_range1_Per",
+    "Transfer_Fee_50000_Same_dest_range2_Per",
+    "Transfer_Fee_100000_Same_dest_range3_Per",
+    "Transfer_Fee_500000_Same_dest_range4_Per"
+  ),
+  same_dest_amo = c(
+    "Transfer_Fee_10000_Same_dest_range1_Amo",
+    "Transfer_Fee_50000_Same_dest_range2_Amo",
+    "Transfer_Fee_100000_Same_dest_range3_Amo",
+    "Transfer_Fee_500000_Same_dest_range4_Amo"
+  ),
+  diff_dest_per = list(
+    first_dest_per = c(
+      "Transfer_Fee_10000_first_dest_range1_Per",
+      "Transfer_Fee_50000_first_dest_range2_Per",
+      "Transfer_Fee_100000_first_dest_range3_Per",
+      "Transfer_Fee_500000_first_dest_range4_Per"
+    ),
+    second_dest_per = c(
+      "Transfer_Fee_10000_Second_dest_range1_Per",
+      "Transfer_Fee_50000_Second_dest_range2_Per",
+      "Transfer_Fee_100000_Second_dest_range3_Per",
+      "Transfer_Fee_500000_Second_dest_range4_Per"
+    ),
+    third_dest_per = c(
+      "Transfer_Fee_10000_Third_dest_range1_Per",
+      "Transfer_Fee_50000_Third_dest_range2_Per",
+      "Transfer_Fee_100000_Third_dest_range3_Per",
+      "Transfer_Fee_500000_Third_dest_range4_Per"
+    )
+  ),
+  diff_dest_amo = list(
+    first_dest_amo = c(
+      "Transfer_Fee_10000_first_dest_range1_Amo",
+      "Transfer_Fee_50000_first_dest_range2_Amo",
+      "Transfer_Fee_100000_first_dest_range3_Amo",
+      "Transfer_Fee_500000_first_dest_range4_Amo"
+    ),
+    second_dest_amo = c(
+      "Transfer_Fee_10000_Second_dest_range1_Amo",
+      "Transfer_Fee_50000_Second_dest_range2_Amo",
+      'Transfer_Fee_100000_Second_dest_range3_Amo',
+      "Transfer_Fee_500000_Second_dest_range4_Amo"
+    ),
+    third_dest_amo = c(
+      "Transfer_Fee_10000_Third_dest_range1_Amo",
+      "Transfer_Fee_50000_Third_dest_range2_Amo",
+      "Transfer_Fee_100000_Third_dest_range3_Amo",
+      "Transfer_Fee_500000_Third_dest_range4_Amo"
+    )
+  )
 )
 
-
-# Hawala 1st destination Amount fee - Same fee
-mex_hawala_transfer_v2_same_amo_dest1 <- mex_hawala_transfer_v2 %>% 
-  filter(!is.na(Transfer_Fee_10000_Same_dest_range1_Amo)) %>% 
-  select(Starttime:Interviewee_Respondent_Type,
-         Hawala_Type = choice,
-         Money_Transfer_Availability,
-         # HAWALA_ORIGIN = Province,
-         HAWALA_DESTINATION = Money_Transfer_Destination1st,
-         Transfer_Fee_10000_Same_dest_range1_Amo,
-         Transfer_Fee_50000_Same_dest_range2_Amo,
-         Transfer_Fee_100000_Same_dest_range3_Amo,
-         Transfer_Fee_500000_Same_dest_range4_Amo,
-         Transfer_Max_Amount,
-         Transfer_Changes,
-         PARENT_KEY,
-         KEY,
-         KEY_Main
-  ) %>% 
-  mutate(
-    Fee_Percentage_OR_Amount = "Set fee based on the total amount being transferred",
-    HAWALA_TOP3_DESTINATION_RANK = 1,
-    HAWALA_ORIGIN = Province,
-    Transfer_Fee_Amount_Destination_Fee_Type = "Amount"
-  ) %>% 
-  relocate(HAWALA_TOP3_DESTINATION_RANK , .after = HAWALA_DESTINATION) %>%
-  relocate(HAWALA_ORIGIN, .before = HAWALA_DESTINATION) %>% 
-  pivot_longer(!c(Starttime:HAWALA_TOP3_DESTINATION_RANK, 
-                  Transfer_Max_Amount:Transfer_Fee_Amount_Destination_Fee_Type),
-               names_to = "Range",
-               values_to = "Transfer_Fee_Amount_Destination_Fee"
-  ) %>% 
-  relocate(Transfer_Fee_Amount_Destination_Fee_Type:Transfer_Fee_Amount_Destination_Fee,
-           .after = HAWALA_TOP3_DESTINATION_RANK)
-
-
-# Hawala 2nd destination Amount fee - Same fee
-mex_hawala_transfer_v2_same_amo_dest2 <- mex_hawala_transfer_v2 %>% 
-  filter(!is.na(Transfer_Fee_10000_Same_dest_range1_Amo),
-         Money_Transfer_Destination2nd %notin% "No Second Destination") %>% 
-  select(Starttime:Interviewee_Respondent_Type,
-         Hawala_Type = choice,
-         Money_Transfer_Availability,
-         # HAWALA_ORIGIN = Province,
-         HAWALA_DESTINATION = Money_Transfer_Destination2nd,
-         Transfer_Fee_10000_Same_dest_range1_Amo,
-         Transfer_Fee_50000_Same_dest_range2_Amo,
-         Transfer_Fee_100000_Same_dest_range3_Amo,
-         Transfer_Fee_500000_Same_dest_range4_Amo,
-         Transfer_Max_Amount,
-         Transfer_Changes,
-         PARENT_KEY,
-         KEY,
-         KEY_Main
-  ) %>% 
-  mutate(
-    Fee_Percentage_OR_Amount = "Set fee based on the total amount being transferred",
-    HAWALA_TOP3_DESTINATION_RANK = 2,
-    HAWALA_ORIGIN = Province,
-    Transfer_Fee_Amount_Destination_Fee_Type = "Amount"
-  ) %>% 
-  relocate(HAWALA_TOP3_DESTINATION_RANK , .after = HAWALA_DESTINATION) %>%
-  relocate(HAWALA_ORIGIN, .before = HAWALA_DESTINATION) %>% 
-  pivot_longer(!c(Starttime:HAWALA_TOP3_DESTINATION_RANK, 
-                  Transfer_Max_Amount:Transfer_Fee_Amount_Destination_Fee_Type),
-               names_to = "Range",
-               values_to = "Transfer_Fee_Amount_Destination_Fee"
-  ) %>% 
-  relocate(Transfer_Fee_Amount_Destination_Fee_Type:Transfer_Fee_Amount_Destination_Fee,
-           .after = HAWALA_TOP3_DESTINATION_RANK)
-
-
-
-# Hawala 3st destination Amount fee - Same fee
-mex_hawala_transfer_v2_same_amo_dest3 <- mex_hawala_transfer_v2 %>% 
-  filter(!is.na(Transfer_Fee_10000_Same_dest_range1_Amo),
-         Money_Transfer_Destination3rd %notin% "No Third Destination") %>% 
-  select(Starttime:Interviewee_Respondent_Type,
-         Hawala_Type = choice,
-         Money_Transfer_Availability,
-         # HAWALA_ORIGIN = Province,
-         HAWALA_DESTINATION = Money_Transfer_Destination3rd,
-         Transfer_Fee_10000_Same_dest_range1_Amo,
-         Transfer_Fee_50000_Same_dest_range2_Amo,
-         Transfer_Fee_100000_Same_dest_range3_Amo,
-         Transfer_Fee_500000_Same_dest_range4_Amo,
-         Transfer_Max_Amount,
-         Transfer_Changes,
-         PARENT_KEY,
-         KEY,
-         KEY_Main
-  ) %>% 
-  mutate(
-    Fee_Percentage_OR_Amount = "Set fee based on the total amount being transferred",
-    HAWALA_TOP3_DESTINATION_RANK = 3,
-    HAWALA_ORIGIN = Province,
-    Transfer_Fee_Amount_Destination_Fee_Type = "Amount"
-  ) %>% 
-  relocate(HAWALA_TOP3_DESTINATION_RANK , .after = HAWALA_DESTINATION) %>%
-  relocate(HAWALA_ORIGIN, .before = HAWALA_DESTINATION) %>% 
-  pivot_longer(!c(Starttime:HAWALA_TOP3_DESTINATION_RANK, 
-                  Transfer_Max_Amount:Transfer_Fee_Amount_Destination_Fee_Type),
-               names_to = "Range",
-               values_to = "Transfer_Fee_Amount_Destination_Fee"
-  ) %>% 
-  relocate(Transfer_Fee_Amount_Destination_Fee_Type:Transfer_Fee_Amount_Destination_Fee,
-           .after = HAWALA_TOP3_DESTINATION_RANK)
-
-# Hawala all 3 destinations Amount - same fee
-mex_hawala_transfer_same_dest_amo <- rbind(
-  mex_hawala_transfer_v2_same_amo_dest1,
-  mex_hawala_transfer_v2_same_amo_dest2,
-  mex_hawala_transfer_v2_same_amo_dest3
-)
-
-## Different Destinations
-# Hawala 1st destination percentage fee - Diff fee
-mex_hawala_transfer_v2_diff_per_dest1 <- mex_hawala_transfer_v2 %>% 
-  filter(!is.na(Transfer_Fee_10000_first_dest_range1_Per)) %>% 
-  select(Starttime:Interviewee_Respondent_Type,
-         Hawala_Type = choice,
-         Money_Transfer_Availability,
-         # HAWALA_ORIGIN = Province,
-         HAWALA_DESTINATION = Money_Transfer_Destination1st,
-         Transfer_Fee_10000_first_dest_range1_Per,
-         Transfer_Fee_50000_first_dest_range2_Per,
-         Transfer_Fee_100000_first_dest_range3_Per,
-         Transfer_Fee_500000_first_dest_range4_Per,
-         Transfer_Max_Amount,
-         Transfer_Changes,
-         PARENT_KEY,
-         KEY,
-         KEY_Main
-  ) %>% 
-  mutate(
-    Fee_Percentage_OR_Amount = "Percentage of the total amount being transferred",
-    HAWALA_TOP3_DESTINATION_RANK = 1,
-    HAWALA_ORIGIN = Province,
-    Transfer_Fee_Amount_Destination_Fee_Type = "Percentage"
-  ) %>% 
-  relocate(HAWALA_TOP3_DESTINATION_RANK , .after = HAWALA_DESTINATION) %>%
-  relocate(HAWALA_ORIGIN, .before = HAWALA_DESTINATION) %>% 
-  pivot_longer(!c(Starttime:HAWALA_TOP3_DESTINATION_RANK, 
-                  Transfer_Max_Amount:Transfer_Fee_Amount_Destination_Fee_Type),
-               names_to = "Range",
-               values_to = "Transfer_Fee_Amount_Destination_Fee"
-  ) %>% 
-  relocate(Transfer_Fee_Amount_Destination_Fee_Type:Transfer_Fee_Amount_Destination_Fee,
-           .after = HAWALA_TOP3_DESTINATION_RANK)
-
-
-# Hawala 2nd destination percentage fee - Diff fee
-mex_hawala_transfer_v2_diff_per_dest2 <- mex_hawala_transfer_v2 %>% 
-  filter(!is.na(Transfer_Fee_10000_Second_dest_range1_Per)) %>% 
-  select(Starttime:Interviewee_Respondent_Type,
-         Hawala_Type = choice,
-         Money_Transfer_Availability,
-         # HAWALA_ORIGIN = Province,
-         HAWALA_DESTINATION = Money_Transfer_Destination2nd,
-         Transfer_Fee_10000_Second_dest_range1_Per,
-         Transfer_Fee_50000_Second_dest_range2_Per,
-         Transfer_Fee_100000_Second_dest_range3_Per,
-         Transfer_Fee_500000_Second_dest_range4_Per,
-         Transfer_Max_Amount,
-         Transfer_Changes,
-         PARENT_KEY,
-         KEY,
-         KEY_Main
-  ) %>% 
-  mutate(
-    Fee_Percentage_OR_Amount = "Percentage of the total amount being transferred",
-    HAWALA_TOP3_DESTINATION_RANK = 2,
-    HAWALA_ORIGIN = Province,
-    Transfer_Fee_Amount_Destination_Fee_Type = "Percentage"
-  ) %>% 
-  relocate(HAWALA_TOP3_DESTINATION_RANK , .after = HAWALA_DESTINATION) %>%
-  relocate(HAWALA_ORIGIN, .before = HAWALA_DESTINATION) %>% 
-  pivot_longer(!c(Starttime:HAWALA_TOP3_DESTINATION_RANK, 
-                  Transfer_Max_Amount:Transfer_Fee_Amount_Destination_Fee_Type),
-               names_to = "Range",
-               values_to = "Transfer_Fee_Amount_Destination_Fee"
-  ) %>% 
-  relocate(Transfer_Fee_Amount_Destination_Fee_Type:Transfer_Fee_Amount_Destination_Fee,
-           .after = HAWALA_TOP3_DESTINATION_RANK)
-
-
-# Hawala 3st destination percentage fee - Diff fee
-mex_hawala_transfer_v2_diff_per_dest3 <- mex_hawala_transfer_v2 %>% 
-  filter(!is.na(Transfer_Fee_10000_Third_dest_range1_Per)) %>% 
-  select(Starttime:Interviewee_Respondent_Type,
-         Hawala_Type = choice,
-         Money_Transfer_Availability,
-         # HAWALA_ORIGIN = Province,
-         HAWALA_DESTINATION = Money_Transfer_Destination3rd,
-         Transfer_Fee_10000_Third_dest_range1_Per,
-         Transfer_Fee_50000_Third_dest_range2_Per,
-         Transfer_Fee_100000_Third_dest_range3_Per,
-         Transfer_Fee_500000_Third_dest_range4_Per,
-         Transfer_Max_Amount,
-         Transfer_Changes,
-         PARENT_KEY,
-         KEY,
-         KEY_Main
-  ) %>% 
-  mutate(
-    Fee_Percentage_OR_Amount = "Percentage of the total amount being transferred",
-    HAWALA_TOP3_DESTINATION_RANK = 3,
-    HAWALA_ORIGIN = Province,
-    Transfer_Fee_Amount_Destination_Fee_Type = "Percentage"
-  ) %>% 
-  relocate(HAWALA_TOP3_DESTINATION_RANK , .after = HAWALA_DESTINATION) %>%
-  relocate(HAWALA_ORIGIN, .before = HAWALA_DESTINATION) %>% 
-  pivot_longer(!c(Starttime:HAWALA_TOP3_DESTINATION_RANK, 
-                  Transfer_Max_Amount:Transfer_Fee_Amount_Destination_Fee_Type),
-               names_to = "Range",
-               values_to = "Transfer_Fee_Amount_Destination_Fee"
-  ) %>% 
-  relocate(Transfer_Fee_Amount_Destination_Fee_Type:Transfer_Fee_Amount_Destination_Fee,
-           .after = HAWALA_TOP3_DESTINATION_RANK)
-
-
-# Hawala all 3 destinations percentage - diff fee
-mex_hawala_transfer_diff_dest_per <- rbind(
-  mex_hawala_transfer_v2_diff_per_dest1,
-  mex_hawala_transfer_v2_diff_per_dest2,
-  mex_hawala_transfer_v2_diff_per_dest3
-)
-
-# Hawala 1st destination Amount fee - diff fee
-mex_hawala_transfer_v2_diff_amo_dest1 <- mex_hawala_transfer_v2 %>% 
-  filter(!is.na(Transfer_Fee_10000_first_dest_range1_Amo)) %>% 
-  select(Starttime:Interviewee_Respondent_Type,
-         Hawala_Type = choice,
-         Money_Transfer_Availability,
-         # HAWALA_ORIGIN = Province,
-         HAWALA_DESTINATION = Money_Transfer_Destination1st,
-         Transfer_Fee_10000_first_dest_range1_Amo,
-         Transfer_Fee_50000_first_dest_range2_Amo,
-         Transfer_Fee_100000_first_dest_range3_Amo,
-         Transfer_Fee_500000_first_dest_range4_Amo,
-         Transfer_Max_Amount,
-         Transfer_Changes,
-         PARENT_KEY,
-         KEY,
-         KEY_Main
-  ) %>% 
-  mutate(
-    Fee_Percentage_OR_Amount = "Set fee based on the total amount being transferred",
-    HAWALA_TOP3_DESTINATION_RANK = 1,
-    HAWALA_ORIGIN = Province,
-    Transfer_Fee_Amount_Destination_Fee_Type = "Amount"
-  ) %>% 
-  relocate(HAWALA_TOP3_DESTINATION_RANK , .after = HAWALA_DESTINATION) %>%
-  relocate(HAWALA_ORIGIN, .before = HAWALA_DESTINATION) %>% 
-  pivot_longer(!c(Starttime:HAWALA_TOP3_DESTINATION_RANK, 
-                  Transfer_Max_Amount:Transfer_Fee_Amount_Destination_Fee_Type),
-               names_to = "Range",
-               values_to = "Transfer_Fee_Amount_Destination_Fee"
-  ) %>% 
-  relocate(Transfer_Fee_Amount_Destination_Fee_Type:Transfer_Fee_Amount_Destination_Fee,
-           .after = HAWALA_TOP3_DESTINATION_RANK)
-
-
-# Hawala 2nd destination Amount fee - diff fee
-mex_hawala_transfer_v2_diff_amo_dest2 <- mex_hawala_transfer_v2 %>% 
-  filter(!is.na(Transfer_Fee_10000_Second_dest_range1_Amo)) %>% 
-  select(Starttime:Interviewee_Respondent_Type,
-         Hawala_Type = choice,
-         Money_Transfer_Availability,
-         # HAWALA_ORIGIN = Province,
-         HAWALA_DESTINATION = Money_Transfer_Destination2nd,
-         Transfer_Fee_10000_Second_dest_range1_Amo,
-         Transfer_Fee_50000_Second_dest_range2_Amo,
-         Transfer_Fee_100000_Second_dest_range3_Amo,
-         Transfer_Fee_500000_Second_dest_range4_Amo,
-         Transfer_Max_Amount,
-         Transfer_Changes,
-         PARENT_KEY,
-         KEY,
-         KEY_Main
-  ) %>% 
-  mutate(
-    Fee_Percentage_OR_Amount = "Set fee based on the total amount being transferred",
-    HAWALA_TOP3_DESTINATION_RANK = 2,
-    HAWALA_ORIGIN = Province,
-    Transfer_Fee_Amount_Destination_Fee_Type = "Amount"
-  ) %>% 
-  relocate(HAWALA_TOP3_DESTINATION_RANK , .after = HAWALA_DESTINATION) %>%
-  relocate(HAWALA_ORIGIN, .before = HAWALA_DESTINATION) %>% 
-  pivot_longer(!c(Starttime:HAWALA_TOP3_DESTINATION_RANK, 
-                  Transfer_Max_Amount:Transfer_Fee_Amount_Destination_Fee_Type),
-               names_to = "Range",
-               values_to = "Transfer_Fee_Amount_Destination_Fee"
-  ) %>% 
-  relocate(Transfer_Fee_Amount_Destination_Fee_Type:Transfer_Fee_Amount_Destination_Fee,
-           .after = HAWALA_TOP3_DESTINATION_RANK)
-
-
-
-# Hawala 3st destination Amount fee - diff fee
-mex_hawala_transfer_v2_diff_amo_dest3 <- mex_hawala_transfer_v2 %>% 
-  filter(!is.na(Transfer_Fee_10000_Third_dest_range1_Amo)) %>% 
-  select(Starttime:Interviewee_Respondent_Type,
-         Hawala_Type = choice,
-         Money_Transfer_Availability,
-         # HAWALA_ORIGIN = Province,
-         HAWALA_DESTINATION = Money_Transfer_Destination3rd,
-         Transfer_Fee_10000_Third_dest_range1_Amo,
-         Transfer_Fee_50000_Third_dest_range2_Amo,
-         Transfer_Fee_100000_Third_dest_range3_Amo,
-         Transfer_Fee_500000_Third_dest_range4_Amo,
-         Transfer_Max_Amount,
-         Transfer_Changes,
-         PARENT_KEY,
-         KEY,
-         KEY_Main
-  ) %>% 
-  mutate(
-    Fee_Percentage_OR_Amount = "Set fee based on the total amount being transferred",
-    HAWALA_TOP3_DESTINATION_RANK = 3,
-    HAWALA_ORIGIN = Province,
-    Transfer_Fee_Amount_Destination_Fee_Type = "Amount"
-  ) %>% 
-  relocate(HAWALA_TOP3_DESTINATION_RANK , .after = HAWALA_DESTINATION) %>%
-  relocate(HAWALA_ORIGIN, .before = HAWALA_DESTINATION) %>% 
-  pivot_longer(!c(Starttime:HAWALA_TOP3_DESTINATION_RANK, 
-                  Transfer_Max_Amount:Transfer_Fee_Amount_Destination_Fee_Type),
-               names_to = "Range",
-               values_to = "Transfer_Fee_Amount_Destination_Fee"
-  ) %>% 
-  relocate(Transfer_Fee_Amount_Destination_Fee_Type:Transfer_Fee_Amount_Destination_Fee,
-           .after = HAWALA_TOP3_DESTINATION_RANK)
-
-# Hawala all 3 destinations Amount - diff fee
-mex_hawala_transfer_diff_dest_amo <- rbind(
-  mex_hawala_transfer_v2_diff_amo_dest1,
-  mex_hawala_transfer_v2_diff_amo_dest2,
-  mex_hawala_transfer_v2_diff_amo_dest3
-)
-
+mex_hawala_transfer_same_dest_per <- reshape_hawala(mex_hawala_transfer_v2, transfer_fee_cols$same_dest_per, "same", "Percentage")
+mex_hawala_transfer_same_dest_amo <- reshape_hawala(mex_hawala_transfer_v2, transfer_fee_cols$same_dest_amo, "same", "Amount")
+mex_hawala_transfer_diff_dest_per <- reshape_hawala(mex_hawala_transfer_v2, transfer_fee_cols$diff_dest_per, "diff", "Percentage")
+mex_hawala_transfer_diff_dest_amo <- reshape_hawala(mex_hawala_transfer_v2, transfer_fee_cols$diff_dest_amo, "diff", "Amount")
 
 # Hawala all 3 destinations for same & diff fee AND percentage & amount
 hawala_list_v2 <- rbind(
