@@ -785,8 +785,7 @@ reshape_hawala <- function(data, transfer_fee_cols, dest_type, fee_type){
     
     # Hawala destination fee
     mex_hawala_transfer_v2_reshaped_sub <- data %>% 
-      filter(!is.na(get(transfer_fee_cols_sub[1])),
-             get(destination) %notin% c("No Second Destination", "No Third Destination")) %>% 
+      filter(get(destination) %notin% c("No Second Destination", "No Third Destination")) %>% 
       select(Starttime:Interviewee_Respondent_Type,
              Hawala_Type = choice,
              Money_Transfer_Availability,
