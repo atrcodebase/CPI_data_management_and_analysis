@@ -43,7 +43,39 @@ unique(cleaning_log$dataset_name)[!unique(cleaning_log$dataset_name) %in% names(
 unique(cleaning_log$sheet_name)[!unique(cleaning_log$sheet_name) %in% sheet_names]
 unique(cleaning_log$question)[!unique(cleaning_log$question) %in% col_names]
 
-data[["CPI_Border_Count_of_Transport_Traffic_Dataset"]][["data"]] <- data[["CPI_Border_Count_of_Transport_Traffic_Dataset"]][["data"]] %>% 
+rm("col", "col_names", "i", "sheet", "sheet_names", "url")
+
+# extract question types from all forms/sheets and merge with cleaning log  --------------------------------------------------
+n <- 1
+col_names <- c()
+col_types <- c()
+for (i in names(data)) {
+  for (sheet in names(data[[i]])) {
+    print(paste0(n, "-Get column names/types from ", i, ":", sheet))
+    n <- n+1
+    for (col in colnames(data[[i]][[sheet]])) {
+      if (!col %in% col_names) {
+        column_type <- typeof(data[[i]][[sheet]][[col]])
+        col_types <- c(col_types, column_type)
+        col_names <- c(col_names, col) 
+      }
+    }
+  }
+}
+
+ques_types <- data.frame(
+  question = col_names,
+  question_type = col_types
+)
+
+cleaning_log <- cleaning_log %>% 
+  select(-question_type) %>% 
+  left_join(ques_types, by = "question") %>% 
+  relocate(question_type, .after = question)
+
+rm("col", "col_names", "col_types", "column_type", "i", "n", "sheet")
+
+data[["CPI_Border_Count_of_Transport_Traffic_Dataset"]][["data"]] <- data[["CPI_Border_Count_of_Transport_Traffic_Dataset"]][["data"]] %>%
   mutate(Number_of_TPMA_visits_by_Sector = as.numeric(Number_of_TPMA_visits_by_Sector))
 
 # apply cleaning log -------------------------------------------------
@@ -54,7 +86,7 @@ for (rowi in 1:nrow(cleaning_log)){
   old_i  <- cleaning_log$old_value[rowi]
   question_type <- cleaning_log$question_type[rowi]
   
-  if (question_type == "numeric") {
+  if (question_type %in% c("numeric", "double", "integer")) {
     new_i  <- as.numeric(cleaning_log$new_value[rowi])
   } else {
     new_i  <- cleaning_log$new_value[rowi]
@@ -69,6 +101,7 @@ for (rowi in 1:nrow(cleaning_log)){
   data[[form_i]][[sheet_i]][data[[form_i]][[sheet_i]]$KEY %in% uuid_i, var_i] <- new_i
 }
 
+names(data)
 # export files  -------------------------------------------------
 
 ## data sets
