@@ -27,6 +27,7 @@ source("R/read_data_merged.R")
 fi_sub_items <- fi_sub_items %>% mutate(
   UNIT_AMOUNT_FI_CALCULATED = case_when(
     Item_In_Stock_Shop == "Yes" & choice == "Shampoo" & Unit_FI == "Liter (L)" ~ Unit_Amount_FI * 1000,
+    Item_In_Stock_Shop == "Yes" & choice == "Soap (bar)" & Unit_FI == "1 set of bar soaps" ~ 6,
     TRUE ~ Unit_Amount_FI
   ),
   PRICE_FI_CALCULATED = case_when(
