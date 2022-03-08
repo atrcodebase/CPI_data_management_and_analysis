@@ -87,7 +87,7 @@ fi_list <- list(
 )
 
 identical(names(fi_w1), names(fi_list))
-writexl::write_xlsx(fi_list, glue::glue("{output_path}CPI_Market_FI_Dataset_merge.xlsx"))
+writexl::write_xlsx(fi_list, glue::glue("{output_path}CPI_Market_FI_Dataset_merge.xlsx"), format_headers = F)
 
 # form 2: NFI
 nfi_main <- rbind(
@@ -174,7 +174,7 @@ nfi_list <- list(
 )
 
 identical(names(nfi_w1), names(nfi_list))
-writexl::write_xlsx(nfi_list,  glue::glue("{output_path}CPI_Market_NFI_Dataset_merge.xlsx"))
+writexl::write_xlsx(nfi_list,  glue::glue("{output_path}CPI_Market_NFI_Dataset_merge.xlsx"), format_headers = F)
 
 ## form 3: services
 market_services_main <- rbind(
@@ -281,7 +281,7 @@ market_services_list <- list(
 )
 
 identical(names(market_services_w1), names(market_services_list))
-writexl::write_xlsx(market_services_list,  glue::glue("{output_path}CPI_Market_Services_Dataset_merge.xlsx"))
+writexl::write_xlsx(market_services_list,  glue::glue("{output_path}CPI_Market_Services_Dataset_merge.xlsx"), format_headers = F)
 
 ## Form 4: IME and Hawala. (from week 1-10)
 ime_hawala_main <- rbind(
@@ -400,7 +400,7 @@ ime_hawala_list <- list(
 )
 
 identical(names(ime_hawala_w1), names(ime_hawala_list))
-writexl::write_xlsx(ime_hawala_list,  glue::glue("{output_path}CPI_Market_IME_Hawala_Dataset_merge.xlsx"))
+writexl::write_xlsx(ime_hawala_list,  glue::glue("{output_path}CPI_Market_IME_Hawala_Dataset_merge.xlsx"), format_headers = F)
 
 ## IME version 2 (from week 11 onwards).
 ime_hawala_main_v2 <- rbind(
@@ -447,7 +447,7 @@ ime_hawala_list_v2 <- list(
 )
 
 identical(names(ime_hawala_w11), names(ime_hawala_list_v2))
-writexl::write_xlsx(ime_hawala_list_v2,  glue::glue("{output_path}CPI_Market_IME_Hawala_Dataset_v2_merge.xlsx"))
+writexl::write_xlsx(ime_hawala_list_v2,  glue::glue("{output_path}CPI_Market_IME_Hawala_Dataset_v2_merge.xlsx"), format_headers = F)
 
 ## Form 5: Bank
 bank_manager <- rbind(
@@ -494,7 +494,7 @@ bank_list <- list(
 )
 
 identical(names(bank_w1), names(bank_list))
-writexl::write_xlsx(bank_list,  glue::glue("{output_path}CPI_Bank_Dataset_merge.xlsx"))
+writexl::write_xlsx(bank_list,  glue::glue("{output_path}CPI_Bank_Dataset_merge.xlsx"), format_headers = F)
 
 ## Form 5.1 Bank Operationality data. It is available from week 8 onwards.
 bank_operationality_data <- rbind(
@@ -527,7 +527,7 @@ bank_operationality_list <- list(
 )
 
 identical( names(bank_operationality_w8), names(bank_operationality_list))
-writexl::write_xlsx(bank_operationality_list, glue::glue("{output_path}CPI_Bank_Operationality_Status_Dataset_merge.xlsx"))
+writexl::write_xlsx(bank_operationality_list, glue::glue("{output_path}CPI_Bank_Operationality_Status_Dataset_merge.xlsx"), format_headers = F)
 
 ## Form 6: Border Traffic Count. Not available for week 1.
 border_traffic_count_data <- rbind(
@@ -572,7 +572,7 @@ border_traffic_count_list <- list(
 )
 
 identical(names(border_traffic_count_w2), names(border_traffic_count_list))
-writexl::write_xlsx(border_traffic_count_list,  glue::glue("{output_path}CPI_Border_Count_of_Transport_Traffic_Dataset_merge.xlsx"))
+writexl::write_xlsx(border_traffic_count_list,  glue::glue("{output_path}CPI_Border_Count_of_Transport_Traffic_Dataset_merge.xlsx"), format_headers = F)
 
 ## Form 7: Border Transport Driver Surveys. Available only for week 1 and 2
 border_transport_driver <- rbind(
@@ -580,7 +580,7 @@ border_transport_driver <- rbind(
   border_transport_driver_w2[["data"]]
 )
 
-writexl::write_xlsx(list(data = border_transport_driver), glue::glue("{output_path}CPI_Border_Transport_Driver_Survey_Dataset_merge.xlsx"))
+writexl::write_xlsx(list(data = border_transport_driver), glue::glue("{output_path}CPI_Border_Transport_Driver_Survey_Dataset_merge.xlsx"), format_headers = F)
 
 ## Form 8 - Telecom
 telecome_service <- rbind(
@@ -602,7 +602,7 @@ telecome_service <- rbind(
   telecome_service_w16[["telecom_data"]]
 )
 
-writexl::write_xlsx(list(telecom_data = telecome_service), glue::glue("{output_path}CPI_Telecom_Service_Providers_Dataset_merge.xlsx"))
+writexl::write_xlsx(list(telecom_data = telecome_service), glue::glue("{output_path}CPI_Telecom_Service_Providers_Dataset_merge.xlsx"), format_headers = F)
 
 ## Form 9 - MMOs (available only for week 1 and 8. Both are pilot data)
 # mmo_main <- rbind(

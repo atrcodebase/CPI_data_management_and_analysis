@@ -104,13 +104,14 @@ for (rowi in 1:nrow(cleaning_log)){
 names(data)
 # export files  -------------------------------------------------
 
+
 ## data sets
 for (i in names(data)) {
   print(i)
-  writexl::write_xlsx(data[[i]], glue::glue("{output_path}{i}_merge_applied cleaning log.xlsx"))
+  writexl::write_xlsx(data[[i]], glue::glue("{output_path}{i}_merge_applied cleaning log.xlsx"), format_headers = F)
 }
 
 ## cleaning log
-writexl::write_xlsx(select(cleaning_log, 1:13), glue::glue("{output_path}cleaning_log.xlsx"))
+writexl::write_xlsx(select(cleaning_log, 1:13), glue::glue("{output_path}cleaning_log.xlsx"), format_headers = F)
 
 
