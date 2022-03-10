@@ -314,7 +314,7 @@ ms_sub_items_reshaped <- ms_sub_items %>%
       TRUE ~ Price_Cost_NFI,
     ),
       choice = case_when(
-        choice == "Shared taxi/van/risckshaw driver" ~ Transportation_Type,
+        choice %in% c("Shared taxi/van/risckshaw driver", "Shared taxi/van/risckshaw  driver") ~ Transportation_Type,
         TRUE ~ choice
       ),
       
@@ -881,11 +881,16 @@ mex_hawala_transfer_diff_dest_per <- reshape_hawala(mex_hawala_transfer_v2, tran
 mex_hawala_transfer_diff_dest_amo <- reshape_hawala(mex_hawala_transfer_v2, transfer_fee_cols$diff_dest_amo, "diff", "Amount")
 
 # Hawala all 3 destinations for same & diff fee AND percentage & amount
-hawala_list_v2 <- rbind(
+hawala_fee_all_merged_v2 <- rbind(
   mex_hawala_transfer_same_dest_per,
   mex_hawala_transfer_same_dest_amo,
   mex_hawala_transfer_diff_dest_per,
   mex_hawala_transfer_diff_dest_amo
+)
+
+hawala_list_v2 <- list(
+  CURRENCY_RATE = mex_cur_ex_merged_v2,
+  HAWALA_FEE = hawala_fee_all_merged_v2
 )
 
 # 5 - Banks
