@@ -15,6 +15,8 @@ nfi_tax_atr <- readxl::read_excel(glue::glue("{atr_data_path}NFI_AND_SERVICES_DA
 telecom_atr <- readxl::read_excel(glue::glue("{atr_data_path}TELECOM_DATA_Merged.xlsx"), na = convert_to_na, guess_max = 100000)
 ime_atr <- readxl::read_excel(glue::glue("{atr_data_path}HAWALA_EXCHANGE_DATA_Merged.xlsx"), sheet = "CURRENCY_RATE", na = convert_to_na, guess_max = 100000)
 hawala_atr <- readxl::read_excel(glue::glue("{atr_data_path}HAWALA_EXCHANGE_DATA_Merged.xlsx"), sheet = "HAWALA_MAIN", na = convert_to_na, guess_max = 100000)
+ime_atr_v2 <- readxl::read_excel(glue::glue("{atr_data_path}HAWALA_EXCHANGE_DATA_Merged_v2.xlsx"), sheet = "CURRENCY_RATE", na = convert_to_na, guess_max = 100000)
+hawala_atr_v2 <- readxl::read_excel(glue::glue("{atr_data_path}HAWALA_EXCHANGE_DATA_Merged_v2.xlsx"), sheet = "HAWALA_FEE", na = convert_to_na, guess_max = 100000)
 bank_atr <- readxl::read_excel(glue::glue("{atr_data_path}BANK_DATA_Merged.xlsx"), sheet = "BANK_BRANCH_LEVEL", na = convert_to_na, guess_max = 100000)
 bank_respondents_atr <- readxl::read_excel(glue::glue("{atr_data_path}BANK_DATA_Merged.xlsx"), sheet = "BANK_RESPONDENT_LEVEL", na = convert_to_na, guess_max = 100000)
 border_traffice_count_atr <- readxl::read_excel(glue::glue("{atr_data_path}BORDER_TRAFFIC_COUNT_DATA_Merged.xlsx"), sheet = "BORDER_TRAFFIC_COUNT", na = convert_to_na, guess_max = 100000)
