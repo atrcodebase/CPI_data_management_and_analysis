@@ -1,7 +1,14 @@
 # exchange rate --------------
+ime_atr <- rbind(ime_atr, ime_atr_v2)
+
 ime_atr <- ime_atr %>% 
   mutate(Currency_Availability = str_trim(gsub("\\(.*", "", Currency_Availability)))
 
+ime_atr <- ime_atr %>% 
+  mutate(across(c(Exchange_Rate_buying, Exchange_Rate_selling), function(x)
+    x = as.numeric(x)
+    ))
+  
 ## by week
 ime_rate_by_week_atr <- ime_atr %>% 
   group_by(
