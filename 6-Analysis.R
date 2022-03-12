@@ -34,7 +34,6 @@ source("R/analysis/7_Bank withdraw ability and waiting time.R") # bank withdraw 
 # TODO: MMO
 source("R/analysis/8_IME exchange rate and availability.R") # IME exchange rate and availability of foreing currency
 source("R/analysis/9_Hawala changes in transactions, common destination, ability to transfer money.R") # IME Hawala operators (domestic and international)
-# TODO: IME exchange rate, availability, and hawal operators (version 2)
 source("R/analysis/10_border crossings.R")
 
 # export results into "output/analysis/" folder
@@ -51,9 +50,9 @@ writexl::write_xlsx(withdrawal_limit_list, glue::glue("{output_path}Bank withdra
 writexl::write_xlsx(withdraw_ability_and_waiting_time_list, glue::glue("{output_path}Bank withdraw ability and waiting time_{date}.xlsx"), format_headers = F)  # bank withdraw ability and waiting time
 writexl::write_xlsx(ime_availability_list, glue::glue("{output_path}IME availability_{date}.xlsx"), format_headers = F) # IME availability of foreing currency
 writexl::write_xlsx(ime_rate_list, glue::glue("{output_path}IME rate_{date}.xlsx"), format_headers = F) # IME exchange rate
-writexl::write_xlsx(transaction_changes_atr, glue::glue("{output_path}Hawala_changes in transactions_{date}.xlsx"), format_headers = F) # IME changes in domestic and international transactions
-writexl::write_xlsx(common_destination_atr, glue::glue("{output_path}Hawala_most common destination_{date}.xlsx"), format_headers = F) # IME common domestic and interntional destinations
-writexl::write_xlsx(transfer_money_atr, glue::glue("{output_path}Hawala_ability to transfer money_{date}.xlsx"), format_headers = F) # IME ability to transfer money (domestic & international)
+writexl::write_xlsx(transaction_changes_list, glue::glue("{output_path}Hawala_changes in transactions_{date}.xlsx"), format_headers = F) # IME changes in domestic and international transactions
+writexl::write_xlsx(common_destination_list, glue::glue("{output_path}Hawala_most common destination_{date}.xlsx"), format_headers = F) # IME common domestic and interntional destinations
+writexl::write_xlsx(transfer_money_list, glue::glue("{output_path}Hawala_ability to transfer money_{date}.xlsx"), format_headers = F) # IME ability to transfer money (domestic & international)
 writexl::write_xlsx(border_crossing_trucks_list, glue::glue("{output_path}Border crossing-trucks_{date}.xlsx"), format_headers = F) # Border crossing-trucks
 writexl::write_xlsx(border_crossing_tonnage_list, glue::glue("{output_path}Border crossing-tonnage_{date}.xlsx"), format_headers = F) # Border crossing-tonnage
 writexl::write_xlsx(border_crossing_aid_commodities_list, glue::glue("{output_path}Border crossing-aid commodities_{date}.xlsx"), format_headers = F) # Border crossing-aid commodities
