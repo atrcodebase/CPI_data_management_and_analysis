@@ -53,6 +53,7 @@ writexl::write_xlsx(ime_rate_list, glue::glue("{output_path}IME rate_{date}.xlsx
 writexl::write_xlsx(transaction_changes_list, glue::glue("{output_path}Hawala_changes in transactions_{date}.xlsx"), format_headers = F) # IME changes in domestic and international transactions
 writexl::write_xlsx(common_destination_list, glue::glue("{output_path}Hawala_most common destination_{date}.xlsx"), format_headers = F) # IME common domestic and interntional destinations
 writexl::write_xlsx(transfer_money_list, glue::glue("{output_path}Hawala_ability to transfer money_{date}.xlsx"), format_headers = F) # IME ability to transfer money (domestic & international)
+writexl::write_xlsx(transfer_fee_domestic_list, glue::glue("{output_path}Hawala_transfer fee_{date}.xlsx"), format_headers = F) # IME money transfer fee (domestic & international)
 writexl::write_xlsx(border_crossing_trucks_list, glue::glue("{output_path}Border crossing-trucks_{date}.xlsx"), format_headers = F) # Border crossing-trucks
 writexl::write_xlsx(border_crossing_tonnage_list, glue::glue("{output_path}Border crossing-tonnage_{date}.xlsx"), format_headers = F) # Border crossing-tonnage
 writexl::write_xlsx(border_crossing_aid_commodities_list, glue::glue("{output_path}Border crossing-aid commodities_{date}.xlsx"), format_headers = F) # Border crossing-aid commodities

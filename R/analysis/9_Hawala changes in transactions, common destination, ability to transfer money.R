@@ -175,5 +175,40 @@ transfer_money_list <- list(
     filter(destination_type %in% c("International", "internationally"))
 )
 
+# Transfer Fee -----------------
+transfer_fee_domestic <- hawala_atr_v2 %>% 
+  filter(Transfer_Fee_Amount_Destination_Fee %notin% c(NA, "I don't know", "Not applicable/we don't have this service")) %>% 
+  mutate(Range_num = gsub("^.*Fee_.*?([0-9]+).*", "\\1", Range),
+         Transfer_Fee_Amount_Destination_Fee = as.numeric(Transfer_Fee_Amount_Destination_Fee),
+         Transfer_Fee_Amount_Destination_Fee = case_when(
+           Transfer_Fee_Amount_Destination_Fee_Type %in% "Percentage"  ~ 
+             Transfer_Fee_Amount_Destination_Fee*as.numeric(Range_num)/100,
+           TRUE ~ Transfer_Fee_Amount_Destination_Fee)) 
+
+transfer_fee_domestic_by_week_atr <- transfer_fee_domestic %>% 
+  filter(Hawala_Type %in% "domestically") %>% 
+  group_by(week, Range_num) %>% 
+  summarize(mean_atr = round(mean(Transfer_Fee_Amount_Destination_Fee)))
+  
+transfer_fee_domestic_by_week_province_atr <- transfer_fee_domestic %>% 
+  filter(Hawala_Type %in% "domestically") %>% 
+  group_by(week, Range_num, Province, HAWALA_DESTINATION) %>% 
+  summarize(mean_atr = round(mean(Transfer_Fee_Amount_Destination_Fee)))
 
 
+transfer_fee_internationally_by_week_atr <- transfer_fee_domestic %>% 
+  filter(Hawala_Type %in% "internationally") %>% 
+  group_by(week, Range_num) %>% 
+  summarize(mean_atr = round(mean(Transfer_Fee_Amount_Destination_Fee)))
+
+transfer_fee_internationally_by_week_province_atr <- transfer_fee_domestic %>% 
+  filter(Hawala_Type %in% "internationally") %>% 
+  group_by(week, Range_num, Province, HAWALA_DESTINATION) %>% 
+  summarize(mean_atr = round(mean(Transfer_Fee_Amount_Destination_Fee)))
+
+transfer_fee_domestic_list <- list(
+  domestic_fee_by_week = transfer_fee_domestic_by_week_atr,
+  domestic_fee_by_week_province = transfer_fee_domestic_by_week_province_atr,
+  international_fee_by_week = transfer_fee_internationally_by_week_atr,
+  international_fee_by_week_province = transfer_fee_internationally_by_week_province_atr
+)
