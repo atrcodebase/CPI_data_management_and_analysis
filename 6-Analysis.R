@@ -7,7 +7,7 @@ output_path <- "output/analysis/"
 date <- Sys.Date()
 
 # Read data -----------------
-convert_to_na <- c("9999", "8888", "7777", "(choice label unavailable)")
+convert_to_na <- c("9999", "8888", "7777", "(choice label unavailable)", "NA")
 fi_atr <- readxl::read_excel(glue::glue("{atr_data_path}FI_DATA_Merged.xlsx"), sheet = "FI_PRICES_DATA", na = convert_to_na, guess_max = 100000)
 labour_atr <- nfi_atr <- readxl::read_excel(glue::glue("{atr_data_path}NFI_AND_SERVICES_DATA_Merged.xlsx"), sheet = "NFI_PRICE_DATA", na = convert_to_na, guess_max = 100000)
 fi_tax_atr <- readxl::read_excel(glue::glue("{atr_data_path}FI_DATA_Merged.xlsx"), sheet = "FI_TAX_BARTER", na = convert_to_na, guess_max = 100000)
@@ -57,12 +57,6 @@ writexl::write_xlsx(border_crossing_trucks_list, glue::glue("{output_path}Border
 writexl::write_xlsx(border_crossing_tonnage_list, glue::glue("{output_path}Border crossing-tonnage_{date}.xlsx"), format_headers = F) # Border crossing-tonnage
 writexl::write_xlsx(border_crossing_aid_commodities_list, glue::glue("{output_path}Border crossing-aid commodities_{date}.xlsx"), format_headers = F) # Border crossing-aid commodities
 writexl::write_xlsx(border_crossing_taxes_list, glue::glue("{output_path}Border crossing-taxes_{date}.xlsx"), format_headers = F) # Border crossing-taxes
-
-
-
-
-
-
 
 
 
