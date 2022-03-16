@@ -783,7 +783,6 @@ reshape_hawala <- function(data, transfer_fee_cols, dest_type, fee_type){
       transfer_fee_cols_sub <- transfer_fee_cols
     }
     
-    
     # Hawala destination fee
     mex_hawala_transfer_v2_reshaped_sub <- data %>% 
       filter(get(destination) %notin% c("No Second Destination", "No Third Destination")) %>% 
@@ -887,6 +886,10 @@ hawala_fee_all_merged_v2 <- rbind(
   mex_hawala_transfer_diff_dest_per,
   mex_hawala_transfer_diff_dest_amo
 )
+
+#Extracting Range values from the strings
+hawala_fee_all_merged_v2 <- hawala_fee_all_merged_v2 %>% 
+  mutate(Range_num = gsub("^.*Fee_.*?([0-9]+).*", "\\1", Range), .after=Range)
 
 hawala_list_v2 <- list(
   CURRENCY_RATE = mex_cur_ex_merged_v2,
