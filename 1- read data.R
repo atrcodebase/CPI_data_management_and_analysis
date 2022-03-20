@@ -15,8 +15,8 @@ for (week in weeks) {
     weekly[[str_remove(week, "_Economic Monitoring")]][[str_remove(file, ".xlsx")]] <- read_excel_func(file_name)
   }
 }
-# remove leading and trailing spaces from column names --------------------------------------------------
 
+# remove leading and trailing spaces from column names --------------------------------------------------
 for (weeks in names(weekly)) {
   print(glue::glue("# week: {weeks} ----------------------------------"))
   for (forms in names(weekly[[weeks]])) {
@@ -73,6 +73,7 @@ fi_w13 <- weekly[["W13 datasets"]][["CPI_Market_FI_Dataset"]]
 fi_w14 <- weekly[["W14 datasets"]][["CPI_Market_FI_Dataset"]]
 fi_w15 <- weekly[["W15 datasets"]][["CPI_Market_FI_Dataset"]]
 fi_w16 <- weekly[["W16 datasets"]][["CPI_Market_FI_Dataset"]]
+fi_w17 <- weekly[["W17 datasets"]][["CPI_Market_FI_Dataset"]]
 
 ## form 2: NFI
 nfi_w1 <- weekly[["W1 datasets"]][["CPI_Market_NFI_Dataset"]]
@@ -91,6 +92,7 @@ nfi_w13 <- weekly[["W13 datasets"]][["CPI_Market_NFI_Dataset"]]
 nfi_w14 <- weekly[["W14 datasets"]][["CPI_Market_NFI_Dataset"]]
 nfi_w15 <- weekly[["W15 datasets"]][["CPI_Market_NFI_Dataset"]]
 nfi_w16 <- weekly[["W16 datasets"]][["CPI_Market_NFI_Dataset"]]
+nfi_w17 <- weekly[["W17 datasets"]][["CPI_Market_NFI_Dataset"]]
 
 ## form 3: services
 market_services_w1 <- weekly[["W1 datasets"]][["CPI_Market_Services_Dataset"]]
@@ -109,6 +111,7 @@ market_services_w13 <- weekly[["W13 datasets"]][["CPI_Market_Services_Dataset"]]
 market_services_w14 <- weekly[["W14 datasets"]][["CPI_Market_Services_Dataset"]]
 market_services_w15 <- weekly[["W15 datasets"]][["CPI_Market_Services_Dataset"]]
 market_services_w16 <- weekly[["W16 datasets"]][["CPI_Market_Services_Dataset"]]
+market_services_w17 <- weekly[["W17 datasets"]][["CPI_Market_Services_Dataset"]]
 
 ## form 4: IME and Hawala
 ime_hawala_w1 <- weekly[["W1 datasets"]][["CPI_Market_IME_Hawala_Dataset"]]
@@ -128,6 +131,7 @@ ime_hawala_w13 <- weekly[["W13 datasets"]][["CPI_Market_IME_Hawala_Dataset"]]
 ime_hawala_w14 <- weekly[["W14 datasets"]][["CPI_Market_IME_Hawala_Dataset"]]
 ime_hawala_w15 <- weekly[["W15 datasets"]][["CPI_Market_IME_Hawala_Dataset"]]
 ime_hawala_w16 <- weekly[["W16 datasets"]][["CPI_Market_IME_Hawala_Dataset"]]
+ime_hawala_w17 <- weekly[["W17 datasets"]][["CPI_Market_IME_Hawala_Dataset"]]
 
 ## form 5: Bank
 bank_w1 <- weekly[["W1 datasets"]][["CPI_Bank_Dataset"]]
@@ -146,6 +150,7 @@ bank_w13 <- weekly[["W13 datasets"]][["CPI_Bank_Dataset"]]
 bank_w14 <- weekly[["W14 datasets"]][["CPI_Bank_Dataset"]]
 bank_w15 <- weekly[["W15 datasets"]][["CPI_Bank_Dataset"]]
 bank_w16 <- weekly[["W16 datasets"]][["CPI_Bank_Dataset"]]
+bank_w17 <- weekly[["W17 datasets"]][["CPI_Bank_Dataset"]]
 
 ## Form 5.1: Bank Operationality Status, available from week 8 onwards
 bank_operationality_w8 <- weekly[["W8 datasets"]][["CPI_Bank_Operationality_Status_Dataset"]]
@@ -157,6 +162,7 @@ bank_operationality_w13 <- weekly[["W13 datasets"]][["CPI_Bank_Operationality_St
 bank_operationality_w14 <- weekly[["W14 datasets"]][["CPI_Bank_Operationality_Status_Dataset"]]
 bank_operationality_w15 <- weekly[["W15 datasets"]][["CPI_Bank_Operationality_Status_Dataset"]]
 bank_operationality_w16 <- weekly[["W16 datasets"]][["CPI_Bank_Operationality_Status_Dataset"]]
+bank_operationality_w17 <- weekly[["W17 datasets"]][["CPI_Bank_Operationality_Status_Dataset"]]
 
 ## form 6: Border Traffic Count. Not available for week 1
 border_traffic_count_w2 <- weekly[["W2 datasets"]][["CPI_Border_Count_of_Transport_Traffic_Dataset"]]
@@ -174,6 +180,7 @@ border_traffic_count_w13 <- weekly[["W13 datasets"]][["CPI_Border_Count_of_Trans
 border_traffic_count_w14 <- weekly[["W14 datasets"]][["CPI_Border_Count_of_Transport_Traffic_Dataset"]]
 border_traffic_count_w15 <- weekly[["W15 datasets"]][["CPI_Border_Count_of_Transport_Traffic_Dataset"]]
 border_traffic_count_w16 <- weekly[["W16 datasets"]][["CPI_Border_Count_of_Transport_Traffic_Dataset"]]
+border_traffic_count_w17 <- weekly[["W17 datasets"]][["CPI_Border_Count_of_Transport_Traffic_Dataset"]]
 
 ## form 7: Border Transport Driver Surveys, available only for week 1 & 2s
 border_transport_driver_w1 <- weekly[["W1 datasets"]][["CPI_Border_Transport_Driver_Survey_Dataset"]]
@@ -196,6 +203,7 @@ telecome_service_w13 <- weekly[["W13 datasets"]][["CPI_Telecom_Service_Providers
 telecome_service_w14 <- weekly[["W14 datasets"]][["CPI_Telecom_Service_Providers_Dataset"]]
 telecome_service_w15 <- weekly[["W15 datasets"]][["CPI_Telecom_Service_Providers_Dataset"]]
 telecome_service_w16 <- weekly[["W16 datasets"]][["CPI_Telecom_Service_Providers_Dataset"]]
+telecome_service_w17 <- weekly[["W17 datasets"]][["CPI_Telecom_Service_Providers_Dataset"]]
 
 ## form 9: MMOs (week 1 and 8 are pilot data)
 # mmo_w1 <- weekly[["W1 datasets"]][["CPI_MMOs_Dataset"]] (pilot data)
