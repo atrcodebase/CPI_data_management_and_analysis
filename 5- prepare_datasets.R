@@ -1,6 +1,4 @@
 # TODO: Update the script for below forms
-# Form 4: IME version 2 (from week 11 onwards)
-# Form 5.1: Bank Operationality Status
 # form 9: MMOs
 # form 10: Government Employee_Salary_Payment_Verification
 # form 11: Railway Count
@@ -961,6 +959,12 @@ bank_list <- list(
   BANK_RESPONDENT_LEVEL = banks_resp_que_merged
 )
 
+# 5.1 Bank Operationality Status
+banks_operationality_list <- list(
+  bank_operationality_data = banks_operationality_main,
+  no_bank = banks_operationality_no_bank
+)
+
 # 6 - Border Traffic Count
 br_traf_count_main <- br_traf_count_main %>% mutate(
   enter_exist = case_when(
@@ -1170,6 +1174,7 @@ openxlsx::write.xlsx(NFI_list, "output/Client_Datasets/NFI_AND_SERVICES_DATA_Mer
 openxlsx::write.xlsx(hawala_list, "output/Client_Datasets/HAWALA_EXCHANGE_DATA_Merged.xlsx")
 openxlsx::write.xlsx(hawala_list_v2, "output/Client_Datasets/HAWALA_EXCHANGE_DATA_Merged_v2.xlsx")
 openxlsx::write.xlsx(bank_list, "output/Client_Datasets/BANK_DATA_Merged.xlsx")
+openxlsx::write.xlsx(banks_operationality_list, "output/Client_Datasets/BANK_OPERATIONALITY_Merged.xlsx")
 openxlsx::write.xlsx(Trafic_count_list, "output/Client_Datasets/BORDER_TRAFFIC_COUNT_DATA_Merged.xlsx")
 openxlsx::write.xlsx(br_driver_main, "output/Client_Datasets/BORDER_DRIVER_SURVEY_DATA_Merged.xlsx")
 openxlsx::write.xlsx(telecom_data_sub, "output/Client_Datasets/TELECOM_DATA_Merged.xlsx")

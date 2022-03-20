@@ -19,6 +19,7 @@ ime_atr_v2 <- readxl::read_excel(glue::glue("{atr_data_path}HAWALA_EXCHANGE_DATA
 hawala_atr_v2 <- readxl::read_excel(glue::glue("{atr_data_path}HAWALA_EXCHANGE_DATA_Merged_v2.xlsx"), sheet = "HAWALA_FEE", na = convert_to_na, guess_max = 100000)
 bank_atr <- readxl::read_excel(glue::glue("{atr_data_path}BANK_DATA_Merged.xlsx"), sheet = "BANK_BRANCH_LEVEL", na = convert_to_na, guess_max = 100000)
 bank_respondents_atr <- readxl::read_excel(glue::glue("{atr_data_path}BANK_DATA_Merged.xlsx"), sheet = "BANK_RESPONDENT_LEVEL", na = convert_to_na, guess_max = 100000)
+bank_operationality_atr <- readxl::read_excel(glue::glue("{atr_data_path}BANK_OPERATIONALITY_Merged.xlsx"), sheet = "bank_operationality_data", na = convert_to_na, guess_max = 100000)
 border_traffice_count_atr <- readxl::read_excel(glue::glue("{atr_data_path}BORDER_TRAFFIC_COUNT_DATA_Merged.xlsx"), sheet = "BORDER_TRAFFIC_COUNT", na = convert_to_na, guess_max = 100000)
 border_driver_survey <- readxl::read_excel(glue::glue("{atr_data_path}BORDER_DRIVER_SURVEY_DATA_Merged.xlsx"), na = convert_to_na, guess_max = 100000)
 
@@ -29,6 +30,7 @@ source("R/analysis/3_Taxes and cashless transactions.R") # FI/NFI taxes and cash
 source("R/analysis/4_Labour wage and no. of available days.R") # labour wage and no. of available days
 # TODO: Bank operationality
 source("R/analysis/5_Bank functionality.R") # bank functionality 
+source("R/analysis/5_Bank functionality_2.R") # bank functionality 2
 source("R/analysis/6_Bank withdrawal limit.R") # bank withdrawal limit
 source("R/analysis/7_Bank withdraw ability and waiting time.R") # bank withdraw ability and waiting time
 # TODO: MMO
@@ -46,6 +48,7 @@ writexl::write_xlsx(cashless_transaction_list, glue::glue("{output_path}Cashless
 writexl::write_xlsx(labour_wage_list, glue::glue("{output_path}Labour wage_{date}.xlsx"), format_headers = F)  # labour wage
 writexl::write_xlsx(labour_availability_list, glue::glue("{output_path}Labour availability-{date}.xlsx"), format_headers = F)  # labour no. of available days
 writexl::write_xlsx(bank_functionality_list, glue::glue("{output_path}Bank functionality-{date}.xlsx"), format_headers = F) # bank functionality 
+writexl::write_xlsx(bank_functionality_list_2, glue::glue("{output_path}Bank functionality 2-{date}.xlsx"), format_headers = F) # bank functionality 2
 writexl::write_xlsx(withdrawal_limit_list, glue::glue("{output_path}Bank withdrawal limit_{date}.xlsx"), format_headers = F)  # bank withdrawal limit
 writexl::write_xlsx(withdraw_ability_and_waiting_time_list, glue::glue("{output_path}Bank withdraw ability and waiting time_{date}.xlsx"), format_headers = F)  # bank withdraw ability and waiting time
 writexl::write_xlsx(ime_availability_list, glue::glue("{output_path}IME availability_{date}.xlsx"), format_headers = F) # IME availability of foreing currency
