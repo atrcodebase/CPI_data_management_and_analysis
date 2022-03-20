@@ -2,6 +2,7 @@
 bank_respondents_atr <- bank_respondents_atr %>% 
   mutate(Withdraw_Full_Amount = case_when(
     (Come_To_Bank_Widthdraw_Money == "Yes" & Perform_Transaction_Cashier == "No" & Use_ATM == "No") ~ "Could not withdraw money",
+    Withdraw_Full_Amount == "No, I didn’t receive any money" ~ "Could not withdraw money",
     Withdraw_Full_Amount == "Yes" ~ "Full amount",
     TRUE ~ Withdraw_Full_Amount
   ))
