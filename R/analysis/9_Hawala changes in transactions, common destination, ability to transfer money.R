@@ -176,6 +176,8 @@ transfer_money_list <- list(
 )
 
 # Transfer Fee -----------------
+`%notin%` <- Negate(`%in%`)
+
 transfer_fee_domestic <- hawala_atr_v2 %>% 
   filter(Transfer_Fee_Amount_Destination_Fee %notin% c(NA, "I don't know", "Not applicable/we don't have this service")) %>% 
   mutate(Range_num = gsub("^.*Fee_.*?([0-9]+).*", "\\1", Range),
