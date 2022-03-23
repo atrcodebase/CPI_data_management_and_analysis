@@ -10,7 +10,15 @@ ime_atr <- ime_atr %>%
     ))
   
 ## by week
-ime_rate_by_week_atr <- ime_atr %>% 
+ime_rate_by_week_atr <- ime_atr %>%
+  mutate(Exchange_Rate_buying = case_when(
+    Currency == "Pakistani Rupees (PKR)" ~ Exchange_Rate_buying/1000,
+    TRUE ~ Exchange_Rate_buying
+  ),
+  Exchange_Rate_selling = case_when(
+    Currency == "Pakistani Rupees (PKR)" ~ Exchange_Rate_selling/1000,
+    TRUE ~ Exchange_Rate_selling
+  )) %>% 
   group_by(
     week = week,
     currency = Currency
