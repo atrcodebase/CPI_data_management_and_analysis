@@ -30,8 +30,9 @@ fi_sub_items <- fi_sub_items %>% mutate(
   ),
   PRICE_FI_CALCULATED = case_when(
     Item_In_Stock_Shop == "Yes" & choice == "Bananas" & Unit_FI == "Kilogram (KG)" ~ Price_FI / (Unit_Amount_FI*0.54054),
+    Item_In_Stock_Shop == "Yes" & choice == "Bananas" & Unit_FI == "grams" ~ (Price_FI / (Unit_Amount_FI*0.54054)) * 1000,
     Item_In_Stock_Shop == "Yes" & choice == "Garlic" & Unit_FI == "grams" ~ (Price_FI / Unit_Amount_FI) * 1000,
-    Item_In_Stock_Shop == "Yes" & choice == "Imported vegetable oil" & Unit_FI == "Liter (L)" ~ Price_FI * 1.0845,
+    Item_In_Stock_Shop == "Yes" & choice == "Imported vegetable oil" & Unit_FI == "Liter (L)" ~ Price_FI * 1.084598698,
     Item_In_Stock_Shop == "Yes" & choice == "Imported vegetable oil" & Unit_FI == "grams" ~ Price_FI / Unit_Amount_FI * 1000,
     Item_In_Stock_Shop == "Yes" & choice == "bread" ~ (Price_FI / weight_nan) * 1000,
     Item_In_Stock_Shop == "Yes" & choice == "Nan (small loaf)" ~ (Price_FI / weight_nan) * 1000,
@@ -58,6 +59,7 @@ fi_sub_items <- fi_sub_items %>% mutate(
   
   UNIT_AMOUNT_FI_CALCULATED = case_when(
     Item_In_Stock_Shop == "Yes" & choice == "Bananas" & Unit_FI == "Kilogram (KG)" ~ 1,
+    Item_In_Stock_Shop == "Yes" & choice == "Bananas" & Unit_FI == "grams" ~ 1,
     Item_In_Stock_Shop == "Yes" & choice == "Garlic" & Unit_FI == "grams" ~ 1,
     Item_In_Stock_Shop == "Yes" & choice == "Yogurt" & Unit_FI == "grams" ~ 1,
     Item_In_Stock_Shop == "Yes" & choice == "Imported vegetable oil" & Unit_FI == "milliliter (mL)" ~ 1,
