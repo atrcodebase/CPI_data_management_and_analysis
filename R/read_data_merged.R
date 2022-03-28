@@ -144,7 +144,7 @@ tryCatch(
     # 6 - Border Traffic Count
     if(exists("br_traf_count_path")){
     br_traf_count_main <- read_xlsx(br_traf_count_path, sheet = "data", guess_max = 50000)
-    br_traf_count_count <- read_xlsx(br_traf_count_path, sheet = "Traffic_count", guess_max = 50000)
+    br_traf_count_count <- read_xlsx(br_traf_count_path, sheet = "Traffic_count", guess_max = 500000)
     }
     
     # 7 - Border Driver Survey
