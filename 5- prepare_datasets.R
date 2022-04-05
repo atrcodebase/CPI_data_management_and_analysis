@@ -41,14 +41,14 @@ fi_sub_items <- fi_sub_items %>% mutate(
     Item_In_Stock_Shop == "Yes" & choice == "Yogurt" & Unit_FI == "grams" ~ (Price_FI / Unit_Amount_FI) * 1000,
     Item_In_Stock_Shop == "Yes" & choice == "Laundry detergent" & Unit_FI == "grams" ~ (Price_FI / Unit_Amount_FI) * 1000,
     Item_In_Stock_Shop == "Yes" & choice == "Tomato paste" & Unit_FI == "grams" ~ (Price_FI / Unit_Amount_FI) * 1000,
-    Item_In_Stock_Shop == "Yes" & choice == "Tomato paste" & Unit_FI == "Kilogram (KG)" & Unit_Amount_FI < 1 ~ (Price_FI / Unit_Amount_FI),
+    Item_In_Stock_Shop == "Yes" & choice == "Tomato paste" & Unit_FI == "Kilogram (KG)" & Unit_Amount_FI > 1 ~ (Price_FI / Unit_Amount_FI),
     # Item_In_Stock_Shop == "Yes" & choice == "Tomato paste" & Unit_FI == "Kilogram (KG)" & Unit_Amount_FI >= 1 ~ (Price_FI / Unit_Amount_FI) * 0.8,
     Item_In_Stock_Shop == "Yes" & choice == "Pasta" & Unit_FI == "grams" ~ (Price_FI / Unit_Amount_FI) * 1000,
     Item_In_Stock_Shop == "Yes" & choice == "Green tea (loose leaf)" & Unit_FI == "grams" ~ (Price_FI / Unit_Amount_FI) * 1000,
     Item_In_Stock_Shop == "Yes" & choice == "Wrapped sweets" & Unit_FI == "grams" ~ (Price_FI / Unit_Amount_FI) * 1000,
     Item_In_Stock_Shop == "Yes" & choice == "Chickpeas" & Unit_FI == "grams" ~ (Price_FI / Unit_Amount_FI) * 1000,
     Item_In_Stock_Shop == "Yes" & choice == "Toothpaste" & Unit_FI == "milliliter (mL)" ~ (Price_FI / Unit_Amount_FI) * 100,
-    Item_In_Stock_Shop == "Yes" & choice == "Toothpaste" & Unit_FI == "grams" ~ ((Price_FI / Unit_Amount_FI) / 0.769) * 100,
+    Item_In_Stock_Shop == "Yes" & choice == "Toothpaste" & Unit_FI == "grams" ~ ((Price_FI / Unit_Amount_FI) / 0.769230769) * 100,
     Item_In_Stock_Shop == "Yes" & choice == "Imported vegetable oil" & Unit_FI == "milliliter (mL)" ~ (Price_FI / Unit_Amount_FI) * 1000 * 1.136,
     Item_In_Stock_Shop == "Yes" & choice == "Milk (fresh)" & Unit_FI == "milliliter (mL)" ~ (Price_FI / Unit_Amount_FI) * 1000,
     Item_In_Stock_Shop == "Yes" & choice == "Shampoo" ~ (Price_FI / UNIT_AMOUNT_FI_CALCULATED) * 400,
@@ -888,9 +888,14 @@ hawala_fee_all_merged_v2 <- rbind(
   mex_hawala_transfer_diff_dest_amo
 )
 
+non_num_resp <- c(NA, "I don't know", "Not applicable/we don't have this service", "7777", "8888", "9999", "(choice label unavailable)", "NA")
 #Extracting Range values from the strings
 hawala_fee_all_merged_v2 <- hawala_fee_all_merged_v2 %>% 
   mutate(Range_num = gsub("^.*Fee_.*?([0-9]+).*", "\\1", Range), .after=Range) %>% 
+  mutate(Transfer_Fee_Amount_only = case_when(
+           Transfer_Fee_Amount_Destination_Fee %notin% non_num_resp & Transfer_Fee_Amount_Destination_Fee_Type %in% "Percentage"  ~ 
+             as.numeric(Transfer_Fee_Amount_Destination_Fee)*as.numeric(Range_num)/100,
+           TRUE ~ as.numeric(Transfer_Fee_Amount_Destination_Fee)), .after=Transfer_Fee_Amount_Destination_Fee) %>% 
   filter(!(Money_Transfer_Availability %in% "Yes" & is.na(Transfer_Fee_Amount_Destination_Fee)))
 
 hawala_list_v2 <- list(

@@ -186,33 +186,28 @@ transfer_fee_domestic_intl <- hawala_atr_v2 %>%
     Range_num %in% "100000" ~ "100k",
     Range_num %in% "500000" ~ "500k",
     TRUE ~ Range_num
-  ),
-         Transfer_Fee_Amount_Destination_Fee = as.numeric(Transfer_Fee_Amount_Destination_Fee),
-         Transfer_Fee_Amount_Destination_Fee = case_when(
-           Transfer_Fee_Amount_Destination_Fee_Type %in% "Percentage"  ~ 
-             Transfer_Fee_Amount_Destination_Fee*as.numeric(Range_num)/100,
-           TRUE ~ Transfer_Fee_Amount_Destination_Fee)) 
+  )) 
 
 transfer_fee_domestic_by_week_atr <- transfer_fee_domestic_intl %>% 
   filter(Hawala_Type %in% "domestically") %>% 
   group_by(week, Range_num_k) %>% 
-  summarize(mean_atr = round(mean(Transfer_Fee_Amount_Destination_Fee)))
+  summarize(mean_atr = round(mean(Transfer_Fee_Amount_only)))
   
 transfer_fee_domestic_by_week_province_atr <- transfer_fee_domestic_intl %>% 
   filter(Hawala_Type %in% "domestically") %>% 
   group_by(week, Range_num_k, HAWALA_ORIGIN) %>% 
-  summarize(mean_atr = round(mean(Transfer_Fee_Amount_Destination_Fee)))
+  summarize(mean_atr = round(mean(Transfer_Fee_Amount_only)))
 
 
 transfer_fee_internationally_by_week_atr <- transfer_fee_domestic_intl %>% 
   filter(Hawala_Type %in% "internationally") %>% 
   group_by(week, Range_num_k) %>% 
-  summarize(mean_atr = round(mean(Transfer_Fee_Amount_Destination_Fee)))
+  summarize(mean_atr = round(mean(Transfer_Fee_Amount_only)))
 
 transfer_fee_internationally_by_week_province_atr <- transfer_fee_domestic_intl %>% 
   filter(Hawala_Type %in% "internationally") %>% 
   group_by(week, Range_num_k, HAWALA_ORIGIN) %>% 
-  summarize(mean_atr = round(mean(Transfer_Fee_Amount_Destination_Fee)))
+  summarize(mean_atr = round(mean(Transfer_Fee_Amount_only)))
 
 transfer_fee_domestic_intl_list <- list(
   domestic_fee_by_week = transfer_fee_domestic_by_week_atr,

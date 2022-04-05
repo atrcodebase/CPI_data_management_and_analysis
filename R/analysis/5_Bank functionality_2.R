@@ -5,6 +5,11 @@ bank_operationality_atr <- bank_operationality_atr %>%
 ## by week
 bank_operationality_by_week_atr <- bank_operationality_atr %>%
   select(Days_Week_Open, Operational_Status) %>% 
+  mutate(Days_Week_Open = as.character(Days_Week_Open),
+         Days_Week_Open = case_when(
+    Days_Week_Open == 0 ~ "Not Open",
+    TRUE ~ Days_Week_Open
+  )) %>% 
   lapply(function(response)
     table(
       week = bank_operationality_atr$week,
