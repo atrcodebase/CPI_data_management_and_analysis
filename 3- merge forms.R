@@ -22,7 +22,8 @@ fi_main <- rbind(
   fi_w16[["main"]],
   fi_w17[["main"]],
   fi_w18[["main"]],
-  fi_w19[["main"]]
+  fi_w19[["main"]],
+  fi_w20[["main"]]
 )
 
 fi_subresps <- rbind(
@@ -44,7 +45,8 @@ fi_subresps <- rbind(
   fi_w16[["fi_subresps"]],
   fi_w17[["fi_subresps"]],
   fi_w18[["fi_subresps"]],
-  fi_w19[["fi_subresps"]]
+  fi_w19[["fi_subresps"]],
+  fi_w20[["fi_subresps"]]
 )
 
 fi_subreps_ava_nava_tax_bartering <- rbind(
@@ -66,7 +68,8 @@ fi_subreps_ava_nava_tax_bartering <- rbind(
   fi_w16[["subreps_ava_nava_tax_bartering"]],
   fi_w17[["subreps_ava_nava_tax_bartering"]],
   fi_w18[["subreps_ava_nava_tax_bartering"]],
-  fi_w19[["subreps_ava_nava_tax_bartering"]]
+  fi_w19[["subreps_ava_nava_tax_bartering"]],
+  fi_w20[["subreps_ava_nava_tax_bartering"]]
 )
 
 fi_items_prices_avail_notavail <- rbind(
@@ -88,7 +91,8 @@ fi_items_prices_avail_notavail <- rbind(
   fi_w16[["fi_items_prices_avail_notavail"]],
   fi_w17[["fi_items_prices_avail_notavail"]],
   fi_w18[["fi_items_prices_avail_notavail"]],
-  fi_w19[["fi_items_prices_avail_notavail"]]
+  fi_w19[["fi_items_prices_avail_notavail"]],
+  fi_w20[["fi_items_prices_avail_notavail"]]
 )
 
 fi_list <- list(
@@ -121,7 +125,8 @@ nfi_main <- rbind(
   nfi_w16[["main"]],
   nfi_w17[["main"]],
   nfi_w18[["main"]],
-  nfi_w19[["main"]]
+  nfi_w19[["main"]],
+  nfi_w20[["main"]]
 )
 
 nfi_subresps <- rbind(
@@ -143,7 +148,8 @@ nfi_subresps <- rbind(
   nfi_w16[["nfi_subresps"]],
   nfi_w17[["nfi_subresps"]],
   nfi_w18[["nfi_subresps"]],
-  nfi_w19[["nfi_subresps"]]
+  nfi_w19[["nfi_subresps"]],
+  nfi_w20[["nfi_subresps"]]
 )
 
 nfi_nsubreps_ava_nava_tax_bartering <- rbind(
@@ -165,7 +171,8 @@ nfi_nsubreps_ava_nava_tax_bartering <- rbind(
   nfi_w16[["nsubreps_ava_nava_tax_bartering"]],
   nfi_w17[["nsubreps_ava_nava_tax_bartering"]],
   nfi_w18[["nsubreps_ava_nava_tax_bartering"]],
-  nfi_w19[["nsubreps_ava_nava_tax_bartering"]]
+  nfi_w19[["nsubreps_ava_nava_tax_bartering"]],
+  nfi_w20[["nsubreps_ava_nava_tax_bartering"]]
 )
 
 nfi_items_prices_avail_notavail <- rbind(
@@ -187,7 +194,8 @@ nfi_items_prices_avail_notavail <- rbind(
   nfi_w16[["nfi_items_prices_avail_notavail"]],
   nfi_w17[["nfi_items_prices_avail_notavail"]],
   nfi_w18[["nfi_items_prices_avail_notavail"]],
-  nfi_w19[["nfi_items_prices_avail_notavail"]]
+  nfi_w19[["nfi_items_prices_avail_notavail"]],
+  nfi_w20[["nfi_items_prices_avail_notavail"]]
 )
 
 nfi_list <- list(
@@ -220,8 +228,9 @@ market_services_main <- rbind(
   market_services_w16[["main"]],
   market_services_w17[["main"]],
   market_services_w18[["main"]],
-  market_services_w19[["main"]]
-  )
+  market_services_w19[["main"]],
+  market_services_w20[["main"]]
+)
 
 market_services_subrespondents <- rbind(
   market_services_w1[["subrespondents"]],
@@ -242,7 +251,8 @@ market_services_subrespondents <- rbind(
   market_services_w16[["subrespondents"]],
   market_services_w17[["subrespondents"]],
   market_services_w18[["subrespondents"]],
-  market_services_w19[["subrespondents"]]
+  market_services_w19[["subrespondents"]],
+  market_services_w20[["subrespondents"]]
 )
 
 market_services_subrespondents_avail_notavail <- rbind(
@@ -264,7 +274,8 @@ market_services_subrespondents_avail_notavail <- rbind(
   market_services_w16[["subrespondents_avail_notavail"]],
   market_services_w17[["subrespondents_avail_notavail"]],
   market_services_w18[["subrespondents_avail_notavail"]],
-  market_services_w19[["subrespondents_avail_notavail"]]
+  market_services_w19[["subrespondents_avail_notavail"]],
+  market_services_w20[["subrespondents_avail_notavail"]]
 )
 
 market_services_subrespondents_available_data <- rbind(
@@ -286,7 +297,8 @@ market_services_subrespondents_available_data <- rbind(
   market_services_w16[["subrespondents_available_data"]],
   market_services_w17[["subrespondents_available_data"]],
   market_services_w18[["subrespondents_available_data"]],
-  market_services_w19[["subrespondents_available_data"]]
+  market_services_w19[["subrespondents_available_data"]],
+  market_services_w20[["subrespondents_available_data"]]
 )
 
 market_services_Labour <- rbind(
@@ -308,7 +320,8 @@ market_services_Labour <- rbind(
   market_services_w16[["Labour"]],
   market_services_w17[["Labour"]],
   market_services_w18[["Labour"]],
-  market_services_w19[["Labour"]]
+  market_services_w19[["Labour"]],
+  market_services_w20[["Labour"]]
 )
 
 market_services_list <- list(
@@ -451,7 +464,8 @@ ime_hawala_main_v2 <- rbind(
   ime_hawala_w16[["main"]],
   ime_hawala_w17[["main"]],
   ime_hawala_w18[["main"]],
-  ime_hawala_w19[["main"]]
+  ime_hawala_w19[["main"]],
+  ime_hawala_w20[["main"]]
 )
 
 ime_hawala_subresps_v2 <- rbind(
@@ -463,7 +477,8 @@ ime_hawala_subresps_v2 <- rbind(
   ime_hawala_w16[["ime_hawala_subresps"]],
   ime_hawala_w17[["ime_hawala_subresps"]],
   ime_hawala_w18[["ime_hawala_subresps"]],
-  ime_hawala_w19[["ime_hawala_subresps"]]
+  ime_hawala_w19[["ime_hawala_subresps"]],
+  ime_hawala_w20[["ime_hawala_subresps"]]
 )
 
 ime_hawala_Currency_Exchange_v2 <- rbind(
@@ -475,7 +490,8 @@ ime_hawala_Currency_Exchange_v2 <- rbind(
   ime_hawala_w16[["ime_hawala_Currency_Exchange"]],
   ime_hawala_w17[["ime_hawala_Currency_Exchange"]],
   ime_hawala_w18[["ime_hawala_Currency_Exchange"]],
-  ime_hawala_w19[["ime_hawala_Currency_Exchange"]]
+  ime_hawala_w19[["ime_hawala_Currency_Exchange"]],
+  ime_hawala_w20[["ime_hawala_Currency_Exchange"]]
 )
 
 ime_hawala_Hawala_Transfer_v2 <- rbind(
@@ -487,7 +503,8 @@ ime_hawala_Hawala_Transfer_v2 <- rbind(
   ime_hawala_w16[["ime_hawala_Hawala_Transfer"]],
   ime_hawala_w17[["ime_hawala_Hawala_Transfer"]],
   ime_hawala_w18[["ime_hawala_Hawala_Transfer"]],
-  ime_hawala_w19[["ime_hawala_Hawala_Transfer"]]
+  ime_hawala_w19[["ime_hawala_Hawala_Transfer"]],
+  ime_hawala_w20[["ime_hawala_Hawala_Transfer"]]
 )
 
 ime_hawala_list_v2 <- list(
@@ -520,7 +537,8 @@ bank_manager <- rbind(
   bank_w16[["bank_manager"]],
   bank_w17[["bank_manager"]],
   bank_w18[["bank_manager"]],
-  bank_w19[["bank_manager"]]
+  bank_w19[["bank_manager"]],
+  bank_w20[["bank_manager"]]
 )
 
 bank_queues_interview <- rbind(
@@ -542,7 +560,8 @@ bank_queues_interview <- rbind(
   bank_w16[["queues_interview"]],
   bank_w17[["queues_interview"]],
   bank_w18[["queues_interview"]],
-  bank_w19[["queues_interview"]]
+  bank_w19[["queues_interview"]],
+  bank_w20[["queues_interview"]]
 )
 
 bank_list <- list(
@@ -566,7 +585,8 @@ bank_operationality_data <- rbind(
   bank_operationality_w16[["bank_operationality_data"]],
   bank_operationality_w17[["bank_operationality_data"]],
   bank_operationality_w18[["bank_operationality_data"]],
-  bank_operationality_w19[["bank_operationality_data"]]
+  bank_operationality_w19[["bank_operationality_data"]],
+  bank_operationality_w20[["bank_operationality_data"]]
 )
 
 no_bank <- rbind(
@@ -581,7 +601,8 @@ no_bank <- rbind(
   bank_operationality_w16[["no_bank"]],
   bank_operationality_w17[["no_bank"]],
   bank_operationality_w18[["no_bank"]],
-  bank_operationality_w19[["no_bank"]]
+  bank_operationality_w19[["no_bank"]],
+  bank_operationality_w20[["no_bank"]]
 )
 
 bank_operationality_list <- list(
@@ -611,7 +632,8 @@ border_traffic_count_data <- rbind(
   border_traffic_count_w16[["data"]],
   border_traffic_count_w17[["data"]],
   border_traffic_count_w18[["data"]],
-  border_traffic_count_w19[["data"]]
+  border_traffic_count_w19[["data"]],
+  border_traffic_count_w20[["data"]]
 )
 
 border_traffic_count_Traffic_count <- rbind(
@@ -632,7 +654,8 @@ border_traffic_count_Traffic_count <- rbind(
   border_traffic_count_w16[["Traffic_count"]],
   border_traffic_count_w17[["Traffic_count"]],
   border_traffic_count_w18[["Traffic_count"]],
-  border_traffic_count_w19[["Traffic_count"]]
+  border_traffic_count_w19[["Traffic_count"]],
+  border_traffic_count_w20[["Traffic_count"]]
 )
 
 border_traffic_count_list <- list(
@@ -671,7 +694,8 @@ telecome_service <- rbind(
   telecome_service_w16[["telecom_data"]],
   telecome_service_w17[["telecom_data"]],
   telecome_service_w18[["telecom_data"]],
-  telecome_service_w19[["telecom_data"]]
+  telecome_service_w19[["telecom_data"]],
+  telecome_service_w20[["telecom_data"]]
 )
 
 writexl::write_xlsx(list(telecom_data = telecome_service), glue::glue("{output_path}CPI_Telecom_Service_Providers_Dataset_merge.xlsx"), format_headers = F)
