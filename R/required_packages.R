@@ -12,6 +12,7 @@ library(openxlsx)
 library(googlesheets4)
 library(writexl)
 library(readxl)
+`%notin%` <- Negate(`%in%`)
 
 rm("new_packages", "packages")
 
