@@ -5,9 +5,9 @@ source("R/required_packages.R")
 atr_data_path <- "output/client_datasets/"
 output_path <- "output/analysis/"
 date <- Sys.Date()
+convert_to_na <- c("9999", "8888", "7777", "(choice label unavailable)", "NA")
 
 # Read data -----------------
-convert_to_na <- c("9999", "8888", "7777", "(choice label unavailable)", "NA")
 fi_atr <- readxl::read_excel(glue::glue("{atr_data_path}FI_DATA_Merged.xlsx"), sheet = "FI_PRICES_DATA", na = convert_to_na, guess_max = 100000)
 labour_atr <- nfi_atr <- readxl::read_excel(glue::glue("{atr_data_path}NFI_AND_SERVICES_DATA_Merged.xlsx"), sheet = "NFI_PRICE_DATA", na = convert_to_na, guess_max = 100000)
 fi_tax_atr <- readxl::read_excel(glue::glue("{atr_data_path}FI_DATA_Merged.xlsx"), sheet = "FI_TAX_BARTER", na = convert_to_na, guess_max = 100000)
@@ -22,6 +22,7 @@ bank_respondents_atr <- readxl::read_excel(glue::glue("{atr_data_path}BANK_DATA_
 bank_operationality_atr <- readxl::read_excel(glue::glue("{atr_data_path}BANK_OPERATIONALITY_Merged.xlsx"), sheet = "bank_operationality_data", na = convert_to_na, guess_max = 100000)
 border_traffice_count_atr <- readxl::read_excel(glue::glue("{atr_data_path}BORDER_TRAFFIC_COUNT_DATA_Merged.xlsx"), sheet = "BORDER_TRAFFIC_COUNT", na = convert_to_na, guess_max = 100000)
 border_driver_survey <- readxl::read_excel(glue::glue("{atr_data_path}BORDER_DRIVER_SURVEY_DATA_Merged.xlsx"), na = convert_to_na, guess_max = 100000)
+gov_emp_salary_atr <- readxl::read_excel(glue::glue("{atr_data_path}EMPLOYEE_SALARY_DATA_Merged.xlsx"), na = convert_to_na, guess_max = 100000)
 
 # Analysis (ATR data) -----------------
 source("R/analysis/1_FI price and availability.R") # FI price and availability
@@ -37,6 +38,10 @@ source("R/analysis/7_Bank withdraw ability and waiting time.R") # bank withdraw 
 source("R/analysis/8_IME exchange rate and availability.R") # IME exchange rate and availability of foreing currency
 source("R/analysis/9_Hawala changes in transactions, common destination, ability to transfer money.R") # IME Hawala operators (domestic and international)
 source("R/analysis/10_border crossings.R")
+source("R/analysis/11_gov_employee_salary.R")
+source("R/analysis/11_gov_employee_salary_2.R")
+source("R/analysis/11_gov_employee_salary_change.R")
+source("R/analysis/11_gov_employee_discharged.R")
 
 # export results into "output/analysis/" folder
 writexl::write_xlsx(FI_prices_list, glue::glue("{output_path}FI prices_{date}.xlsx"), format_headers = F) # FI price
@@ -61,7 +66,8 @@ writexl::write_xlsx(border_crossing_trucks_list, glue::glue("{output_path}Border
 writexl::write_xlsx(border_crossing_tonnage_list, glue::glue("{output_path}Border crossing-tonnage_{date}.xlsx"), format_headers = F) # Border crossing-tonnage
 writexl::write_xlsx(border_crossing_aid_commodities_list, glue::glue("{output_path}Border crossing-aid commodities_{date}.xlsx"), format_headers = F) # Border crossing-aid commodities
 writexl::write_xlsx(border_crossing_taxes_list, glue::glue("{output_path}Border crossing-taxes_{date}.xlsx"), format_headers = F) # Border crossing-taxes
-
-
-
+writexl::write_xlsx(salary_payment_list_1, glue::glue("{output_path}Gov employee_salary_{date}.xlsx"), format_headers = F) # Government Emp Salary
+writexl::write_xlsx(salary_payment_list_2, glue::glue("{output_path}Gov employee_salary 2-{date}.xlsx"), format_headers = F) # Government Emp Salary 2
+writexl::write_xlsx(salary_change_list, glue::glue("{output_path}Gov employee_salary_change_{date}.xlsx"), format_headers = F) # Government Emp salary change
+writexl::write_xlsx(terminated_emp_list, glue::glue("{output_path}Gov employee_discharged_{date}.xlsx"), format_headers = F) # Government Emp Discharged
 
