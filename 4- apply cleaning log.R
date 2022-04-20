@@ -1,7 +1,6 @@
 # load required packages --------------------------------------------------
 source("R/required_packages.R")
 source("R/custom_functions.R")
-`%notin%` <- Negate(`%in%`)
 
 # read merged data sets --------------------------------------------------
 path <- "output/merged data forms/"

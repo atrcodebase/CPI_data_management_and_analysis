@@ -1106,6 +1106,26 @@ telecom_data_sub <- telecom_data %>%
     KEY
   )
 
+# form 10: Government Employee_Salary_Payment_Verification
+employee_salary_payment_data <- employee_salary_payment_data %>% 
+  select(-c(SubmissionDate,
+            duration,
+            Sector_Name,
+            Number_of_TPMA_visits_by_Sector,
+            TPMA_Location_Visit_ID,
+            Number_of_TPMA_Visits_by_Location_Type,
+            Number_of_TPMA_Visits_by_Location,
+            TPMA_Location_Visit_Type,
+            TPMA_Location_ID,
+            Type_Of_Visit,
+            If_not_a_first_Site_Visit_state_Original_Site_Visit_ID,
+            Sampling_Proposed_By,
+            Type_Of_Sampling,
+            Type_of_center,
+            Surveyor_ID,
+            Surveyor_Gender
+  )) %>% 
+  mutate(month_name = month.name[month])
 
 # 9 - MMO
 # mmo_main_clean <- mmo_main %>% select(
@@ -1185,6 +1205,7 @@ openxlsx::write.xlsx(banks_operationality_list, "output/Client_Datasets/BANK_OPE
 openxlsx::write.xlsx(Trafic_count_list, "output/Client_Datasets/BORDER_TRAFFIC_COUNT_DATA_Merged.xlsx")
 openxlsx::write.xlsx(br_driver_main, "output/Client_Datasets/BORDER_DRIVER_SURVEY_DATA_Merged.xlsx")
 openxlsx::write.xlsx(telecom_data_sub, "output/Client_Datasets/TELECOM_DATA_Merged.xlsx")
+openxlsx::write.xlsx(employee_salary_payment_data, "output/Client_Datasets/EMPLOYEE_SALARY_DATA_Merged.xlsx")
 # openxlsx::write.xlsx(MMO_LIST, "output/Client_Datasets/merged/MMO_DATA_Merged.xlsx")
 
 

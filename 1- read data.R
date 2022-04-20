@@ -57,186 +57,31 @@ rm("file", "file_name", "path", "week", "weeks", "read_excel_func", "forms", "ch
 
 # weekly data for each form (must be updated on weekly basis)
 ## form 1: FI
-
-
-fi_w1 <- weekly[["W1 datasets"]][["CPI_Market_FI_Dataset"]]
-fi_w2 <- weekly[["W2 datasets"]][["CPI_Market_FI_Dataset"]]
-fi_w3 <- weekly[["W3 datasets"]][["CPI_Market_FI_Dataset"]]
-fi_w4 <- weekly[["W4 datasets"]][["CPI_Market_FI_Dataset"]]
-fi_w5 <- weekly[["W5 datasets"]][["CPI_Market_FI_Dataset"]]
-fi_w6 <- weekly[["W6 datasets"]][["CPI_Market_FI_Dataset"]]
-fi_w7 <- weekly[["W7 datasets"]][["CPI_Market_FI_Dataset"]]
-fi_w8 <- weekly[["W8 datasets"]][["CPI_Market_FI_Dataset"]]
-fi_w9 <- weekly[["W9 datasets"]][["CPI_Market_FI_Dataset"]]
-fi_w10 <- weekly[["W10 datasets"]][["CPI_Market_FI_Dataset"]]
-fi_w11 <- weekly[["W11 datasets"]][["CPI_Market_FI_Dataset"]]
-fi_w12 <- weekly[["W12 datasets"]][["CPI_Market_FI_Dataset"]]
-fi_w13 <- weekly[["W13 datasets"]][["CPI_Market_FI_Dataset"]]
-fi_w14 <- weekly[["W14 datasets"]][["CPI_Market_FI_Dataset"]]
-fi_w15 <- weekly[["W15 datasets"]][["CPI_Market_FI_Dataset"]]
-fi_w16 <- weekly[["W16 datasets"]][["CPI_Market_FI_Dataset"]]
-fi_w17 <- weekly[["W17 datasets"]][["CPI_Market_FI_Dataset"]]
-fi_w18 <- weekly[["W18 datasets"]][["CPI_Market_FI_Dataset"]]
-fi_w19 <- weekly[["W19 datasets"]][["CPI_Market_FI_Dataset"]]
-fi_w20 <- weekly[["W20 datasets"]][["CPI_Market_FI_Dataset"]]
-
+extract_assign(weekly, "fi", "CPI_Market_FI_Dataset")
 ## form 2: NFI
-nfi_w1 <- weekly[["W1 datasets"]][["CPI_Market_NFI_Dataset"]]
-nfi_w2 <- weekly[["W2 datasets"]][["CPI_Market_NFI_Dataset"]]
-nfi_w3 <- weekly[["W3 datasets"]][["CPI_Market_NFI_Dataset"]]
-nfi_w4 <- weekly[["W4 datasets"]][["CPI_Market_NFI_Dataset"]]
-nfi_w5 <- weekly[["W5 datasets"]][["CPI_Market_NFI_Dataset"]]
-nfi_w6 <- weekly[["W6 datasets"]][["CPI_Market_NFI_Dataset"]]
-nfi_w7 <- weekly[["W7 datasets"]][["CPI_Market_NFI_Dataset"]]
-nfi_w8 <- weekly[["W8 datasets"]][["CPI_Market_NFI_Dataset"]]
-nfi_w9 <- weekly[["W9 datasets"]][["CPI_Market_NFI_Dataset"]]
-nfi_w10 <- weekly[["W10 datasets"]][["CPI_Market_NFI_Dataset"]]
-nfi_w11 <- weekly[["W11 datasets"]][["CPI_Market_NFI_Dataset"]]
-nfi_w12 <- weekly[["W12 datasets"]][["CPI_Market_NFI_Dataset"]]
-nfi_w13 <- weekly[["W13 datasets"]][["CPI_Market_NFI_Dataset"]]
-nfi_w14 <- weekly[["W14 datasets"]][["CPI_Market_NFI_Dataset"]]
-nfi_w15 <- weekly[["W15 datasets"]][["CPI_Market_NFI_Dataset"]]
-nfi_w16 <- weekly[["W16 datasets"]][["CPI_Market_NFI_Dataset"]]
-nfi_w17 <- weekly[["W17 datasets"]][["CPI_Market_NFI_Dataset"]]
-nfi_w18 <- weekly[["W18 datasets"]][["CPI_Market_NFI_Dataset"]]
-nfi_w19 <- weekly[["W19 datasets"]][["CPI_Market_NFI_Dataset"]]
-nfi_w20 <- weekly[["W20 datasets"]][["CPI_Market_NFI_Dataset"]]
-
+extract_assign(weekly, "nfi", "CPI_Market_NFI_Dataset")
 ## form 3: services
-market_services_w1 <- weekly[["W1 datasets"]][["CPI_Market_Services_Dataset"]]
-market_services_w2 <- weekly[["W2 datasets"]][["CPI_Market_Services_Dataset"]]
-market_services_w3 <- weekly[["W3 datasets"]][["CPI_Market_Services_Dataset"]]
-market_services_w4 <- weekly[["W4 datasets"]][["CPI_Market_Services_Dataset"]]
-market_services_w5 <- weekly[["W5 datasets"]][["CPI_Market_Services_Dataset"]]
-market_services_w6 <- weekly[["W6 datasets"]][["CPI_Market_Services_Dataset"]]
-market_services_w7 <- weekly[["W7 datasets"]][["CPI_Market_Services_Dataset"]]
-market_services_w8 <- weekly[["W8 datasets"]][["CPI_Market_Services_Dataset"]]
-market_services_w9 <- weekly[["W9 datasets"]][["CPI_Market_Services_Dataset"]]
-market_services_w10 <- weekly[["W10 datasets"]][["CPI_Market_Services_Dataset"]]
-market_services_w11 <- weekly[["W11 datasets"]][["CPI_Market_Services_Dataset"]]
-market_services_w12 <- weekly[["W12 datasets"]][["CPI_Market_Services_Dataset"]]
-market_services_w13 <- weekly[["W13 datasets"]][["CPI_Market_Services_Dataset"]]
-market_services_w14 <- weekly[["W14 datasets"]][["CPI_Market_Services_Dataset"]]
-market_services_w15 <- weekly[["W15 datasets"]][["CPI_Market_Services_Dataset"]]
-market_services_w16 <- weekly[["W16 datasets"]][["CPI_Market_Services_Dataset"]]
-market_services_w17 <- weekly[["W17 datasets"]][["CPI_Market_Services_Dataset"]]
-market_services_w18 <- weekly[["W18 datasets"]][["CPI_Market_Services_Dataset"]]
-market_services_w19 <- weekly[["W19 datasets"]][["CPI_Market_Services_Dataset"]]
-market_services_w20 <- weekly[["W20 datasets"]][["CPI_Market_Services_Dataset"]]
-
+extract_assign(weekly, "market_services", "CPI_Market_Services_Dataset")
 ## form 4: IME and Hawala
-ime_hawala_w1 <- weekly[["W1 datasets"]][["CPI_Market_IME_Hawala_Dataset"]]
-ime_hawala_w2 <- weekly[["W2 datasets"]][["CPI_Market_IME_Hawala_Dataset"]]
-ime_hawala_w3 <- weekly[["W3 datasets"]][["CPI_Market_IME_Hawala_Dataset"]]
-ime_hawala_w4 <- weekly[["W4 datasets"]][["CPI_Market_IME_Hawala_Dataset"]]
-ime_hawala_w5 <- weekly[["W5 datasets"]][["CPI_Market_IME_Hawala_Dataset"]]
-ime_hawala_w6 <- weekly[["W6 datasets"]][["CPI_Market_IME_Hawala_Dataset"]]
-ime_hawala_w7 <- weekly[["W7 datasets"]][["CPI_Market_IME_Hawala_Dataset"]]
-ime_hawala_w8 <- weekly[["W8 datasets"]][["CPI_Market_IME_Hawala_Dataset"]]
-ime_hawala_w9 <- weekly[["W9 datasets"]][["CPI_Market_IME_Hawala_Dataset"]]
-ime_hawala_w10 <- weekly[["W10 datasets"]][["CPI_Market_IME_Hawala_Dataset"]]
-# the shape of IME data is changed from week 11 onwards
-ime_hawala_w11 <- weekly[["W11 datasets"]][["CPI_Market_IME_Hawala_Dataset"]]
-ime_hawala_w12 <- weekly[["W12 datasets"]][["CPI_Market_IME_Hawala_Dataset"]]
-ime_hawala_w13 <- weekly[["W13 datasets"]][["CPI_Market_IME_Hawala_Dataset"]]
-ime_hawala_w14 <- weekly[["W14 datasets"]][["CPI_Market_IME_Hawala_Dataset"]]
-ime_hawala_w15 <- weekly[["W15 datasets"]][["CPI_Market_IME_Hawala_Dataset"]]
-ime_hawala_w16 <- weekly[["W16 datasets"]][["CPI_Market_IME_Hawala_Dataset"]]
-ime_hawala_w17 <- weekly[["W17 datasets"]][["CPI_Market_IME_Hawala_Dataset"]]
-ime_hawala_w18 <- weekly[["W18 datasets"]][["CPI_Market_IME_Hawala_Dataset"]]
-ime_hawala_w19 <- weekly[["W19 datasets"]][["CPI_Market_IME_Hawala_Dataset"]]
-ime_hawala_w20 <- weekly[["W20 datasets"]][["CPI_Market_IME_Hawala_Dataset"]]
-
+extract_assign(weekly, "ime_hawala", "CPI_Market_IME_Hawala_Dataset")
 ## form 5: Bank
-bank_w1 <- weekly[["W1 datasets"]][["CPI_Bank_Dataset"]]
-bank_w2 <- weekly[["W2 datasets"]][["CPI_Bank_Dataset"]]
-bank_w3 <- weekly[["W3 datasets"]][["CPI_Bank_Dataset"]]
-bank_w4 <- weekly[["W4 datasets"]][["CPI_Bank_Dataset"]]
-bank_w5 <- weekly[["W5 datasets"]][["CPI_Bank_Dataset"]]
-bank_w6 <- weekly[["W6 datasets"]][["CPI_Bank_Dataset"]]
-bank_w7 <- weekly[["W7 datasets"]][["CPI_Bank_Dataset"]]
-bank_w8 <- weekly[["W8 datasets"]][["CPI_Bank_Dataset"]]
-bank_w9 <- weekly[["W9 datasets"]][["CPI_Bank_Dataset"]]
-bank_w10 <- weekly[["W10 datasets"]][["CPI_Bank_Dataset"]]
-bank_w11 <- weekly[["W11 datasets"]][["CPI_Bank_Dataset"]]
-bank_w12 <- weekly[["W12 datasets"]][["CPI_Bank_Dataset"]]
-bank_w13 <- weekly[["W13 datasets"]][["CPI_Bank_Dataset"]]
-bank_w14 <- weekly[["W14 datasets"]][["CPI_Bank_Dataset"]]
-bank_w15 <- weekly[["W15 datasets"]][["CPI_Bank_Dataset"]]
-bank_w16 <- weekly[["W16 datasets"]][["CPI_Bank_Dataset"]]
-bank_w17 <- weekly[["W17 datasets"]][["CPI_Bank_Dataset"]]
-bank_w18 <- weekly[["W18 datasets"]][["CPI_Bank_Dataset"]]
-bank_w19 <- weekly[["W19 datasets"]][["CPI_Bank_Dataset"]]
-bank_w20 <- weekly[["W20 datasets"]][["CPI_Bank_Dataset"]]
-
+extract_assign(weekly, "bank", "CPI_Bank_Dataset")
 ## Form 5.1: Bank Operationality Status, available from week 8 onwards
-bank_operationality_w8 <- weekly[["W8 datasets"]][["CPI_Bank_Operationality_Status_Dataset"]]
-bank_operationality_w9 <- weekly[["W9 datasets"]][["CPI_Bank_Operationality_Status_Dataset"]]
-bank_operationality_w10 <- weekly[["W10 datasets"]][["CPI_Bank_Operationality_Status_Dataset"]]
-bank_operationality_w11 <- weekly[["W11 datasets"]][["CPI_Bank_Operationality_Status_Dataset"]]
-bank_operationality_w12 <- weekly[["W12 datasets"]][["CPI_Bank_Operationality_Status_Dataset"]]
-bank_operationality_w13 <- weekly[["W13 datasets"]][["CPI_Bank_Operationality_Status_Dataset"]]
-bank_operationality_w14 <- weekly[["W14 datasets"]][["CPI_Bank_Operationality_Status_Dataset"]]
-bank_operationality_w15 <- weekly[["W15 datasets"]][["CPI_Bank_Operationality_Status_Dataset"]]
-bank_operationality_w16 <- weekly[["W16 datasets"]][["CPI_Bank_Operationality_Status_Dataset"]]
-bank_operationality_w17 <- weekly[["W17 datasets"]][["CPI_Bank_Operationality_Status_Dataset"]]
-bank_operationality_w18 <- weekly[["W18 datasets"]][["CPI_Bank_Operationality_Status_Dataset"]]
-bank_operationality_w19 <- weekly[["W19 datasets"]][["CPI_Bank_Operationality_Status_Dataset"]]
-bank_operationality_w20 <- weekly[["W20 datasets"]][["CPI_Bank_Operationality_Status_Dataset"]]
-
+extract_assign(weekly, "bank_operationality", "CPI_Bank_Operationality_Status_Dataset")
 ## form 6: Border Traffic Count. Not available for week 1
-border_traffic_count_w2 <- weekly[["W2 datasets"]][["CPI_Border_Count_of_Transport_Traffic_Dataset"]]
-border_traffic_count_w3 <- weekly[["W3 datasets"]][["CPI_Border_Count_of_Transport_Traffic_Dataset"]]
-border_traffic_count_w4 <- weekly[["W4 datasets"]][["CPI_Border_Count_of_Transport_Traffic_Dataset"]]
-border_traffic_count_w5 <- weekly[["W5 datasets"]][["CPI_Border_Count_of_Transport_Traffic_Dataset"]]
-border_traffic_count_w6 <- weekly[["W6 datasets"]][["CPI_Border_Count_of_Transport_Traffic_Dataset"]]
-border_traffic_count_w7 <- weekly[["W7 datasets"]][["CPI_Border_Count_of_Transport_Traffic_Dataset"]]
-border_traffic_count_w8 <- weekly[["W8 datasets"]][["CPI_Border_Count_of_Transport_Traffic_Dataset"]]
-border_traffic_count_w9 <- weekly[["W9 datasets"]][["CPI_Border_Count_of_Transport_Traffic_Dataset"]]
-border_traffic_count_w10 <- weekly[["W10 datasets"]][["CPI_Border_Count_of_Transport_Traffic_Dataset"]]
-border_traffic_count_w11 <- weekly[["W11 datasets"]][["CPI_Border_Count_of_Transport_Traffic_Dataset"]]
-border_traffic_count_w12 <- weekly[["W12 datasets"]][["CPI_Border_Count_of_Transport_Traffic_Dataset"]]
-border_traffic_count_w13 <- weekly[["W13 datasets"]][["CPI_Border_Count_of_Transport_Traffic_Dataset"]]
-border_traffic_count_w14 <- weekly[["W14 datasets"]][["CPI_Border_Count_of_Transport_Traffic_Dataset"]]
-border_traffic_count_w15 <- weekly[["W15 datasets"]][["CPI_Border_Count_of_Transport_Traffic_Dataset"]]
-border_traffic_count_w16 <- weekly[["W16 datasets"]][["CPI_Border_Count_of_Transport_Traffic_Dataset"]]
-border_traffic_count_w17 <- weekly[["W17 datasets"]][["CPI_Border_Count_of_Transport_Traffic_Dataset"]]
-border_traffic_count_w18 <- weekly[["W18 datasets"]][["CPI_Border_Count_of_Transport_Traffic_Dataset"]]
-border_traffic_count_w19 <- weekly[["W19 datasets"]][["CPI_Border_Count_of_Transport_Traffic_Dataset"]]
-border_traffic_count_w20 <- weekly[["W20 datasets"]][["CPI_Border_Count_of_Transport_Traffic_Dataset"]]
-
+extract_assign(weekly, "border_traffic_count", "CPI_Border_Count_of_Transport_Traffic_Dataset")
 ## form 7: Border Transport Driver Surveys, available only for week 1 & 2s
-border_transport_driver_w1 <- weekly[["W1 datasets"]][["CPI_Border_Transport_Driver_Survey_Dataset"]]
-border_transport_driver_w2 <- weekly[["W2 datasets"]][["CPI_Border_Transport_Driver_Survey_Dataset"]]
-
+extract_assign(weekly, "border_transport_driver", "CPI_Border_Transport_Driver_Survey_Dataset")
 ## form 8: Telecom 
-telecome_service_w1 <- weekly[["W1 datasets"]][["CPI_Telecom_Service_Providers_Dataset"]]
-telecome_service_w2 <- weekly[["W2 datasets"]][["CPI_Telecom_Service_Providers_Dataset"]]
-telecome_service_w3 <- weekly[["W3 datasets"]][["CPI_Telecom_Service_Providers_Dataset"]]
-telecome_service_w4 <- weekly[["W4 datasets"]][["CPI_Telecom_Service_Providers_Dataset"]]
-telecome_service_w5 <- weekly[["W5 datasets"]][["CPI_Telecom_Service_Providers_Dataset"]]
-telecome_service_w6 <- weekly[["W6 datasets"]][["CPI_Telecom_Service_Providers_Dataset"]]
-telecome_service_w7 <- weekly[["W7 datasets"]][["CPI_Telecom_Service_Providers_Dataset"]]
-telecome_service_w8 <- weekly[["W8 datasets"]][["CPI_Telecom_Service_Providers_Dataset"]]
-telecome_service_w9 <- weekly[["W9 datasets"]][["CPI_Telecom_Service_Providers_Dataset"]]
-telecome_service_w10 <- weekly[["W10 datasets"]][["CPI_Telecom_Service_Providers_Dataset"]]
-telecome_service_w11 <- weekly[["W11 datasets"]][["CPI_Telecom_Service_Providers_Dataset"]]
-telecome_service_w12 <- weekly[["W12 datasets"]][["CPI_Telecom_Service_Providers_Dataset"]]
-telecome_service_w13 <- weekly[["W13 datasets"]][["CPI_Telecom_Service_Providers_Dataset"]]
-telecome_service_w14 <- weekly[["W14 datasets"]][["CPI_Telecom_Service_Providers_Dataset"]]
-telecome_service_w15 <- weekly[["W15 datasets"]][["CPI_Telecom_Service_Providers_Dataset"]]
-telecome_service_w16 <- weekly[["W16 datasets"]][["CPI_Telecom_Service_Providers_Dataset"]]
-telecome_service_w17 <- weekly[["W17 datasets"]][["CPI_Telecom_Service_Providers_Dataset"]]
-telecome_service_w18 <- weekly[["W18 datasets"]][["CPI_Telecom_Service_Providers_Dataset"]]
-telecome_service_w19 <- weekly[["W19 datasets"]][["CPI_Telecom_Service_Providers_Dataset"]]
-telecome_service_w20 <- weekly[["W20 datasets"]][["CPI_Telecom_Service_Providers_Dataset"]]
+extract_assign(weekly, "telecome_service", "CPI_Telecom_Service_Providers_Dataset")
+
 
 ## form 9: MMOs (week 1 and 8 are pilot data)
 # mmo_w1 <- weekly[["W1 datasets"]][["CPI_MMOs_Dataset"]] (pilot data)
 # mmo_w8 <- weekly[["W8 datasets"]][["CPI_MMOs_Dataset"]] (pilot data)
 
 ## form 10: Government Employee_Salary_Payment_Verification. Only available for week 8 and week 16. Week 8 is pilot data
-# gov_emp_salary_w16 <- weekly[["W16 datasets"]][["Government_Employee_Salary_Payment_Dataset"]]
+extract_assign(weekly, "gov_emp_salary", "Government_Employee_Salary_Payment_Dataset")
 
 ## form 11: Railway Count, available for week 10 which is pilot data
 
