@@ -79,11 +79,11 @@ all(sapply(list(nrow(fi_prices_by_week_province_integrity), nrow(fi_prices_by_we
 
 diff_in_FI_prices <- list(
   by_week = fi_prices_by_week_merged %>%
-    mutate(is_equal = near(integrity_values, atr_values, tol = 0.1)),
+    mutate(is_equal = near(integrity_values, atr_values)),
   
   by_week_and_province = fi_prices_by_week_province_merged %>% 
     filter(!(is.na(integrity_values) & is.na(atr_values))) %>%
-    mutate(is_equal = near(integrity_values, atr_values, tol = 0.1))
+    mutate(is_equal = near(integrity_values, atr_values))
 )
 
 # compare FI availablity -------------------------------------
@@ -143,11 +143,11 @@ all(sapply(list(nrow(fi_availability_by_week_province_integrity), nrow(fi_availa
 
 diff_in_FI_availability <- list(
   by_week = fi_availability_by_week_merged %>%
-    mutate(is_equal = near(integrity_percent, atr_percent, tol = 0.1))
+    mutate(is_equal = near(integrity_percent, atr_percent))
   ,
   by_week_and_provincde = fi_availability_by_week_province_merged %>% 
     filter((is.na(integrity_percent) & is.na(atr_percent))) %>% 
-    mutate(is_equal = near(integrity_percent, atr_percent, tol = 0.1))
+    mutate(is_equal = near(integrity_percent, atr_percent))
 )
 
 # 23.83 == 23.86

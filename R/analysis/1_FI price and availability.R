@@ -45,7 +45,7 @@ fi_availability_by_week_atr <- fi_atr %>%
     items = Items
     ) %>% 
   count(availability = Availability_FI) %>% 
-  mutate(atr_percent = round(n/sum(n)*100, 2), n = NULL) %>% 
+  mutate(atr_percent = round(n/sum(n)*100, 2)) %>% 
   ungroup()
 
 ## by week and province
@@ -56,7 +56,7 @@ fi_availability_by_week_province_atr <- fi_atr %>%
     items = Items
     ) %>% 
   count(availability = Availability_FI) %>% 
-  mutate(atr_percent = round(n/sum(n)*100, 2), n = NULL) %>% 
+  mutate(atr_percent = round(n/sum(n)*100, 2)) %>% 
   ungroup()
 
 FI_availability_list <- list(

@@ -146,12 +146,12 @@ nfi_price_by_week_province_merge <- full_join(nfi_prices_by_week_province_integr
 
 diff_in_NFI_prices <- list(
   by_week = nfi_price_by_week_merge %>%
-    mutate(is_equal = near(integrity_values, atr_values, tol = 0.1))
+    mutate(is_equal = near(integrity_values, atr_values))
   ,
   
   by_week_and_province = nfi_price_by_week_province_merge %>% 
     filter(!(is.na(integrity_values) & is.na(atr_values))) %>% 
-    mutate(is_equal = near(integrity_values, atr_values, tol = 0.1))
+    mutate(is_equal = near(integrity_values, atr_values))
 )
 
 
@@ -208,10 +208,10 @@ nfi_availability_by_week_province_merged <- full_join(nfi_availability_by_week_p
 
 diff_in_NFI_availability <- list(
   by_week = nfi_availability_by_week_merged %>%
-    mutate(is_equal = near(integrity_percent, atr_percent, tol = 0.1))
+    mutate(is_equal = near(integrity_percent, atr_percent))
   ,
   by_week_and_provincde = nfi_availability_by_week_province_merged %>%
     filter(!(is.na(integrity_percent) & is.na(atr_percent))) %>% 
-    mutate(is_equal = near(integrity_percent, atr_percent, tol = 0.1))
+    mutate(is_equal = near(integrity_percent, atr_percent))
 )
 

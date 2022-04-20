@@ -2,13 +2,13 @@
 bank_respondents_atr <- bank_respondents_atr %>% 
   mutate(Withdraw_Full_Amount = case_when(
     (Come_To_Bank_Widthdraw_Money == "Yes" & Perform_Transaction_Cashier == "No" & Use_ATM == "No") ~ "Could not withdraw money",
-    Withdraw_Full_Amount == "No, I didn’t receive any money" ~ "Could not withdraw money",
+    Withdraw_Full_Amount %in% "No, I didn’t receive any money" ~ "Could not withdraw money",
     Withdraw_Full_Amount == "Yes" ~ "Full amount",
     TRUE ~ Withdraw_Full_Amount
   ),
   How_Long_Wait_Transcation = case_when(
     How_Long_Wait_Transcation == "Between 3 and 6 hours" ~ "Between more than 3 hours and less than 6 hours",
-    How_Long_Wait_Transcation == "Less than 1 hour" ~ "1 hour or less",
+    How_Long_Wait_Transcation == "1 hour or less" ~ "Less than 1 hour",
     How_Long_Wait_Transcation == "More than 6 hours" ~ "Between 6 and 8 hours",
     TRUE ~ How_Long_Wait_Transcation
   ))

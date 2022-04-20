@@ -109,7 +109,7 @@ nfi_availability_by_week_atr <- nfi_atr %>%
     items = Items
     ) %>%
   count(availability = Availability_NFI) %>% 
-  mutate(atr_percent = round(n/sum(n)*100, 2), n = NULL) %>% 
+  mutate(atr_percent = round(n/sum(n)*100, 2)) %>% 
   ungroup() %>% 
   filter(!is.na(availability))
 
@@ -121,7 +121,7 @@ nfi_availability_by_week_province_atr <- nfi_atr %>%
     items = Items
     ) %>%
   count(availability = Availability_NFI) %>% 
-  mutate(atr_percent = round(n/sum(n)*100, 2), n = NULL) %>% 
+  mutate(atr_percent = round(n/sum(n)*100, 2)) %>% 
   filter(!is.na(availability)) %>% 
   ungroup()
 
