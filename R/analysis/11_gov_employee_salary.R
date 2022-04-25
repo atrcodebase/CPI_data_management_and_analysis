@@ -15,8 +15,9 @@ employee_salary_by_week_atr <- gov_emp_salary_atr %>%
       month = gov_emp_salary_atr$month_name,
       response
     ) %>% data.frame() %>% 
-      group_by(week, month) %>% 
-      mutate(atr_freq = Freq, Freq = NULL) %>% 
+      group_by(week) %>% 
+      mutate(atr_freq = Freq) %>% 
+      filter(Freq != 0) %>% select(-Freq) %>% 
       ungroup() %>% 
       arrange(desc(atr_freq))) %>% 
   data.table::rbindlist(idcol = "question") %>% 
@@ -40,7 +41,8 @@ employee_salary_by_week_province_atr <- gov_emp_salary_atr %>%
       response
     ) %>% data.frame() %>% 
       group_by(week, month, province) %>% 
-      mutate(atr_freq = Freq, Freq = NULL) %>% 
+      mutate(atr_freq = Freq) %>% 
+      filter(Freq != 0) %>% select(-Freq) %>% 
       ungroup() %>% 
       arrange(desc(atr_freq))) %>% 
   data.table::rbindlist(idcol = "question") %>% 

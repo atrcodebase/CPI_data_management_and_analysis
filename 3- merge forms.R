@@ -116,8 +116,10 @@ merge_data(weekly, "telecome_service", "CPI_Telecom_Service_Providers_Dataset")
 writexl::write_xlsx(list(telecom_data = telecome_service_telecom_data), glue::glue("{output_path}CPI_Telecom_Service_Providers_Dataset_merge.xlsx"), format_headers = F)
 
 # form 10: Government Employee_Salary_Payment_Verification. Available only for week 8 and 16. week 8 is pilot data.
-merge_data(weekly, "gov_emp_salary", "Government_Employee_Salary_Payment_Dataset", reference_week = "W16 datasets")
-writexl::write_xlsx(list(data = gov_emp_salary_data), glue::glue("{output_path}Government_Employee_Salary_Payment_Dataset_merge.xlsx"), format_headers = F)
+#**update target variable in merge_data function
+merge_data(weekly, "gov_emp_salary", "CPI_Government_Employee_Salary_Dataset", reference_week = "W16 datasets")
+writexl::write_xlsx(list(data = gov_emp_salary_data), glue::glue("{output_path}CPI_Government_Employee_Salary_Dataset_merge.xlsx"), format_headers = F)
+
 
 ## Form 9 - MMOs (available only for week 1 and 8. Both are pilot data)
 # mmo_main <- rbind(

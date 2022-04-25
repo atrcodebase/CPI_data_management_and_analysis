@@ -47,7 +47,7 @@ for (data_set_name in file_list) {
     mmo_data_name <- data_set_name
   }
   ## form 10: Government Employee_Salary_Payment_Verification 
-  if(stringr::str_detect(data_set_name, "Employee_Salary_Payment")){
+  if(stringr::str_detect(data_set_name, "Employee_Salary")){
     employee_salary_payment_data_name <- data_set_name
   }
   

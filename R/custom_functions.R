@@ -107,7 +107,7 @@ merge_data <- function(weekly, var_name, file_name, reference_week= "W1 datasets
       file_name %in% "CPI_Bank_Operationality_Status_Dataset" & week_num < 8  ~ TRUE,
       file_name %in% "CPI_Border_Count_of_Transport_Traffic_Dataset" & week_num == 1  ~ TRUE,
       file_name %in% "CPI_Border_Transport_Driver_Survey_Dataset" & week_num > 2  ~ TRUE,
-      file_name %in% "Government_Employee_Salary_Payment_Dataset" & week_num %notin% c(16,21)  ~ TRUE,
+      file_name %in% "CPI_Government_Employee_Salary_Dataset" & week_num %notin% c(16,22)  ~ TRUE,
       TRUE ~ FALSE
     )
     if(skip_loop){ next }
