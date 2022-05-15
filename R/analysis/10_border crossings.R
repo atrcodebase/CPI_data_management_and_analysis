@@ -81,29 +81,101 @@ border_driver_survey <- border_driver_survey %>%
     goods == "Medicine" & if_medicine_unit == "KG" ~ if_medicine*0.001
   ))
 
+food_nonfood <- c(
+  "Food item & Non-food",
+  "Food item & Non-food item",
+  "Food item & Construction material",
+  "Food item & Medicine",
+  "Food item & Non-food item & Construction material",
+  "Food item & Non-food item (any non-food item other than fuel, construction materials and medicine)",
+  "Food item & Livestock/poultry"
+)
+food_items <- c(
+  "Food item",
+  "Food item & Fruits and vegetables",
+  "Food item & Fresh fruits and vegetables",
+  "Fresh fruits and vegetables",
+  "Fruits and vegetables"
+)
+nonfood_items <- c(
+  "Construction material",
+  "Construction material & Livestock/poultry",
+  "Non-food item",
+  "Non-food item & Construction material",
+  "Non-food item (any non-food item other than fuel, construction materials and medicine)",
+  "Non-food item (any non-food item other than fuel, construction materials and medicine) & Livestock/poultry",
+  "Non-food item (any non-food item other than fuel, construction materials and medicine) & Medicine",
+  "Non-food item (any non-food item other than fuel, construction materials and medicine) & Other"
+)
+
+border_traffice_count_atr <- border_traffice_count_atr %>%
+  mutate(Overall_weight = case_when(
+    Unit_overall %in% "Kg" ~ as.character(as.numeric(Overall_weight)*0.001),
+    TRUE ~ Overall_weight
+  ),
+  item_categories = case_when(
+    item_loaded %in% food_nonfood ~ "Food & Non-Food Items",
+    item_loaded %in% c("Emergency response supplies", "Tractors") ~ "Emergency response supplies & Tractors",
+    item_loaded %in% food_items ~ "Food Items",
+    item_loaded %in% nonfood_items ~ "Non-Food Items",
+    item_loaded %in% c("Don't wish to respond", "I don't know") ~ "Truck loads unclear",
+    TRUE ~ item_loaded
+    )
+  )
+
+border_crossing_tonnage <- border_driver_survey %>% 
+  select(week, Province, enter_exist, item_categories=goods, Overall_weight=tonnage, truck_destination=transported_load_transit) %>%
+  mutate(truck_destination = case_when(
+    truck_destination %in% "No, my destination is to/from Afghanistan" ~ "Entering trucks with Afghanistan as final destination",
+    truck_destination %in% "Yes, my transported load is in transit to/from another country" ~ "Exiting trucks in transit from a third country",
+    is.na(truck_destination) ~ "Destination not clear"
+  )) %>% 
+  rbind(border_traffice_count_atr %>%
+          filter(week %notin% c(1:9, 48:52)) %>% 
+          mutate(truck_destination = case_when(
+            transport_third_country_or_to_AFG %in% "No, my final destination is to Afghanistan" ~ "Entering trucks with Afghanistan as final destination",
+            transport_third_country_or_to_AFG %in% "Yes, my transported load is in transit to a third country" ~ "Entering trucks in transit",
+            transport_third_country_or_to_AFG_from_second_country %in% "No, my destination is directly from Afghanistan to a second country" ~ "Exiting trucks with Afghanistan as departure point",
+            transport_third_country_or_to_AFG_from_second_country %in% "Yes, my transported load is in transit to a third country" ~ "Entering trucks in transit",
+            is.na(transport_third_country_or_to_AFG) & is.na(transport_third_country_or_to_AFG_from_second_country) ~ "Destination not clear"
+          )) %>% 
+          select(week, Province, enter_exist, item_categories, Overall_weight, truck_destination))
+
+
 # by week
-border_crossing_tonnage_by_week_atr <- border_driver_survey %>% 
-  group_by(week, goods, enter_exist) %>% 
+border_crossing_tonnage_by_week_atr <- border_crossing_tonnage %>%
+  group_by(week, enter_exist, item_categories) %>%
   summarise(
-    total_tonnage = sum(tonnage, na.rm = T),
-    mean_tonnage = round(mean(tonnage, na.rm = T), 2)
-  ) %>% 
-  filter(!goods %in% c("No", NA)) %>% 
-  pivot_longer(-c(week, goods, enter_exist), names_to = "stats", values_to = "atr_values")
+    total_tonnage = round(sum(as.numeric(Overall_weight), na.rm = T)),
+    mean_tonnage = round(mean(as.numeric(Overall_weight), na.rm = T), 2)
+  ) %>%   
+  filter(!item_categories %in% c("No", NA)) %>% 
+  pivot_longer(-c(week, item_categories, enter_exist), names_to = "stats", values_to = "atr_values")
 
 # by week and province
-border_crossing_tonnage_by_week_and_province_atr <- border_driver_survey %>% 
-  group_by(week, Province, goods, enter_exist) %>% 
+border_crossing_tonnage_by_week_and_province_atr <- border_crossing_tonnage %>% 
+  group_by(week, Province, item_categories, enter_exist) %>% 
   summarise(
-    total_tonnage = sum(tonnage, na.rm = T),
-    mean_tonnage = round(mean(tonnage, na.rm = T), 2)
+    total_tonnage = sum(as.numeric(Overall_weight), na.rm = T),
+    mean_tonnage = round(mean(as.numeric(Overall_weight), na.rm = T), 2)
   ) %>% 
-  filter(!goods %in% c("No", NA)) %>% 
-  pivot_longer(-c(week, Province, goods, enter_exist), names_to = "stats", values_to = "atr_values")
+  filter(!item_categories %in% c("No", NA)) %>% 
+  pivot_longer(-c(week, Province, item_categories, enter_exist), names_to = "stats", values_to = "atr_values")
+
+# by week and Truck destination
+border_crossing_tonnage_by_week_and_truck_destination_atr <- border_crossing_tonnage %>% 
+  group_by(week, truck_destination, item_categories, enter_exist) %>% 
+  summarise(
+    total_tonnage = sum(as.numeric(Overall_weight), na.rm = T),
+    mean_tonnage = round(mean(as.numeric(Overall_weight), na.rm = T), 2)
+  ) %>% 
+  filter(!item_categories %in% c("No", NA)) %>% 
+  pivot_longer(-c(week, truck_destination, item_categories, enter_exist), names_to = "stats", values_to = "atr_values")
 
 border_crossing_tonnage_list <- list(
   by_week = border_crossing_tonnage_by_week_atr,
-  by_week_and_province = border_crossing_tonnage_by_week_and_province_atr
+  by_week_and_province = border_crossing_tonnage_by_week_and_province_atr,
+  by_week_and_truck_dest = border_crossing_tonnage_by_week_and_truck_destination_atr
 )
 
 # Border crossing: Taxes -------------
