@@ -146,7 +146,7 @@ diff_in_FI_availability <- list(
     mutate(is_equal = near(integrity_percent, atr_percent))
   ,
   by_week_and_provincde = fi_availability_by_week_province_merged %>% 
-    filter((is.na(integrity_percent) & is.na(atr_percent))) %>% 
+    filter(!(is.na(integrity_percent) & is.na(atr_percent))) %>% 
     mutate(is_equal = near(integrity_percent, atr_percent))
 )
 
