@@ -29,7 +29,6 @@ source("R/analysis/1_FI price and availability.R") # FI price and availability
 source("R/analysis/2_NFI price and availability.R") # NFI price and availability 
 source("R/analysis/3_Taxes and cashless transactions.R") # FI/NFI taxes and cashless transaction
 source("R/analysis/4_Labour wage and no. of available days.R") # labour wage and no. of available days
-# TODO: Bank operationality
 source("R/analysis/5_Bank functionality.R") # bank functionality 
 source("R/analysis/5_Bank functionality_2.R") # bank functionality 2
 source("R/analysis/6_Bank withdrawal limit.R") # bank withdrawal limit
