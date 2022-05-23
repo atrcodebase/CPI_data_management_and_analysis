@@ -164,9 +164,6 @@ writexl::write_xlsx(list(data = gov_emp_salary_data), glue::glue("{output_path}C
 # identical(names(mmo_w8), names(mmo_list))
 # writexl::write_xlsx(mmo_list, glue::glue("{output_path}CPI_MMOs_Dataset_merge.xlsx"))
 
-## form 10: Government Employee_Salary_Payment_Verification. Available only for week 8 and 16. week 8 is pilot data.
-#### please copy week 16 data from "input/raw_data_fixed column names/W16 datasets_Economic Monitoring/" and put it in the "output/merged data forms/"
-
 ## form 11: Railway Count. Available only in week 10
 
 

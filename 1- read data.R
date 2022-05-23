@@ -1,5 +1,6 @@
 # load required packages --------------------------------------------------
 source("R/required_packages.R")
+# file.edit("R/custom_functions.R")
 source("R/custom_functions.R")
 
 # read all data files --------------------------------------------------
@@ -53,7 +54,7 @@ for (weeks in names(weekly)) {
   }
 }
 
-rm("file", "file_name", "path", "week", "weeks", "read_excel_func", "forms", "check", "date_columns", "col_names", "sheets", "dates_to_character")
+rm("file", "file_name", "path", "week", "weeks", "read_excel_func", "forms", "date_columns", "dates_to_character")
 
 # weekly data for each form (must be updated on weekly basis)
 ## form 1: FI

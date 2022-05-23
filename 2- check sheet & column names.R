@@ -32,10 +32,6 @@ check_sheets(weekly, "telecome_service", "CPI_Telecom_Service_Providers_Dataset"
 check_sheets(weekly, "gov_emp_salary", "Government_Employee_Salary_Payment_Dataset")
 
 ## form 9: MMOs (available only for week 1 and 8. Both are pilot data)
-# all(sapply(list(names(mmo_w8)
-# ), FUN = identical, names(mmo_w1)))
-# 
-# check_column_names(target = mmo_w1, check_with = mmo_w8)
 
 ## form 11: Railway Count. Available only in week 10
 
