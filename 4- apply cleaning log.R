@@ -16,8 +16,8 @@ for (form in forms) {
 names(data)
 rm("file_name", "form", "forms", "path", "check_column_names", "dates_to_character", "read_excel_func")
 
-data[["CPI_Border_Count_of_Transport_Traffic_Dataset"]][["data"]] <- data[["CPI_Border_Count_of_Transport_Traffic_Dataset"]][["data"]] %>%
-  mutate(Number_of_TPMA_visits_by_Sector = as.numeric(Number_of_TPMA_visits_by_Sector))
+# data[["CPI_Border_Count_of_Transport_Traffic_Dataset"]][["data"]] <- data[["CPI_Border_Count_of_Transport_Traffic_Dataset"]][["data"]] %>%
+#   mutate(Number_of_TPMA_visits_by_Sector = as.numeric(Number_of_TPMA_visits_by_Sector))
 # read the cleaning log --------------------------------------------------
 url <- "https://docs.google.com/spreadsheets/d/1GxSV76XoQSBF45zmd8r1LX7r3cUQWB1I7aJ7b9KA51U/edit#gid=0"
 # browseURL(url)
@@ -127,4 +127,6 @@ for (i in names(data)) {
 ## cleaning log
 writexl::write_xlsx(select(cleaning_log, 1:13), glue::glue("{output_path}cleaning_log.xlsx"), format_headers = F)
 
+## rejection log
+writexl::write_xlsx(rejection_log, glue::glue("{output_path}rejection_log.xlsx"), format_headers = F)
 
