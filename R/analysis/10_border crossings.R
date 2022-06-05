@@ -1,3 +1,20 @@
+#Fixing labels according to dashboard
+border_traffice_count_atr <- border_traffice_count_atr %>% 
+  mutate(truck_destination = case_when(
+    transport_third_country_or_to_AFG %in% "No, my final destination is to Afghanistan" ~ "Entering trucks with Afghanistan as final destination",
+    transport_third_country_or_to_AFG %in% "Yes, my transported load is in transit to a third country" ~ "Entering trucks in transit",
+    transport_third_country_or_to_AFG_from_second_country %in% "No, my destination is directly from Afghanistan to a second country" ~ "Exiting trucks with Afghanistan as departure point",
+    transport_third_country_or_to_AFG_from_second_country %in% "Yes, my transported load is in transit to a third country" ~ "Entering trucks in transit",
+    is.na(transport_third_country_or_to_AFG) & is.na(transport_third_country_or_to_AFG_from_second_country) ~ "Destination not clear"
+  ))
+
+border_driver_survey <- border_driver_survey %>% 
+  mutate(truck_destination = case_when(
+    transported_load_transit %in% "No, my destination is to/from Afghanistan" ~ "Entering trucks with Afghanistan as final destination",
+    transported_load_transit %in% "Yes, my transported load is in transit to/from another country" ~ "Exiting trucks in transit from a third country",
+    is.na(transported_load_transit) ~ "Destination not clear"
+  ))
+
 # Border crossing: Trucks -------------
 # Number of trucks crossing the border
 trucks <- rbind(
@@ -30,28 +47,15 @@ border_crossing_trucks_by_week_and_location_atr <- trucks %>%
 # Proportion of trucks in transit
 trucks_transit_portion <- rbind(
   border_traffice_count_atr %>% 
-    mutate(transit_portion = case_when(
-      transport_third_country_or_to_AFG %in% "No, my final destination is to Afghanistan" ~ "Entering trucks with Afghanistan as final destination",
-      transport_third_country_or_to_AFG %in% "Yes, my transported load is in transit to a third country" ~ "Entering trucks in transit",
-      transport_third_country_or_to_AFG_from_second_country %in% "No, my destination is directly from Afghanistan to a second country" ~ "Exiting trucks with Afghanistan as departure point",
-      transport_third_country_or_to_AFG_from_second_country %in% "Yes, my transported load is in transit to a third country" ~ "Entering trucks in transit",
-      is.na(transport_third_country_or_to_AFG) & is.na(transport_third_country_or_to_AFG_from_second_country) ~ "Destination not clear"
-    )) %>% 
-    select(week, Province, transit_portion)
-  ,
+    select(week, Province, truck_destination),
   border_driver_survey %>% 
-    mutate(transit_portion = case_when(
-      transported_load_transit %in% "No, my destination is to/from Afghanistan" ~ "Entering trucks with Afghanistan as final destination",
-      transported_load_transit %in% "Yes, my transported load is in transit to/from another country" ~ "Exiting trucks in transit from a third country",
-      is.na(transported_load_transit) ~ "Destination not clear"
-    )) %>% 
-    select(week, Province, transit_portion)
-) %>% filter(!is.na(transit_portion))
+    select(week, Province, truck_destination)
+) %>% filter(!is.na(truck_destination))
 
 ## by week
 trucks_transit_portion_by_week_atr <- trucks_transit_portion %>% 
   group_by(week = week) %>% 
-  count(transit_portion) %>% 
+  count(truck_destination) %>% 
   mutate(atr_percent = round((n/sum(n))*100, 2), n = NULL)
 
 ## by week and province
@@ -60,7 +64,7 @@ trucks_transit_portion_by_week_province_atr <- trucks_transit_portion %>%
     week = week,
     Province
   ) %>% 
-  count(transit_portion) %>% 
+  count(truck_destination) %>% 
   mutate(atr_percent = round((n/sum(n))*100, 2), n = NULL)
 
 border_crossing_trucks_list <- list(
@@ -81,6 +85,7 @@ border_driver_survey <- border_driver_survey %>%
     goods == "Medicine" & if_medicine_unit == "KG" ~ if_medicine*0.001
   ))
 
+#Tonnage Categories based on Dashboard
 food_nonfood <- c(
   "Food item & Non-food",
   "Food item & Non-food item",
@@ -92,6 +97,7 @@ food_nonfood <- c(
 )
 food_items <- c(
   "Food item",
+  "Food items",
   "Food item & Fruits and vegetables",
   "Food item & Fresh fruits and vegetables",
   "Fresh fruits and vegetables",
@@ -108,39 +114,30 @@ nonfood_items <- c(
   "Non-food item (any non-food item other than fuel, construction materials and medicine) & Other"
 )
 
+#Sorting items into Dashboard categoriesd
 border_traffice_count_atr <- border_traffice_count_atr %>%
-  mutate(Overall_weight = case_when(
-    Unit_overall %in% "Kg" ~ as.character(as.numeric(Overall_weight)*0.001),
-    TRUE ~ Overall_weight
+  mutate(
+  #combining items loaded and aid commodities loaded in one variable
+  all_items_loaded = case_when(
+    !is.na(Type_Aid_Commodities) & is.na(item_loaded) ~ Type_Aid_Commodities,
+    !is.na(Type_Aid_Commodities_Other) & is.na(item_loaded) ~ Type_Aid_Commodities_Other,
+    TRUE ~ item_loaded
   ),
   item_categories = case_when(
-    item_loaded %in% food_nonfood ~ "Food & Non-Food Items",
-    item_loaded %in% c("Emergency response supplies", "Tractors") ~ "Emergency response supplies & Tractors",
-    item_loaded %in% food_items ~ "Food Items",
-    item_loaded %in% nonfood_items ~ "Non-Food Items",
-    item_loaded %in% c("Don't wish to respond", "I don't know") ~ "Truck loads unclear",
-    TRUE ~ item_loaded
+    all_items_loaded %in% food_nonfood ~ "Food & Non-Food Items",
+    all_items_loaded %in% c("Emergency response supplies", "Tractors", "Tractor") ~ "Emergency response supplies & Tractors",
+    all_items_loaded %in% food_items ~ "Food Items",
+    all_items_loaded %in% nonfood_items ~ "Non-Food Items",
+    all_items_loaded %in% c("Don't wish to respond", "I don't know") ~ "Truck loads unclear",
+    all_items_loaded %in% "Medicine and health supplies" ~ "Medicine",
+    TRUE ~ all_items_loaded
     )
   )
-
 border_crossing_tonnage <- border_driver_survey %>% 
   select(week, Province, enter_exist, item_categories=goods, Overall_weight=tonnage, truck_destination=transported_load_transit) %>%
-  mutate(truck_destination = case_when(
-    truck_destination %in% "No, my destination is to/from Afghanistan" ~ "Entering trucks with Afghanistan as final destination",
-    truck_destination %in% "Yes, my transported load is in transit to/from another country" ~ "Exiting trucks in transit from a third country",
-    is.na(truck_destination) ~ "Destination not clear"
-  )) %>% 
   rbind(border_traffice_count_atr %>%
           filter(week %notin% c(1:9, 48:52)) %>% 
-          mutate(truck_destination = case_when(
-            transport_third_country_or_to_AFG %in% "No, my final destination is to Afghanistan" ~ "Entering trucks with Afghanistan as final destination",
-            transport_third_country_or_to_AFG %in% "Yes, my transported load is in transit to a third country" ~ "Entering trucks in transit",
-            transport_third_country_or_to_AFG_from_second_country %in% "No, my destination is directly from Afghanistan to a second country" ~ "Exiting trucks with Afghanistan as departure point",
-            transport_third_country_or_to_AFG_from_second_country %in% "Yes, my transported load is in transit to a third country" ~ "Entering trucks in transit",
-            is.na(transport_third_country_or_to_AFG) & is.na(transport_third_country_or_to_AFG_from_second_country) ~ "Destination not clear"
-          )) %>% 
           select(week, Province, enter_exist, item_categories, Overall_weight, truck_destination))
-
 
 # by week
 border_crossing_tonnage_by_week_atr <- border_crossing_tonnage %>%

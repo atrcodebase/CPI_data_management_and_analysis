@@ -34,8 +34,8 @@ fi_sub_items <- fi_sub_items %>% mutate(
     Item_In_Stock_Shop == "Yes" & choice == "Garlic" & Unit_FI == "grams" ~ (Price_FI / Unit_Amount_FI) * 1000,
     Item_In_Stock_Shop == "Yes" & choice == "Imported vegetable oil" & Unit_FI == "Liter (L)" ~ Price_FI * 1.084598698,
     Item_In_Stock_Shop == "Yes" & choice == "Imported vegetable oil" & Unit_FI == "grams" ~ Price_FI / Unit_Amount_FI * 1000,
-    Item_In_Stock_Shop == "Yes" & choice == "bread" ~ (Price_FI / weight_nan) * 1000,
-    Item_In_Stock_Shop == "Yes" & choice == "Nan (small loaf)" ~ (Price_FI / weight_nan) * 1000,
+    Item_In_Stock_Shop == "Yes" & choice == "bread" ~ ((Price_FI / Unit_Amount_FI) / weight_nan) * 1000,
+    Item_In_Stock_Shop == "Yes" & choice == "Nan (small loaf)" ~ ((Price_FI / Unit_Amount_FI) / weight_nan) * 1000,
     Item_In_Stock_Shop == "Yes" & choice == "Milk (fresh)" & Unit_FI == "Kilogram (KG)" ~ Price_FI / 0.970873786,
     Item_In_Stock_Shop == "Yes" & choice == "Milk (fresh)" & Unit_FI == "grams" ~ (Price_FI / Unit_Amount_FI) * 1000 / 0.970873786,
     Item_In_Stock_Shop == "Yes" & choice == "Yogurt" & Unit_FI == "grams" ~ (Price_FI / Unit_Amount_FI) * 1000,
@@ -1015,11 +1015,12 @@ br_traf_count_count_merged <- br_traf_count_main_sub %>% right_join(br_traf_coun
   rename(KEY = KEY.y, KEY_Main = KEY) %>% 
   relocate(KEY_Main, .after = last_col()) %>% 
   relocate(Region, .before = Province)
-  
+
+br_traf_count_count_merged <- convert_kg_ton(br_traf_count_count_merged)
+
 Trafic_count_list <- list(
   BORDER_TRAFFIC_COUNT = br_traf_count_count_merged,
   BORDER_DETAILS = br_traf_count_main
-   
 )
 
 # 7 - Border Driver Survey
