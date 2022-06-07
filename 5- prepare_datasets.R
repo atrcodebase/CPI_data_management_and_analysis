@@ -14,6 +14,22 @@ perc_fun <- function(var, level){
   round( mean({{var}} == level , na.rm = T) * 100,1)
 }
 
+#Converting KG to Ton
+convert_kg_ton <- function(data){
+  
+  for(col_i in 1:length(data)){
+    for(row_i in 1:nrow(data)){
+      col_val <- data[[col_i]][row_i]
+      
+      if(col_val %in% c("Kg", "Kilogram (KG)")){
+        data[[col_i]][row_i] <- "Ton"
+        data[[col_i-1]][row_i] <- as.numeric(data[[col_i-1]][row_i])/1000
+      }
+    }
+  }
+  return(data)
+}
+
 # 1 - Food Items
 
 # Read Data ---------------------------------------------------------------

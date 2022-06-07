@@ -91,6 +91,7 @@ food_nonfood <- c(
   "Food item & Non-food item",
   "Food item & Construction material",
   "Food item & Medicine",
+  "Food items & Medicine and health supplies", #added myself
   "Food item & Non-food item & Construction material",
   "Food item & Non-food item (any non-food item other than fuel, construction materials and medicine)",
   "Food item & Livestock/poultry"
@@ -111,7 +112,8 @@ nonfood_items <- c(
   "Non-food item (any non-food item other than fuel, construction materials and medicine)",
   "Non-food item (any non-food item other than fuel, construction materials and medicine) & Livestock/poultry",
   "Non-food item (any non-food item other than fuel, construction materials and medicine) & Medicine",
-  "Non-food item (any non-food item other than fuel, construction materials and medicine) & Other"
+  "Non-food item (any non-food item other than fuel, construction materials and medicine) & Other",
+  "Non-food item (any non-food item other than fuel, construction materials and medicine) & Fuel" #added myself
 )
 
 #Sorting items into Dashboard categoriesd
