@@ -1,6 +1,7 @@
 # changes in number of transactions -------------
 hawala_atr <- hawala_atr %>% 
-  mutate(Transfer_Changes = gsub("The total number of domestic transfers has |The total number of domestic transfers |The total number of international transfers has |The total number of international transfers ", "", Transfer_Changes))
+  mutate(Transfer_Changes = gsub("The total number of domestic transfers has |The total number of domestic transfers |The total number of international transfers has |The total number of international transfers ", "", Transfer_Changes),
+         week = as.character(week))
 
 hawala_atr_v2 <- hawala_atr_v2 %>% 
   mutate(Transfer_Changes = gsub("The total number of domestic transfers has |The total number of domestic transfers |The total number of international transfers has |The total number of international transfers ", "", Transfer_Changes))

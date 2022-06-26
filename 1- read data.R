@@ -82,7 +82,7 @@ extract_assign(weekly, "telecome_service", "CPI_Telecom_Service_Providers_Datase
 # mmo_w8 <- weekly[["W8 datasets"]][["CPI_MMOs_Dataset"]] (pilot data)
 
 ## form 10: Government Employee_Salary_Payment_Verification. Only available for week 8 and week 16. Week 8 is pilot data
-extract_assign(weekly, "gov_emp_salary", "Government_Employee_Salary_Payment_Dataset")
+extract_assign(weekly, "gov_emp_salary", "CPI_Government_Employee_Salary_Dataset")
 
 ## form 11: Railway Count, available for week 10 which is pilot data
 
