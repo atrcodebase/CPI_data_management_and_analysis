@@ -68,7 +68,7 @@ nfi_prices_by_week_atr <- rbind(
 
 nfi_prices_by_week_integrity <- nfi_integrity %>% 
   group_by(
-    week = week,
+    week = as.character(week),
     items = `Selected Item`
   ) %>% 
   summarise(
@@ -129,7 +129,7 @@ nfi_prices_by_week_province_atr <- rbind(
 
 nfi_prices_by_week_province_integrity <- nfi_integrity %>% 
   group_by(
-    week = week,
+    week = as.character(week),
     province = Province,
     items = `Selected Item`
   ) %>% 
@@ -169,7 +169,7 @@ nfi_availability_by_week_atr <- nfi_atr %>%
 
 nfi_availability_by_week_integrity <- nfi_integrity %>% 
   group_by(
-    week = week,
+    week = as.character(week),
     items = `Selected Item`
   ) %>%
   count(availability = Item_or_service_availability) %>% 
@@ -194,7 +194,7 @@ nfi_availability_by_week_province_atr <- nfi_atr %>%
 
 nfi_availability_by_week_province_integrity <- nfi_integrity %>% 
   group_by(
-    week = week,
+    week = as.character(week),
     province = Province,
     items = `Selected Item`
   ) %>%

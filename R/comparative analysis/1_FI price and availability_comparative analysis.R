@@ -30,7 +30,7 @@ fi_prices_by_week_atr <- fi_atr %>%
   pivot_longer(-c(week, items), names_to = "stats", values_to = "atr_values")
 
 fi_prices_by_week_integrity <- fi_integrity %>% 
-  group_by(week = week,
+  group_by(week = as.character(week),
            items = `Selected Item`
   ) %>% 
   summarise(
@@ -60,7 +60,7 @@ fi_prices_by_week_province_atr <- fi_atr %>%
   pivot_longer(-c(week, province, items), names_to = "stats", values_to = "atr_values")
 
 fi_prices_by_week_province_integrity <- fi_integrity %>% 
-  group_by(week = week,
+  group_by(week = as.character(week),
            province = Province,
            items = `Selected Item`) %>% 
   summarise(
@@ -99,7 +99,7 @@ fi_availability_by_week_atr <- fi_atr %>%
 
 fi_availability_by_week_integrity <- fi_integrity %>% 
   group_by(
-    week = week,
+    week = as.character(week),
     items = `Selected Item`
   ) %>% 
   count(availability = Item_availability) %>% 
@@ -126,7 +126,7 @@ fi_availability_by_week_province_atr <- fi_atr %>%
 
 fi_availability_by_week_province_integrity <- fi_integrity %>% 
   group_by(
-    week = week,
+    week = as.character(week),
     province = Province,
     items = `Selected Item`
   ) %>% 
