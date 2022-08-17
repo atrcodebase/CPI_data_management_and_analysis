@@ -1,37 +1,29 @@
-##### merge forms (should be updated on weekly basis) --------------------------------------------------
+##### merge forms ------------------------------------------------------------------------
 source("1- read data.R")
 output_path <- "output/merged data forms/"
 
-
-# form 1: FI
+# form 1: FI -----------------------------------------------------------------------------
 merge_data(weekly, "fi", "CPI_Market_FI_Dataset")
-
 fi_list <- list(
   main = fi_main,
   fi_subresps = fi_fi_subresps,
   subreps_ava_nava_tax_bartering = fi_subreps_ava_nava_tax_bartering,
   fi_items_prices_avail_notavail = fi_fi_items_prices_avail_notavail
 )
-identical(names(fi_w1), names(fi_list))
-writexl::write_xlsx(fi_list, glue::glue("{output_path}CPI_Market_FI_Dataset_merge.xlsx"), format_headers = F)
 
 
-# form 2: NFI
+# form 2: NFI ----------------------------------------------------------------------------
 merge_data(weekly, "nfi", "CPI_Market_NFI_Dataset")
-
 nfi_list <- list(
   main = nfi_main,
   nfi_subresps = nfi_nfi_subresps,
   nsubreps_ava_nava_tax_bartering = nfi_nsubreps_ava_nava_tax_bartering,
   nfi_items_prices_avail_notavail = nfi_nfi_items_prices_avail_notavail
 )
-identical(names(nfi_w1), names(nfi_list))
-writexl::write_xlsx(nfi_list,  glue::glue("{output_path}CPI_Market_NFI_Dataset_merge.xlsx"), format_headers = F)
 
 
-## form 3: services
+## form 3: services ----------------------------------------------------------------------
 merge_data(weekly, "market_services", "CPI_Market_Services_Dataset")
-
 market_services_list <- list(
   main = market_services_main,
   subrespondents = market_services_subrespondents,
@@ -39,13 +31,10 @@ market_services_list <- list(
   subrespondents_available_data = market_services_subrespondents_available_data,
   Labour = market_services_Labour
 )
-identical(names(market_services_w1), names(market_services_list))
-writexl::write_xlsx(market_services_list,  glue::glue("{output_path}CPI_Market_Services_Dataset_merge.xlsx"), format_headers = F)
 
 
-## form 4: IME and Hawala (from week 1-10)
+## form 4: IME and Hawala (from week 1-10) -----------------------------------------------
 merge_data(weekly, "ime_hawala", "CPI_Market_IME_Hawala_Dataset")
-
 ime_hawala_list <- list(
   main = ime_hawala_main,
   ime_hawala_subresps = ime_hawala_ime_hawala_subresps,
@@ -56,69 +45,68 @@ ime_hawala_list <- list(
   transfer_fees_2nd_dest = ime_hawala_transfer_fees_2nd_dest,
   transfer_fees_3rd_dest = ime_hawala_transfer_fees_3rd_dest
 )
-identical(names(ime_hawala_w1), names(ime_hawala_list))
-writexl::write_xlsx(ime_hawala_list,  glue::glue("{output_path}CPI_Market_IME_Hawala_Dataset_merge.xlsx"), format_headers = F)
 
-
-## IME version 2 (from week 11 onwards)
-merge_data(weekly, "ime_hawala_V2", "CPI_Market_IME_Hawala_Dataset", reference_week = "W11 datasets")
-
+## IME version 2 (from week 11 onwards) --------------------------------------------------
+merge_data(weekly, "ime_hawala_V2", "CPI_Market_IME_Hawala_Dataset", 
+           reference_week="W11 datasets")
 ime_hawala_list_v2 <- list(
   main = ime_hawala_V2_main,
   ime_hawala_subresps = ime_hawala_V2_ime_hawala_subresps,
   ime_hawala_Currency_Exchange = ime_hawala_V2_ime_hawala_Currency_Exchange,
   ime_hawala_Hawala_Transfer = ime_hawala_V2_ime_hawala_Hawala_Transfer
 )
-identical(names(ime_hawala_w11), names(ime_hawala_list_v2))
-writexl::write_xlsx(ime_hawala_list_v2,  glue::glue("{output_path}CPI_Market_IME_Hawala_Dataset_v2_merge.xlsx"), format_headers = F)
 
-
-## form 5: Bank
+## form 5: Bank --------------------------------------------------------------------------
 merge_data(weekly, "bank", "CPI_Bank_Dataset")
-
 bank_list <- list(
   bank_manager = bank_bank_manager,
   queues_interview = bank_queues_interview
 )
-identical(names(bank_w1), names(bank_list))
-writexl::write_xlsx(bank_list,  glue::glue("{output_path}CPI_Bank_Dataset_merge.xlsx"), format_headers = F)
 
-
-## Form 5.1: Bank Operationality Status, from week 8 onwards
-merge_data(weekly, "bank_operationality", "CPI_Bank_Operationality_Status_Dataset", reference_week = "W8 datasets")
-
+## Form 5.1: Bank Operationality Status, from week 8 onwards -----------------------------
+merge_data(weekly, "bank_operationality", "CPI_Bank_Operationality_Status_Dataset", 
+           reference_week = "W8 datasets")
 bank_operationality_list <- list(
   bank_operationality_data = bank_operationality_bank_operationality_data,
   no_bank = bank_operationality_no_bank
 )
-identical( names(bank_operationality_w8), names(bank_operationality_list))
-writexl::write_xlsx(bank_operationality_list, glue::glue("{output_path}CPI_Bank_Operationality_Status_Dataset_merge.xlsx"), format_headers = F)
 
-
-## form 6: Border Traffic Count. It isn't available for week 1
-merge_data(weekly, "border_traffic_count", "CPI_Border_Count_of_Transport_Traffic_Dataset", reference_week = "W2 datasets")
-
+## form 6: Border Traffic Count. It isn't available for week 1 ---------------------------
+merge_data(weekly, "border_traffic_count", 
+           "CPI_Border_Count_of_Transport_Traffic_Dataset", reference_week="W2 datasets")
 border_traffic_count_list <- list(
   data = border_traffic_count_data,
   Traffic_count = border_traffic_count_Traffic_count
 )
-identical(names(border_traffic_count_w2), names(border_traffic_count_list))
-writexl::write_xlsx(border_traffic_count_list,  glue::glue("{output_path}CPI_Border_Count_of_Transport_Traffic_Dataset_merge.xlsx"), format_headers = F)
 
+## form 7: Border Transport Driver Surveys. It is available only for week 1 and 2 --------
+merge_data(weekly, "border_transport_driver", 
+           "CPI_Border_Transport_Driver_Survey_Dataset")
 
-## form 7: Border Transport Driver Surveys. It is available only for week 1 and 2
-merge_data(weekly, "border_transport_driver", "CPI_Border_Transport_Driver_Survey_Dataset")
-writexl::write_xlsx(list(data = border_transport_driver_data), glue::glue("{output_path}CPI_Border_Transport_Driver_Survey_Dataset_merge.xlsx"), format_headers = F)
-
-
-## form 8: Telecom
+## form 8: Telecom -----------------------------------------------------------------------
 merge_data(weekly, "telecome_service", "CPI_Telecom_Service_Providers_Dataset")
-writexl::write_xlsx(list(telecom_data = telecome_service_telecom_data), glue::glue("{output_path}CPI_Telecom_Service_Providers_Dataset_merge.xlsx"), format_headers = F)
 
-# form 10: Government Employee_Salary_Payment_Verification. Available only for week 8 and 16. week 8 is pilot data.
-#**update target variable in merge_data function
-merge_data(weekly, "gov_emp_salary", "CPI_Government_Employee_Salary_Dataset", reference_week = "W16 datasets")
+# form 10: Government Employee_Salary_Payment_Verification -------------------------------
+merge_data(weekly, "gov_emp_salary", "CPI_Government_Employee_Salary_Dataset", 
+           reference_week = "W16 datasets",
+           gov_emp_weeks <- c(16,22, 29, "m7"))
+
+# Export ---------------------------------------------------------------------------------
+writexl::write_xlsx(fi_list, glue::glue("{output_path}CPI_Market_FI_Dataset_merge.xlsx"), format_headers = F)
+writexl::write_xlsx(nfi_list,  glue::glue("{output_path}CPI_Market_NFI_Dataset_merge.xlsx"), format_headers = F)
+writexl::write_xlsx(market_services_list,  glue::glue("{output_path}CPI_Market_Services_Dataset_merge.xlsx"), format_headers = F)
+writexl::write_xlsx(ime_hawala_list,  glue::glue("{output_path}CPI_Market_IME_Hawala_Dataset_merge.xlsx"), format_headers = F)
+writexl::write_xlsx(ime_hawala_list_v2,  glue::glue("{output_path}CPI_Market_IME_Hawala_Dataset_v2_merge.xlsx"), format_headers = F)
+writexl::write_xlsx(bank_list,  glue::glue("{output_path}CPI_Bank_Dataset_merge.xlsx"), format_headers = F)
+writexl::write_xlsx(bank_operationality_list, glue::glue("{output_path}CPI_Bank_Operationality_Status_Dataset_merge.xlsx"), format_headers = F)
+writexl::write_xlsx(border_traffic_count_list,  glue::glue("{output_path}CPI_Border_Count_of_Transport_Traffic_Dataset_merge.xlsx"), format_headers = F)
+writexl::write_xlsx(list(data = border_transport_driver_data), glue::glue("{output_path}CPI_Border_Transport_Driver_Survey_Dataset_merge.xlsx"), format_headers = F)
+writexl::write_xlsx(list(telecom_data = telecome_service_telecom_data), glue::glue("{output_path}CPI_Telecom_Service_Providers_Dataset_merge.xlsx"), format_headers = F)
 writexl::write_xlsx(list(data = gov_emp_salary_data), glue::glue("{output_path}CPI_Government_Employee_Salary_Dataset_merge.xlsx"), format_headers = F)
+
+
+# Remove extra objects -------------------------------------------------------------------
+rm(list = ls()[ls() %notin% c("%notin%", "weekly")])
 
 
 ## Form 9 - MMOs (available only for week 1 and 8. Both are pilot data)

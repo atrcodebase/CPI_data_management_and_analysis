@@ -130,3 +130,7 @@ writexl::write_xlsx(select(cleaning_log, 1:13), glue::glue("{output_path}cleanin
 ## rejection log
 writexl::write_xlsx(rejection_log, glue::glue("{output_path}rejection_log.xlsx"), format_headers = F)
 
+
+# Remove extra objects -------------------------------------------------------------------
+rm(list = ls()[ls() %notin% c("%notin%", "weekly")])
+

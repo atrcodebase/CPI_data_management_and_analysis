@@ -15,6 +15,12 @@ check_sheets(weekly, "ime_hawala", "CPI_Market_IME_Hawala_Dataset")
 
 ## form 5: Bank
 check_sheets(weekly, "bank", "CPI_Bank_Dataset")
+#temp 
+weekly[["M7 datasets"]][["CPI_Bank_Dataset"]][["bank_manager"]] <- weekly[["M7 datasets"]][["CPI_Bank_Dataset"]][["bank_manager"]] %>% 
+  select(-starts_with("exceptions_withdraw_indiv"), -starts_with("exceptions_withdraw_business"))
+weekly[["M8 datasets"]][["CPI_Bank_Dataset"]][["bank_manager"]] <- weekly[["M8 datasets"]][["CPI_Bank_Dataset"]][["bank_manager"]] %>% 
+  select(-starts_with("exceptions_withdraw_indiv"), -starts_with("exceptions_withdraw_business"))
+#
 
 ## Form 5.1: Bank Operationality Status, from week 8 onwards
 check_sheets(weekly, "bank_operationality", "CPI_Bank_Operationality_Status_Dataset")
@@ -29,7 +35,7 @@ check_sheets(weekly, "border_transport_driver", "CPI_Border_Transport_Driver_Sur
 check_sheets(weekly, "telecome_service", "CPI_Telecom_Service_Providers_Dataset")
 
 ## form 10: Government Employee_Salary_Payment_Verification. Available only for week 8 and 16. week 8 is pilot data.
-check_sheets(weekly, "gov_emp_salary", "Government_Employee_Salary_Payment_Dataset")
+check_sheets(weekly, "gov_emp_salary", "CPI_Government_Employee_Salary_Dataset")
 
 ## form 9: MMOs (available only for week 1 and 8. Both are pilot data)
 

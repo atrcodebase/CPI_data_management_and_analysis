@@ -1226,4 +1226,7 @@ openxlsx::write.xlsx(employee_salary_payment_data, "output/Client_Datasets/EMPLO
 # openxlsx::write.xlsx(MMO_LIST, "output/Client_Datasets/merged/MMO_DATA_Merged.xlsx")
 
 
+# Remove extra objects -------------------------------------------------------------------
+rm(list = ls()[ls() %notin% c("%notin%", "weekly")])
+
 
