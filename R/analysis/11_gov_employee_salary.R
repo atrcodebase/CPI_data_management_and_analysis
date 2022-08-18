@@ -1,6 +1,10 @@
 # Gov Employee Salary ------------
-## by week
-employee_salary_by_week_atr <- gov_emp_salary_atr %>% 
+gov_emp_salary_atr <- gov_emp_salary_atr %>%
+  mutate(month_name = month.name[as.numeric(month)])
+  # filter(Salary_Paid %in% "Yes")
+
+## by month
+employee_salary_by_month_atr <- gov_emp_salary_atr %>% 
   select(Gender_Of_Interviewee, 
          Job_Location, 
          Professional_Stream, 
@@ -11,11 +15,11 @@ employee_salary_by_week_atr <- gov_emp_salary_atr %>%
          Partially_Paid_Salary) %>% 
   lapply(function(response)
     table(
-      week = gov_emp_salary_atr$week,
+      year=gov_emp_salary_atr$year,
       month = gov_emp_salary_atr$month_name,
       response
     ) %>% data.frame() %>% 
-      group_by(week) %>% 
+      group_by(year, month) %>% 
       mutate(atr_freq = Freq) %>% 
       filter(Freq != 0) %>% select(-Freq) %>% 
       ungroup() %>% 
@@ -23,8 +27,8 @@ employee_salary_by_week_atr <- gov_emp_salary_atr %>%
   data.table::rbindlist(idcol = "question") %>% 
   relocate(question, .after = month)
 
-## by week and province
-employee_salary_by_week_province_atr <- gov_emp_salary_atr %>% 
+## by month and province
+employee_salary_by_month_province_atr <- gov_emp_salary_atr %>% 
   select(Gender_Of_Interviewee, 
          Job_Location, 
          Professional_Stream, 
@@ -35,12 +39,12 @@ employee_salary_by_week_province_atr <- gov_emp_salary_atr %>%
          Partially_Paid_Salary) %>% 
   lapply(function(response)
     table(
-      week = gov_emp_salary_atr$week,
+      year = gov_emp_salary_atr$year,
       month = gov_emp_salary_atr$month_name,
       province = gov_emp_salary_atr$Province,
       response
     ) %>% data.frame() %>% 
-      group_by(week, month, province) %>% 
+      group_by(year, month, province) %>% 
       mutate(atr_freq = Freq) %>% 
       filter(Freq != 0) %>% select(-Freq) %>% 
       ungroup() %>% 
@@ -49,7 +53,7 @@ employee_salary_by_week_province_atr <- gov_emp_salary_atr %>%
   relocate(question, .after = month)
 
 salary_payment_list_1 <- list(
-  by_week = employee_salary_by_week_atr,
-  by_week_and_province = employee_salary_by_week_province_atr
+  by_month = employee_salary_by_month_atr,
+  by_month_and_province = employee_salary_by_month_province_atr
 )
 

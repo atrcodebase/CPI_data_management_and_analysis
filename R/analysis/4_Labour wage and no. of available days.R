@@ -5,13 +5,15 @@ labour_atr <- labour_atr %>%
     Items = case_when(
       Items != "Unskilled labourer" ~ "Skilled labourer",
       TRUE ~ Items
-    )
+    ),
+    month_name = month.name[as.numeric(month)]
   )
 
-## by week
-labour_wage_by_week_atr <- labour_atr %>% 
+## by month
+labour_wage_by_month_atr <- labour_atr %>% 
   group_by(
-    week = week,
+    year,     
+    month = month_name,
     labour_type = Items
     ) %>% 
   summarise(
@@ -19,12 +21,13 @@ labour_wage_by_week_atr <- labour_atr %>%
     median = round(median(PRICE_NFI_STANDARDIZED, na.rm = T), 2),
   ) %>% 
   ungroup() %>% 
-  pivot_longer(-c(week, labour_type), names_to = "stats", values_to = "atr_values")
+  pivot_longer(-c(year, month, labour_type), names_to = "stats", values_to = "atr_values")
 
-## by week and province
-labour_wage_by_week_province_atr <- labour_atr %>% 
+## by month and province
+labour_wage_by_month_province_atr <- labour_atr %>% 
   group_by(
-    week = week,
+    year,     
+    month = month_name,
     province = Province,
     labour_type = Items
     ) %>% 
@@ -33,18 +36,19 @@ labour_wage_by_week_province_atr <- labour_atr %>%
     median = round(median(PRICE_NFI_STANDARDIZED, na.rm = T), 2),
   ) %>% 
   ungroup() %>% 
-  pivot_longer(-c(week, province, labour_type), names_to = "stats", values_to = "atr_values")
+  pivot_longer(-c(year, month, province, labour_type), names_to = "stats", values_to = "atr_values")
 
 labour_wage_list <- list(
-  by_week = labour_wage_by_week_atr,
-  by_week_and_province = labour_wage_by_week_province_atr
+  by_month = labour_wage_by_month_atr,
+  by_month_and_province = labour_wage_by_month_province_atr
 )
 
 # available days of employment --------------
-### by week
-labour_available_days_by_week_atr <- labour_atr %>% 
+### by month
+labour_available_days_by_month_atr <- labour_atr %>% 
   group_by(
-    week = week,
+    year,     
+    month = month_name,
     labour_type = Items
   ) %>%
   summarise(
@@ -52,12 +56,13 @@ labour_available_days_by_week_atr <- labour_atr %>%
     median = round(median(Labour_Weekly_Working_Days, na.rm = T), 2),
   ) %>% 
   ungroup() %>% 
-  pivot_longer(-c(week, labour_type), names_to = "stats", values_to = "atr_values")
+  pivot_longer(-c(year, month, labour_type), names_to = "stats", values_to = "atr_values")
 
-## by week and province
-labour_available_days_by_week_province_atr <- labour_atr %>% 
+## by month and province
+labour_available_days_by_month_province_atr <- labour_atr %>% 
   group_by(
-    week = week,
+    year,     
+    month = month_name,
     province = Province,
     labour_type = Items
   ) %>%
@@ -66,11 +71,11 @@ labour_available_days_by_week_province_atr <- labour_atr %>%
     median = round(median(Labour_Weekly_Working_Days, na.rm = T), 2),
   ) %>% 
   ungroup() %>% 
-  pivot_longer(-c(week, province, labour_type), names_to = "stats", values_to = "atr_values")
+  pivot_longer(-c(year, month, province, labour_type), names_to = "stats", values_to = "atr_values")
 
 labour_availability_list <- list(
-  by_week = labour_available_days_by_week_atr,
-  by_week_and_province = labour_available_days_by_week_province_atr
+  by_month = labour_available_days_by_month_atr,
+  by_month_and_province = labour_available_days_by_month_province_atr
 )
 
 

@@ -1,16 +1,16 @@
 #Change in Salary ----------------------
-## by week
-emp_salary_change_by_week_atr <- gov_emp_salary_atr %>%
+## by month
+emp_salary_change_by_month_atr <- gov_emp_salary_atr %>%
   select(Aware_of_Salary_Changes,
          Salary_Revised,
          Changes_of_Salary) %>% 
   lapply(function(response)
     table(
-      week = gov_emp_salary_atr$week,
+      year = gov_emp_salary_atr$year,
       month = gov_emp_salary_atr$month_name,
       response
     ) %>% data.frame() %>% 
-      group_by(week, month) %>% 
+      group_by(year, month) %>% 
       mutate(atr_freq = Freq) %>% 
       filter(Freq != 0) %>% select(-Freq) %>% 
       ungroup() %>% 
@@ -18,17 +18,17 @@ emp_salary_change_by_week_atr <- gov_emp_salary_atr %>%
   data.table::rbindlist(idcol = "question") %>% 
   relocate(question, .after = month)
 
-## by week and province
-emp_salary_change_by_week_province_atr <- gov_emp_salary_atr %>%
+## by month and province
+emp_salary_change_by_month_province_atr <- gov_emp_salary_atr %>%
   select(Changes_of_Salary) %>% 
   lapply(function(response)
     table(
-      week = gov_emp_salary_atr$week,
+      year = gov_emp_salary_atr$year,
       month = gov_emp_salary_atr$month_name,
       province = gov_emp_salary_atr$Province,
       response
     ) %>% data.frame() %>% 
-      group_by(week, month, province) %>% 
+      group_by(year, month, province) %>% 
       mutate(atr_freq = Freq) %>% 
       filter(Freq != 0) %>% select(-Freq) %>% 
       ungroup() %>% 
@@ -38,8 +38,8 @@ emp_salary_change_by_week_province_atr <- gov_emp_salary_atr %>%
   relocate(question, .after = month)
 
 salary_change_list <- list(
-  by_week = emp_salary_change_by_week_atr,
-  by_week_and_province = emp_salary_change_by_week_province_atr
+  by_month = emp_salary_change_by_month_atr,
+  by_month_and_province = emp_salary_change_by_month_province_atr
 )
 
 

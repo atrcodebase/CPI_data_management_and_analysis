@@ -16,45 +16,46 @@ gov_emp_salary_atr <- gov_emp_salary_atr %>%
     !is.na(Paid_Salary_periods_Months) ~ str_count(Paid_Salary_periods_Months, " & ")+1
   ), .after=Paid_Salary_periods_Months)
 
-## by week
-payment_percentage_by_week_atr <- gov_emp_salary_atr %>%
+## by month
+payment_percentage_by_month_atr <- gov_emp_salary_atr %>%
   filter(Salary_Paid == "Yes") %>%
   select(starts_with("sh_")) %>% 
   lapply(function(x)
     table(
-      week = gov_emp_salary_atr$week[gov_emp_salary_atr$Salary_Paid %in% "Yes"],
+      year = gov_emp_salary_atr$year[gov_emp_salary_atr$Salary_Paid %in% "Yes"],
+      month_name = gov_emp_salary_atr$month_name[gov_emp_salary_atr$Salary_Paid %in% "Yes"],
       x
     ) %>% data.frame() %>% 
-      group_by(week) %>% 
+      group_by(year, month_name) %>% 
       mutate(Perc = round(Freq/sum(Freq)*100), 
              denominator = sum(Freq))) %>% 
   data.table::rbindlist(idcol="months") %>% 
   filter(x != 0) %>% select(-x) %>%
   mutate(months = str_remove(months, "sh_")) %>% 
-  relocate(months, .after = week)
+  relocate(months, .after = month_name)
 #Average total of months got paid
 payment_num_month <- gov_emp_salary_atr %>% 
-  group_by(month_name) %>% 
+  group_by(year, month_name) %>% 
   summarize(mean = round(mean(Number_months_paid, na.rm=T),2))
 
-## by week and province
-payment_amount_by_week_province_atr <- gov_emp_salary_atr %>%
-  select(week, Province, starts_with("sh_")) %>%
-  pivot_longer(-c(Province, week), names_to = "months") %>%
+## by month and province
+payment_amount_by_month_province_atr <- gov_emp_salary_atr %>%
+  select(year, month_name, Province, starts_with("sh_")) %>%
+  pivot_longer(-c(Province, year, month_name), names_to = "months") %>%
   mutate(months = str_remove(months, "sh_")) %>%
-  group_by(week, months, Province) %>%
+  group_by(year, month_name, months, Province) %>%
   summarize(Freq = sum(value)) %>%
   ungroup() %>%
   arrange(months)
 
 payment_num_month_by_province <- gov_emp_salary_atr %>% 
   filter(Salary_Paid == "Yes") %>% 
-  group_by(month_name, Province) %>% 
+  group_by(year, month_name, Province) %>% 
   summarize(mean = round(mean(Number_months_paid, na.rm=T),2))
 
 salary_payment_list_2 <- list(
-  by_week = payment_percentage_by_week_atr,
-  by_week_and_province = payment_amount_by_week_province_atr,
+  by_month = payment_percentage_by_month_atr,
+  by_month_and_province = payment_amount_by_month_province_atr,
   avg_month_paid = payment_num_month,
   avg_month_paid_by_province = payment_num_month_by_province
 )

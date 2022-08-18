@@ -5,24 +5,27 @@ fi_atr <- fi_atr %>%
     Items = case_when(
       Items %in% c("Nan (small loaf)", "bread") ~ "Nan (bread)",
       TRUE ~ Items
-    )
+    ),
+    month = as.numeric(month),
+    month_name = month.name[month]
   )
 
-## by week
-fi_prices_by_week_atr <- fi_atr %>% 
-  group_by(week = week,
-           items = Items
-           ) %>% 
+## by month
+fi_prices_by_month_atr <- fi_atr %>% 
+  group_by(year,
+           month = month_name,
+           items = Items) %>% 
   summarise(
     mean = round(mean(PRICE_FI_STANDARDIZED, na.rm = T), 2),
     median = round(median(PRICE_FI_STANDARDIZED, na.rm = T), 2),
   ) %>% 
   ungroup() %>% 
-  pivot_longer(-c(week, items), names_to = "stats", values_to = "atr_values")
+  pivot_longer(-c(year, month, items), names_to = "stats", values_to = "atr_values")
 
-## by week and province
-fi_prices_by_week_province_atr <- fi_atr %>% 
-  group_by(week = week,
+## by month and province
+fi_prices_by_month_province_atr <- fi_atr %>% 
+  group_by(year, 
+           month = month_name,
            province = Province,
            items = Items) %>% 
   summarise(
@@ -30,37 +33,37 @@ fi_prices_by_week_province_atr <- fi_atr %>%
     median = round(median(PRICE_FI_STANDARDIZED, na.rm = T), 2),
   ) %>% 
   ungroup() %>% 
-  pivot_longer(-c(week, province, items), names_to = "stats", values_to = "atr_values")
+  pivot_longer(-c(year, month, province, items), names_to = "stats", values_to = "atr_values")
 
 FI_prices_list <- list(
-  by_week = fi_prices_by_week_atr,
-  by_week_and_province = fi_prices_by_week_province_atr
+  by_month = fi_prices_by_month_atr,
+  by_month_and_province = fi_prices_by_month_province_atr
 )
 
 # compare FI availablity -------------------------------------
-## by week
-fi_availability_by_week_atr <- fi_atr %>% 
+## by month
+fi_availability_by_month_atr <- fi_atr %>% 
   group_by(
-    week = week,
-    items = Items
-    ) %>% 
+    year,
+    month = month_name,
+    items = Items) %>% 
   count(availability = Availability_FI) %>% 
   mutate(atr_percent = round(n/sum(n)*100, 2)) %>% 
   ungroup()
 
-## by week and province
-fi_availability_by_week_province_atr <- fi_atr %>% 
+## by month and province
+fi_availability_by_month_province_atr <- fi_atr %>% 
   group_by(
-    week = week,
+    year,
+    month = month_name,
     province = Province,
-    items = Items
-    ) %>% 
+    items = Items) %>% 
   count(availability = Availability_FI) %>% 
   mutate(atr_percent = round(n/sum(n)*100, 2)) %>% 
   ungroup()
 
 FI_availability_list <- list(
-  by_week = fi_availability_by_week_atr,
-  by_week_and_provincde = fi_availability_by_week_province_atr
+  by_month = fi_availability_by_month_atr,
+  by_month_and_provincde = fi_availability_by_month_province_atr
 )
 

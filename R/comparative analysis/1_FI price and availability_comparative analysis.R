@@ -5,21 +5,21 @@ fi_atr <- fi_atr %>%
     Items = case_when(
       Items %in% c("Nan (small loaf)", "bread") ~ "Nan (bread)",
       TRUE ~ Items
-    )
-  )
+    ), 
+    month_name = month.name[as.numeric(month)])
 
 fi_integrity <- fi_integrity %>%
   mutate(STANDARDIZED_PRICE_UNIT = as.numeric(STANDARDIZED_PRICE_UNIT)) %>% 
   mutate(Item_availability = str_trim(gsub("\\(.*", "", Item_availability))) %>% 
-  mutate(week = `Reporting Week`)
+  mutate(month = `Reporting Month`, year = `Reporting Year`)
 
-fi_atr <- fi_atr %>% filter(week %in% unique(fi_integrity$week))
+fi_atr_filtered <- fi_atr %>% filter(month_name %in% unique(fi_integrity$month))
 
 # FI prices -------------------------------------
-
-## by week
-fi_prices_by_week_atr <- fi_atr %>% 
-  group_by(week = week,
+## by month
+fi_prices_by_month_atr <- fi_atr_filtered %>% 
+  group_by(year, 
+           month = month_name,
            items = Items
   ) %>% 
   summarise(
@@ -27,10 +27,11 @@ fi_prices_by_week_atr <- fi_atr %>%
     median = round(median(PRICE_FI_STANDARDIZED, na.rm = T), 2),
   ) %>% 
   ungroup() %>% 
-  pivot_longer(-c(week, items), names_to = "stats", values_to = "atr_values")
+  pivot_longer(-c(year, month, items), names_to = "stats", values_to = "atr_values")
 
-fi_prices_by_week_integrity <- fi_integrity %>% 
-  group_by(week = as.character(week),
+fi_prices_by_month_integrity <- fi_integrity %>% 
+  group_by(year,
+           month,
            items = `Selected Item`
   ) %>% 
   summarise(
@@ -39,17 +40,18 @@ fi_prices_by_week_integrity <- fi_integrity %>%
   ) %>% 
   ungroup() %>% 
   filter(!is.na(items)) %>% 
-  pivot_longer(-c(week, items), names_to = "stats", values_to = "integrity_values")
+  pivot_longer(-c(year, month, items), names_to = "stats", values_to = "integrity_values")
 
-fi_prices_by_week_merged <- full_join(fi_prices_by_week_integrity, fi_prices_by_week_atr,
-                                      by = c("week", "items", "stats"))
+fi_prices_by_month_merged <- full_join(fi_prices_by_month_integrity, fi_prices_by_month_atr,
+                                      by = c("year", "month", "items", "stats"))
 
-all(sapply(list(nrow(fi_prices_by_week_integrity), nrow(fi_prices_by_week_atr)),
-           FUN = identical, nrow(fi_prices_by_week_merged)))
+all(sapply(list(nrow(fi_prices_by_month_integrity), nrow(fi_prices_by_month_atr)),
+           FUN = identical, nrow(fi_prices_by_month_merged)))
 
-## by week and province
-fi_prices_by_week_province_atr <- fi_atr %>% 
-  group_by(week = week,
+## by month and province
+fi_prices_by_month_province_atr <- fi_atr_filtered %>% 
+  group_by(year, 
+           month = month_name,
            province = Province,
            items = Items) %>% 
   summarise(
@@ -57,10 +59,11 @@ fi_prices_by_week_province_atr <- fi_atr %>%
     median = round(median(PRICE_FI_STANDARDIZED, na.rm = T), 2),
   ) %>% 
   ungroup() %>% 
-  pivot_longer(-c(week, province, items), names_to = "stats", values_to = "atr_values")
+  pivot_longer(-c(year, month, province, items), names_to = "stats", values_to = "atr_values")
 
-fi_prices_by_week_province_integrity <- fi_integrity %>% 
-  group_by(week = as.character(week),
+fi_prices_by_month_province_integrity <- fi_integrity %>% 
+  group_by(year,            
+           month,
            province = Province,
            items = `Selected Item`) %>% 
   summarise(
@@ -69,37 +72,39 @@ fi_prices_by_week_province_integrity <- fi_integrity %>%
   ) %>% 
   ungroup() %>% 
   filter(!is.na(items)) %>% 
-  pivot_longer(-c(week, province, items), names_to = "stats", values_to = "integrity_values")
+  pivot_longer(-c(year, month, province, items), names_to = "stats", values_to = "integrity_values")
 
-fi_prices_by_week_province_merged <- full_join(fi_prices_by_week_province_integrity, fi_prices_by_week_province_atr,
-                                               by = c("week", "province", "items", "stats"))
+fi_prices_by_month_province_merged <- full_join(fi_prices_by_month_province_integrity, fi_prices_by_month_province_atr,
+                                               by = c("year", "month", "province", "items", "stats"))
 
-all(sapply(list(nrow(fi_prices_by_week_province_integrity), nrow(fi_prices_by_week_province_atr)),
-           FUN = identical, nrow(fi_prices_by_week_province_merged)))
+all(sapply(list(nrow(fi_prices_by_month_province_integrity), nrow(fi_prices_by_month_province_atr)),
+           FUN = identical, nrow(fi_prices_by_month_province_merged)))
 
 diff_in_FI_prices <- list(
-  by_week = fi_prices_by_week_merged %>%
+  by_month = fi_prices_by_month_merged %>%
     mutate(is_equal = near(integrity_values, atr_values)),
   
-  by_week_and_province = fi_prices_by_week_province_merged %>% 
+  by_month_and_province = fi_prices_by_month_province_merged %>% 
     filter(!(is.na(integrity_values) & is.na(atr_values))) %>%
     mutate(is_equal = near(integrity_values, atr_values))
 )
 
 # compare FI availablity -------------------------------------
-## by week
-fi_availability_by_week_atr <- fi_atr %>% 
+## by month
+fi_availability_by_month_atr <- fi_atr_filtered %>% 
   group_by(
-    week = week,
+    year,             
+    month = month_name,
     items = Items
   ) %>% 
   count(availability = Availability_FI) %>% 
   mutate(atr_percent = round(n/sum(n)*100, 2), n = NULL) %>% 
   ungroup()
 
-fi_availability_by_week_integrity <- fi_integrity %>% 
+fi_availability_by_month_integrity <- fi_integrity %>% 
   group_by(
-    week = as.character(week),
+    year,            
+    month,
     items = `Selected Item`
   ) %>% 
   count(availability = Item_availability) %>% 
@@ -107,16 +112,17 @@ fi_availability_by_week_integrity <- fi_integrity %>%
   ungroup() %>% 
   filter(!is.na(items))
 
-fi_availability_by_week_merged <- full_join(fi_availability_by_week_integrity, fi_availability_by_week_atr,
-                                            by = c("week", "items", "availability"))
+fi_availability_by_month_merged <- full_join(fi_availability_by_month_integrity, fi_availability_by_month_atr,
+                                            by = c("year", "month", "items", "availability"))
 
-all(sapply(list(nrow(fi_availability_by_week_integrity), nrow(fi_availability_by_week_atr)),
-           FUN = identical, nrow(fi_availability_by_week_merged)))
+all(sapply(list(nrow(fi_availability_by_month_integrity), nrow(fi_availability_by_month_atr)),
+           FUN = identical, nrow(fi_availability_by_month_merged)))
 
-## by week and province
-fi_availability_by_week_province_atr <- fi_atr %>% 
+## by month and province
+fi_availability_by_month_province_atr <- fi_atr_filtered %>% 
   group_by(
-    week = week,
+    year,             
+    month = month_name,
     province = Province,
     items = Items
   ) %>% 
@@ -124,9 +130,10 @@ fi_availability_by_week_province_atr <- fi_atr %>%
   mutate(atr_percent = round(n/sum(n)*100, 2), n = NULL) %>% 
   ungroup()
 
-fi_availability_by_week_province_integrity <- fi_integrity %>% 
+fi_availability_by_month_province_integrity <- fi_integrity %>% 
   group_by(
-    week = as.character(week),
+    year,            
+    month,
     province = Province,
     items = `Selected Item`
   ) %>% 
@@ -135,17 +142,17 @@ fi_availability_by_week_province_integrity <- fi_integrity %>%
   ungroup() %>% 
   filter(!is.na(items))
 
-fi_availability_by_week_province_merged <- full_join(fi_availability_by_week_province_integrity, fi_availability_by_week_province_atr,
-                                                     by = c("week", "province", "items", "availability"))
+fi_availability_by_month_province_merged <- full_join(fi_availability_by_month_province_integrity, fi_availability_by_month_province_atr,
+                                                     by = c("year", "month", "province", "items", "availability"))
 
-all(sapply(list(nrow(fi_availability_by_week_province_integrity), nrow(fi_availability_by_week_province_atr)),
-           FUN = identical, nrow(fi_availability_by_week_province_merged)))
+all(sapply(list(nrow(fi_availability_by_month_province_integrity), nrow(fi_availability_by_month_province_atr)),
+           FUN = identical, nrow(fi_availability_by_month_province_merged)))
 
 diff_in_FI_availability <- list(
-  by_week = fi_availability_by_week_merged %>%
+  by_month = fi_availability_by_month_merged %>%
     mutate(is_equal = near(integrity_percent, atr_percent))
   ,
-  by_week_and_provincde = fi_availability_by_week_province_merged %>% 
+  by_month_and_provincde = fi_availability_by_month_province_merged %>% 
     filter(!(is.na(integrity_percent) & is.na(atr_percent))) %>% 
     mutate(is_equal = near(integrity_percent, atr_percent))
 )

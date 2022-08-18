@@ -6,14 +6,19 @@ nfi_atr <- nfi_atr %>%
       Items %in% c("Shared rickshaw", "Shared taxi", "Shared van", "Shared taxi/van/risckshaw  driver") ~ "Shared taxi/van/risckshaw driver",
       TRUE ~ Items
     ),
-    Availability_NFI = str_trim(gsub("\\(.*", "", Availability_NFI))
+    Availability_NFI = str_trim(gsub("\\(.*", "", Availability_NFI)),
+    month = as.numeric(month),
+    month_name = month.name[month]
   )
+telecom_atr <- telecom_atr %>% 
+  mutate(month = as.numeric(month),
+         month_name = month.name[month])
 
-
-## by week
-nfi_prices_by_week_atr <- nfi_atr %>% 
+## by month
+nfi_prices_by_month_atr <- nfi_atr %>% 
   group_by(
-    week = week,
+    year,
+    month = month_name,
     items = Items
   ) %>% 
   summarise(
@@ -21,15 +26,16 @@ nfi_prices_by_week_atr <- nfi_atr %>%
     median = round(median(PRICE_NFI_STANDARDIZED, na.rm = T), 2),
   ) %>% 
   ungroup() %>% 
-  pivot_longer(-c(week, items), names_to = "stats", values_to = "atr_values")
+  pivot_longer(-c(year, month, items), names_to = "stats", values_to = "atr_values")
 
-nfi_prices_by_week_atr <- rbind(
-  nfi_prices_by_week_atr
+nfi_prices_by_month_atr <- rbind(
+  nfi_prices_by_month_atr
   ,
   rbind(
     telecom_atr %>% 
       group_by(
-        week = week,
+        year,
+        month = month_name,
         stats = "mean"
       ) %>% 
       summarise(
@@ -39,7 +45,8 @@ nfi_prices_by_week_atr <- rbind(
     ,
     telecom_atr %>% 
       group_by(
-        week = week,
+        year,
+        month = month_name,
         stats = "median"
       ) %>% 
       summarise(
@@ -47,14 +54,15 @@ nfi_prices_by_week_atr <- rbind(
         "national calls to other networks" = round(median(Cost_Min_National_Call_Other_Netwokrs, na.rm = T), 2),
       )
   ) %>% 
-    pivot_longer(-c(week, stats), names_to = "items", values_to = "atr_values")
+    pivot_longer(-c(year, month, stats), names_to = "items", values_to = "atr_values")
 )
 
 
-## by week and province
-nfi_prices_by_week_province_atr <- nfi_atr %>% 
+## by month and province
+nfi_prices_by_month_province_atr <- nfi_atr %>% 
   group_by(
-    week = week,
+    year,
+    month = month_name,
     province = Province,
     items = Items
   ) %>% 
@@ -63,16 +71,17 @@ nfi_prices_by_week_province_atr <- nfi_atr %>%
     median = round(median(PRICE_NFI_STANDARDIZED, na.rm = T), 2),
   ) %>% 
   ungroup() %>% 
-  pivot_longer(-c(week, province, items), names_to = "stats", values_to = "atr_values") %>% 
+  pivot_longer(-c(year, month, province, items), names_to = "stats", values_to = "atr_values") %>% 
   filter(!is.na(atr_values))
 
-nfi_prices_by_week_province_atr <- rbind(
-  nfi_prices_by_week_province_atr
+nfi_prices_by_month_province_atr <- rbind(
+  nfi_prices_by_month_province_atr
   ,
   rbind(
     telecom_atr %>% 
       group_by(
-        week = week,
+        year,
+        month = month_name,
         province = Province,
         stats = "mean"
       ) %>% 
@@ -83,7 +92,8 @@ nfi_prices_by_week_province_atr <- rbind(
     ,
     telecom_atr %>% 
       group_by(
-        week = week,
+        year,
+        month = month_name,
         province = Province,
         stats = "median"
       ) %>% 
@@ -92,20 +102,21 @@ nfi_prices_by_week_province_atr <- rbind(
         "national calls to other networks" = round(median(Cost_Min_National_Call_Other_Netwokrs, na.rm = T), 2),
       )
   ) %>% 
-    pivot_longer(-c(week, province, stats), names_to = "items", values_to = "atr_values")
+    pivot_longer(-c(year, month, province, stats), names_to = "items", values_to = "atr_values")
 )
 
 
 NFI_prices_list <- list(
-  by_week = nfi_prices_by_week_atr,
-  by_week_and_province = nfi_prices_by_week_province_atr
+  by_month = nfi_prices_by_month_atr,
+  by_month_and_province = nfi_prices_by_month_province_atr
 )
 
 # NFI availablity ----------------------
-## by week
-nfi_availability_by_week_atr <- nfi_atr %>% 
+## by month
+nfi_availability_by_month_atr <- nfi_atr %>% 
   group_by(
-    week = week,
+    year,     
+    month = month_name,
     items = Items
     ) %>%
   count(availability = Availability_NFI) %>% 
@@ -113,10 +124,11 @@ nfi_availability_by_week_atr <- nfi_atr %>%
   ungroup() %>% 
   filter(!is.na(availability))
 
-## by week and province
-nfi_availability_by_week_province_atr <- nfi_atr %>% 
+## by month and province
+nfi_availability_by_month_province_atr <- nfi_atr %>% 
   group_by(
-    week = week,
+    year,     
+    month = month_name,
     province = Province,
     items = Items
     ) %>%
@@ -126,8 +138,8 @@ nfi_availability_by_week_province_atr <- nfi_atr %>%
   ungroup()
 
 NFI_availability_list <- list(
-  by_week = nfi_availability_by_week_atr,
-  by_week_and_provincde = nfi_availability_by_week_province_atr
+  by_month = nfi_availability_by_month_atr,
+  by_month_and_provincde = nfi_availability_by_month_province_atr
 )
 
 

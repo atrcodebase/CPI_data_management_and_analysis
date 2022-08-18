@@ -11,10 +11,11 @@ bank_respondents_atr <- bank_respondents_atr %>%
     How_Long_Wait_Transcation == "1 hour or less" ~ "Less than 1 hour",
     How_Long_Wait_Transcation == "More than 6 hours" ~ "Between 6 and 8 hours",
     TRUE ~ How_Long_Wait_Transcation
-  ))
+  ),
+  month_name = month.name[as.numeric(month)])
 
-## by week
-bank_withdraw_ability_and_waiting_time_by_week_atr <- bank_respondents_atr %>% 
+## by month
+bank_withdraw_ability_and_waiting_time_by_month_atr <- bank_respondents_atr %>% 
   select(
     `Were you able to withdraw the full amount you are entitled to on a weekly basis?` = Withdraw_Full_Amount,
     `How long did you wait to use the ATM?` = How_Long_Wait_ATM,
@@ -22,19 +23,20 @@ bank_withdraw_ability_and_waiting_time_by_week_atr <- bank_respondents_atr %>%
   ) %>% 
   lapply(function(response)
     table(
-      week = bank_respondents_atr$week,
+      year = bank_respondents_atr$year,
+      month = bank_respondents_atr$month_name,
       response
       ) %>%
       data.frame() %>% 
-      group_by(week) %>%
+      group_by(year, month) %>%
       mutate(atr_percent = round(Freq/sum(Freq)*100, 2)) %>% 
       select(everything(), atr_freq = Freq)
   ) %>% 
   data.table::rbindlist(idcol = "question") %>% 
-  select(week, question, response, everything())
+  select(year, month, question, response, everything())
 
-## by week and province
-bank_withdraw_ability_and_waiting_time_by_week_province_atr <- bank_respondents_atr %>% 
+## by month and province
+bank_withdraw_ability_and_waiting_time_by_month_province_atr <- bank_respondents_atr %>% 
   select(
     `Were you able to withdraw the full amount you are entitled to on a weekly basis?` = Withdraw_Full_Amount,
     `How long did you wait to use the ATM?` = How_Long_Wait_ATM,
@@ -42,21 +44,22 @@ bank_withdraw_ability_and_waiting_time_by_week_province_atr <- bank_respondents_
   ) %>% 
   lapply(function(response)
     table(
-      week = bank_respondents_atr$week,
+      year = bank_respondents_atr$year,       
+      month = bank_respondents_atr$month_name,
       province = bank_respondents_atr$Province,
       response
       ) %>%
       data.frame() %>% 
-      group_by(week, province) %>%
+      group_by(year, month, province) %>%
       mutate(atr_percent = round(Freq/sum(Freq)*100, 2)) %>% 
       select(everything(), atr_freq = Freq)
   ) %>% 
   data.table::rbindlist(idcol = "question") %>% 
-  select(week, province, question, response, everything())
+  select(year, month, province, question, response, everything())
 
 withdraw_ability_and_waiting_time_list <- list(
-  by_week = bank_withdraw_ability_and_waiting_time_by_week_atr,
-  by_week_and_province = bank_withdraw_ability_and_waiting_time_by_week_province_atr
+  by_month = bank_withdraw_ability_and_waiting_time_by_month_atr,
+  by_month_and_province = bank_withdraw_ability_and_waiting_time_by_month_province_atr
 )
 
 
