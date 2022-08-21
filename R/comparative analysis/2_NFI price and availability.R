@@ -176,7 +176,8 @@ nfi_availability_by_month_atr <- nfi_atr_filtered %>%
     items = Items
   ) %>%
   count(availability = Availability_NFI) %>% 
-  mutate(atr_percent = round(n/sum(n)*100, 2), n = NULL) %>% 
+  mutate(atr_percent = round(n/sum(n)*100, 2)) %>% 
+  rename(atr_freq=n) %>% 
   ungroup() %>% 
   filter(!is.na(availability))
 
@@ -187,7 +188,8 @@ nfi_availability_by_month_integrity <- nfi_integrity %>%
     items = `Selected Item`
   ) %>%
   count(availability = Item_or_service_availability) %>% 
-  mutate(integrity_percent = round(n/sum(n)*100, 2), n = NULL) %>% 
+  mutate(integrity_percent = round(n/sum(n)*100, 2)) %>% 
+  rename(integrity_freq=n) %>% 
   ungroup() %>% 
   filter(!(is.na(items) | is.na(availability)))
 

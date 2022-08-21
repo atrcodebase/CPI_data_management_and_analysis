@@ -207,18 +207,18 @@ transfer_fee_domestic_by_month_atr <- transfer_fee_domestic_intl %>%
   
 transfer_fee_domestic_by_month_province_atr <- transfer_fee_domestic_intl %>% 
   filter(Hawala_Type %in% "domestically") %>% 
-  group_by(month_name, Range_num_k, HAWALA_ORIGIN) %>% 
+  group_by(year, month_name, Range_num_k, HAWALA_ORIGIN) %>% 
   summarize(mean_atr = round(mean(Transfer_Fee_Amount_only)))
 
 
 transfer_fee_internationally_by_month_atr <- transfer_fee_domestic_intl %>% 
   filter(Hawala_Type %in% "internationally") %>% 
-  group_by(month_name, Range_num_k) %>% 
+  group_by(year, month_name, Range_num_k) %>% 
   summarize(mean_atr = round(mean(Transfer_Fee_Amount_only)))
 
 transfer_fee_internationally_by_month_province_atr <- transfer_fee_domestic_intl %>% 
   filter(Hawala_Type %in% "internationally") %>% 
-  group_by(month_name, Range_num_k, HAWALA_ORIGIN) %>% 
+  group_by(year, month_name, Range_num_k, HAWALA_ORIGIN) %>% 
   summarize(mean_atr = round(mean(Transfer_Fee_Amount_only)))
 
 transfer_fee_domestic_intl_list <- list(
