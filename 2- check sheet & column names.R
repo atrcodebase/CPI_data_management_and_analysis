@@ -15,12 +15,6 @@ check_sheets(weekly, "ime_hawala", "CPI_Market_IME_Hawala_Dataset")
 
 ## form 5: Bank
 check_sheets(weekly, "bank", "CPI_Bank_Dataset")
-#temp 
-weekly[["M7 datasets"]][["CPI_Bank_Dataset"]][["bank_manager"]] <- weekly[["M7 datasets"]][["CPI_Bank_Dataset"]][["bank_manager"]] %>% 
-  select(-starts_with("exceptions_withdraw_indiv"), -starts_with("exceptions_withdraw_business"))
-weekly[["M8 datasets"]][["CPI_Bank_Dataset"]][["bank_manager"]] <- weekly[["M8 datasets"]][["CPI_Bank_Dataset"]][["bank_manager"]] %>% 
-  select(-starts_with("exceptions_withdraw_indiv"), -starts_with("exceptions_withdraw_business"))
-#
 
 ## Form 5.1: Bank Operationality Status, from week 8 onwards
 check_sheets(weekly, "bank_operationality", "CPI_Bank_Operationality_Status_Dataset")

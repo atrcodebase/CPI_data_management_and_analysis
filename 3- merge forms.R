@@ -87,9 +87,10 @@ merge_data(weekly, "border_transport_driver",
 merge_data(weekly, "telecome_service", "CPI_Telecom_Service_Providers_Dataset")
 
 # form 10: Government Employee_Salary_Payment_Verification -------------------------------
+CSP_months <- c(16,22, 29, "m7", "m8", "m9", "m10", "m11", "m12", "m1", "m2", "m3", "m4", "m5", "m6")# Add the new month name
 merge_data(weekly, "gov_emp_salary", "CPI_Government_Employee_Salary_Dataset", 
            reference_week = "W16 datasets",
-           gov_emp_weeks <- c(16,22, 29, "m7"))
+           gov_emp_weeks = CSP_months) 
 
 # Export ---------------------------------------------------------------------------------
 writexl::write_xlsx(fi_list, glue::glue("{output_path}CPI_Market_FI_Dataset_merge.xlsx"), format_headers = F)

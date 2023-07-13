@@ -45,7 +45,7 @@ for (i in names(data)) {
 #Cleaning Log
 unique(cleaning_log$dataset_name)[!unique(cleaning_log$dataset_name) %in% names(data)]
 unique(cleaning_log$sheet_name)[!unique(cleaning_log$sheet_name) %in% sheet_names]
-unique(cleaning_log$question)[!unique(cleaning_log$question) %in% col_names]
+unique(cleaning_log$question)[!unique(cleaning_log$question) %in% col_names] # Why_Could_not_perform_transaction_cashier_ATM make it yes in log after it's added in dashbaord
 #Rejection Log
 unique(rejection_log$dataset_name)[!unique(rejection_log$dataset_name) %in% names(data)]
 unique(rejection_log$sheet_name)[!unique(rejection_log$sheet_name) %in% sheet_names]

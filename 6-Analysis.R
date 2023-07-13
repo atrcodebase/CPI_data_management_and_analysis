@@ -61,12 +61,13 @@ writexl::write_xlsx(transaction_changes_list, glue::glue("{output_path}Hawala_ch
 writexl::write_xlsx(common_destination_list, glue::glue("{output_path}Hawala_most common destination_{date}.xlsx"), format_headers = F) # IME common domestic and interntional destinations
 writexl::write_xlsx(transfer_money_list, glue::glue("{output_path}Hawala_ability to transfer money_{date}.xlsx"), format_headers = F) # IME ability to transfer money (domestic & international)
 writexl::write_xlsx(transfer_fee_domestic_intl_list, glue::glue("{output_path}Hawala_transfer fee_{date}.xlsx"), format_headers = F) # IME money transfer fee (domestic & international)
-writexl::write_xlsx(border_crossing_trucks_list, glue::glue("{output_path}Border crossing-trucks_{date}.xlsx"), format_headers = F) # Border crossing-trucks
-writexl::write_xlsx(border_crossing_tonnage_list, glue::glue("{output_path}Border crossing-tonnage_{date}.xlsx"), format_headers = F) # Border crossing-tonnage
-writexl::write_xlsx(border_crossing_aid_commodities_list, glue::glue("{output_path}Border crossing-aid commodities_{date}.xlsx"), format_headers = F) # Border crossing-aid commodities
-writexl::write_xlsx(border_crossing_taxes_list, glue::glue("{output_path}Border crossing-taxes_{date}.xlsx"), format_headers = F) # Border crossing-taxes
 writexl::write_xlsx(salary_payment_list_1, glue::glue("{output_path}Gov employee_salary_{date}.xlsx"), format_headers = F) # Government Emp Salary
 writexl::write_xlsx(salary_payment_list_2, glue::glue("{output_path}Gov employee_salary 2-{date}.xlsx"), format_headers = F) # Government Emp Salary 2
 writexl::write_xlsx(salary_change_list, glue::glue("{output_path}Gov employee_salary_change_{date}.xlsx"), format_headers = F) # Government Emp salary change
 writexl::write_xlsx(terminated_emp_list, glue::glue("{output_path}Gov employee_discharged_{date}.xlsx"), format_headers = F) # Government Emp Discharged
+# Note: Border crossings are not checked anymore
+# writexl::write_xlsx(border_crossing_trucks_list, glue::glue("{output_path}Border crossing-trucks_{date}.xlsx"), format_headers = F) # Border crossing-trucks
+# writexl::write_xlsx(border_crossing_tonnage_list, glue::glue("{output_path}Border crossing-tonnage_{date}.xlsx"), format_headers = F) # Border crossing-tonnage
+# writexl::write_xlsx(border_crossing_aid_commodities_list, glue::glue("{output_path}Border crossing-aid commodities_{date}.xlsx"), format_headers = F) # Border crossing-aid commodities
+# writexl::write_xlsx(border_crossing_taxes_list, glue::glue("{output_path}Border crossing-taxes_{date}.xlsx"), format_headers = F) # Border crossing-taxes
 
