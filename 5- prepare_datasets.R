@@ -41,6 +41,8 @@ source("R/read_data_merged.R")
 fi_sub_items <- fi_sub_items %>% mutate(
   UNIT_AMOUNT_FI_CALCULATED = case_when(
     Item_In_Stock_Shop == "Yes" & choice == "Shampoo" & Unit_FI == "Liter (L)" ~ Unit_Amount_FI * 1000,
+    Item_In_Stock_Shop == "Yes" & choice == "Shampoo" & Unit_FI == "grams" ~ Unit_Amount_FI / 2,
+    Item_In_Stock_Shop == "Yes" & choice == "Shampoo" & Unit_FI == "Kilogram (KG)" ~ (Unit_Amount_FI*1000) / 2, #convert to gram then ml
     Item_In_Stock_Shop == "Yes" & choice == "Soap (bar)" & Unit_FI == "1 set of bar soaps" ~ 6,
     TRUE ~ Unit_Amount_FI
   ),
@@ -241,7 +243,7 @@ fi_merged_data_NFI <- fi_merged_data %>%
     .after = PRICE_NFI_STANDARDIZED
   )
 
-nfi_merged_final <- rbind(nfi_merged_data, fi_merged_data_NFI)
+nfi_merged_final <- plyr::rbind.fill(nfi_merged_data, fi_merged_data_NFI)
 nfi_merged_final <- nfi_merged_final %>% mutate(
   Labour_Weekly_Working_Days = "",
   .after = Availability_NFI
@@ -272,7 +274,7 @@ ms_sub_items_4_bedroom <- ms_sub_items %>% filter(
   
 )
 
-real_state <- rbind(ms_sub_items_3_bedroom, ms_sub_items_4_bedroom )
+real_state <- plyr::rbind.fill(ms_sub_items_3_bedroom, ms_sub_items_4_bedroom )
 
 # Doctors Fee
 doctors_fee <- ms_sub_items %>% filter(
@@ -336,9 +338,9 @@ ms_sub_items_reshaped <- ms_sub_items %>%
       
     ) %>% filter(choice != "Real Estate Agent") 
  
-ms_sub_items_reshaped_real_state <- rbind(ms_sub_items_reshaped, real_state)
+ms_sub_items_reshaped_real_state <- plyr::rbind.fill(ms_sub_items_reshaped, real_state)
 
-ms_sub_items_reshaped_real_state <- rbind(ms_sub_items_reshaped_real_state, doctors_fee) %>% 
+ms_sub_items_reshaped_real_state <- plyr::rbind.fill(ms_sub_items_reshaped_real_state, doctors_fee) %>% 
   select(-c(NFI_Fee,
             Transportation_Type,
             Price_Taxi,
@@ -352,7 +354,7 @@ ms_sub_items_reshaped_real_state <- rbind(ms_sub_items_reshaped_real_state, doct
     .after = Availability_NFI
   )
 
-MS_all_NFI_merged <- rbind(ms_sub_items_reshaped_real_state, ms_sub_labour_type_fixed) %>% 
+MS_all_NFI_merged <- plyr::rbind.fill(ms_sub_items_reshaped_real_state, ms_sub_labour_type_fixed) %>% 
   select(-c(unit2,	fee))
 
 ms_main_clean <- ms_main %>% select(
@@ -425,7 +427,7 @@ ms_nfi_merged <- ms_nfi_merged %>% mutate(
   .after = Price_Cost_NFI
 )
 
-NFI_all_merged_final <- rbind(nfi_merged_final, ms_nfi_merged)
+NFI_all_merged_final <- plyr::rbind.fill(nfi_merged_final, ms_nfi_merged)
 NFI_all_merged_final$Required_Fabric <- as.numeric(NFI_all_merged_final$Required_Fabric)
 
 NFI_all_merged_final <- NFI_all_merged_final %>% select(-c(SubmissionDate,
@@ -555,8 +557,8 @@ hawala_dest_same1 <- Hawala %>% filter(Transfer_Fee_Same == "Yes") %>% mutate(De
 hawala_dest_same2 <- Hawala %>% filter(Transfer_Fee_Same == "Yes") %>% mutate(Dest_temp = 2)
 hawala_dest_same3 <- Hawala %>% filter(Transfer_Fee_Same == "Yes") %>% mutate(Dest_temp = 3)
 
-hawala_dest_same_all <- rbind(hawala_dest_same1,hawala_dest_same2 )
-hawala_dest_same_all <- rbind(hawala_dest_same_all, hawala_dest_same3)
+hawala_dest_same_all <- plyr::rbind.fill(hawala_dest_same1,hawala_dest_same2 )
+hawala_dest_same_all <- plyr::rbind.fill(hawala_dest_same_all, hawala_dest_same3)
 
 mex_trans_fee_same_sub <- mex_trans_fee_same %>% select(-c(
   Site_Visit_ID,
@@ -681,8 +683,8 @@ hawala_dest_3_merged <- mex_trans_fee_amount_3_sub %>% left_join(hawala_dest_3, 
                                                                    Transfer_Fee_Amount_Destination_Fee_Type = Transfer_Fee_Amount_Destination_3_Fee_Type,
                                                                    Money_Transfer_Destination3rd = Money_Transfer_Destination3rd.x)
 
-hawala_dest_not_same_all <- rbind(hawala_dest_1_merged, hawala_dest_2_merged)
-hawala_dest_not_same_all <- rbind(hawala_dest_not_same_all, hawala_dest_3_merged)
+hawala_dest_not_same_all <- plyr::rbind.fill(hawala_dest_1_merged, hawala_dest_2_merged)
+hawala_dest_not_same_all <- plyr::rbind.fill(hawala_dest_not_same_all, hawala_dest_3_merged)
 
 hawala_dest_not_same_all <- hawala_dest_not_same_all %>% select(Starttime:exchange,
                                                                  Money_Transfer_Availability,
@@ -697,7 +699,7 @@ hawala_dest_not_same_all <- hawala_dest_not_same_all %>% select(Starttime:exchan
                                                                 KEY_Main
                                                                  )
 
-hawal_fee_all_merged <- rbind(hawala_dest_same_all_merged, hawala_dest_not_same_all) %>% rename(
+hawal_fee_all_merged <- plyr::rbind.fill(hawala_dest_same_all_merged, hawala_dest_not_same_all) %>% rename(
   HAWALA_TOP3_DESTINATION_RANK = Dest_temp, Hawala_Type = choice
 )
 
@@ -721,7 +723,7 @@ hawala_list <- list(
 )
 
 
-# 4.1 - Hawala V2, 11th week onward
+# 4.1 - Hawala V2, 11th week onward  -----------------------------------------------------
 
 # Exchange Data
 mex_main_sub_v2 <- mex_main_v2 %>% select(
@@ -831,7 +833,7 @@ reshape_hawala <- function(data, transfer_fee_cols, dest_type, fee_type){
       relocate(Transfer_Fee_Amount_Destination_Fee_Type:Transfer_Fee_Amount_Destination_Fee,
                .after = HAWALA_TOP3_DESTINATION_RANK)
     
-    mex_hawala_transfer_v2_reshaped <- rbind(mex_hawala_transfer_v2_reshaped, mex_hawala_transfer_v2_reshaped_sub)
+    mex_hawala_transfer_v2_reshaped <- plyr::rbind.fill(mex_hawala_transfer_v2_reshaped, mex_hawala_transfer_v2_reshaped_sub)
   }
   return(mex_hawala_transfer_v2_reshaped)
 }
@@ -897,7 +899,7 @@ mex_hawala_transfer_diff_dest_per <- reshape_hawala(mex_hawala_transfer_v2, tran
 mex_hawala_transfer_diff_dest_amo <- reshape_hawala(mex_hawala_transfer_v2, transfer_fee_cols$diff_dest_amo, "diff", "Amount")
 
 # Hawala all 3 destinations for same & diff fee AND percentage & amount
-hawala_fee_all_merged_v2 <- rbind(
+hawala_fee_all_merged_v2 <- plyr::rbind.fill(
   mex_hawala_transfer_same_dest_per,
   mex_hawala_transfer_same_dest_amo,
   mex_hawala_transfer_diff_dest_per,
@@ -919,7 +921,7 @@ hawala_list_v2 <- list(
   HAWALA_FEE = hawala_fee_all_merged_v2
 )
 
-# 5 - Banks
+# 5 - Banks  -----------------------------------------------------------------------------
 bank_manager <- banks_main %>% select(
   -c(SubmissionDate,
      Duration,
@@ -1039,7 +1041,7 @@ Trafic_count_list <- list(
   BORDER_DETAILS = br_traf_count_main
 )
 
-# 7 - Border Driver Survey
+# 7 - Border Driver Survey  --------------------------------------------------------------
 br_driver_main <- br_driver_main %>% 
   select(-c(Sector_Name,
             Number_of_TPMA_visits_by_Sector,
@@ -1095,7 +1097,7 @@ br_driver_main <- br_driver_main %>%
     )
   )
 
-# 8 - Telecom Servivice
+# 8 - Telecom Servivice  -----------------------------------------------------------------
 telecom_data_sub <- telecom_data %>% 
   select(
     Starttime,
@@ -1123,7 +1125,7 @@ telecom_data_sub <- telecom_data %>%
     KEY
   )
 
-# form 10: Government Employee_Salary_Payment_Verification
+# form 10: Government Employee_Salary_Payment_Verification  ------------------------------
 employee_salary_payment_data <- employee_salary_payment_data %>% 
   select(-c(SubmissionDate,
             duration,
@@ -1142,8 +1144,71 @@ employee_salary_payment_data <- employee_salary_payment_data %>%
             Surveyor_ID,
             Surveyor_Gender
   )) %>% 
-  mutate(month_name = month.name[month])
+  mutate(month_name = month.name[month], .after=month) %>% 
+  rename(Salary_Paid_last_6_months=Salary_Paid,
+         Paid_Last_6_months=Paid_Salary_periods_Months)
 
+# Getting Last 3 months payment
+March <- c('Qaws, 1400', 'Jadi, 1400', 'Dalw, 1400')
+April <- c('Jadi, 1400', 'Dalw, 1400', 'Hout, 1400')
+May <- c('Hout, 1400', 'Hamal, 1401', 'Sawr, 1401')
+month_recall <- data.frame(March, April, May)
+
+employee_salary_payment_data <- employee_salary_payment_data %>% 
+  rowwise() %>% 
+  mutate(Paid_Last_3_months = case_when(
+    month_name %in% names(month_recall) & Paid_Last_6_months %notin% "Don’t wish to respond" ~ 
+      str_split(Paid_Last_6_months, " & ")[[1]] %>% .[. %in% month_recall[[month_name]]] %>% 
+      paste0(., collapse = " & "),
+    TRUE ~ Paid_Last_6_months
+  ), .after = Paid_Last_6_months)
+
+#Breaking Paid_Last_3_months into repeated columns
+month_cols <- c("sh_Hamal", "sh_Sawr", "sh_Jawza", "sh_Saratan", "sh_Asad", "sh_Sonbola", 
+                "sh_Mizan", "sh_Aqrab", "sh_Qaws", "sh_Jadi", "sh_Dalw", "sh_Hout")
+employee_salary_payment_data[,month_cols] = as.numeric(NA)
+
+# Assiging series columns based on last 3 months
+employee_salary_payment_data <- employee_salary_payment_data %>% 
+  relocate(month_cols, .after=Paid_Last_3_months) %>%
+  mutate(across(.cols = month_cols, function(x){
+    x = case_when(
+      grepl(str_remove(cur_column(), "sh_"), Paid_Last_6_months) ~ 1,
+      TRUE ~ 0)
+  })) %>% 
+  rowwise() %>% 
+  mutate(Number_months_paid_last_6 = case_when(
+    Paid_Last_6_months %notin% c(NA, "", " ") ~ str_count(Paid_Last_6_months, " & ")+1
+  ), .after=Paid_Last_6_months) %>% 
+  mutate(Number_months_paid_last_3 = case_when(
+    Paid_Last_3_months %notin% c(NA, "", " ") ~ str_count(Paid_Last_3_months, " & ")+1
+  ), .after=Paid_Last_3_months) %>% 
+  mutate(Salary_Paid_last_3_months = case_when(
+    Paid_Last_3_months %notin% c(NA, "", " ") ~ "Yes",
+    TRUE ~ "No"
+  ), .before = Paid_Last_3_months)
+
+employee_salary_payment_data <- employee_salary_payment_data %>% 
+  mutate(Salary_Paid_last_3_months = case_when(
+    is.na(Salary_Paid_last_6_months) ~ NA_character_,
+    TRUE ~ Salary_Paid_last_3_months
+  )) %>% 
+  # Filtering unresponseive numbers
+  filter(Job_Location %notin% c("Number not working, not active or out of the coverage area", 
+                                "Number ringed but was not answered/Number busy", "Refused"))
+
+
+# #Challenged (work later)
+# data <- employee_salary_payment_data %>% 
+#   mutate(challenge_Crowding = case_when(
+#     grepl("crowd", Salary_Receiving_Challenges_Details, ignore.case = T) ~ 1,
+#     TRUE ~ 0
+#   ), challenge_lack_money = case_when(
+#     grepl("crowd", Salary_Receiving_Challenges_Details, ignore.case = T) ~ 1,
+#     TRUE ~ 0
+#   ))
+# 
+# str_split(employee_salary_payment_data$Salary_Receiving_Challenges_Details, ",") %>% unique()
 # 9 - MMO
 # mmo_main_clean <- mmo_main %>% select(
 #   Starttime,

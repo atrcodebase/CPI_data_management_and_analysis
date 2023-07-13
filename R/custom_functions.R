@@ -20,7 +20,6 @@ check_column_names <- function(target, check_with, variable_name){
         result <- names(check_with[[sheet_name]])[!names(check_with[[sheet_name]]) %in% names(target[[sheet_name]])]
         msg <- glue::glue("Extra Columns in sheet '{sheet_name}', {variable_name}:")
       }
-      
       print(msg)
       print(result)
     }
@@ -54,10 +53,10 @@ dates_to_character <- function(df, ...) {
 #Crosschecks sheet and column names
 check_sheets <- function(weekly, var_name, file_name){
   # #test values
-  # week=names(weekly)[1]
-  # var_name="gov_emp_salary"
-  # file_name="CPI_Government_Employee_Salary_Dataset"
-  # #
+  # week=names(weekly)[7]
+  # var_name="bank"
+  # file_name="CPI_Bank_Dataset"
+  # # #
   for(week in names(weekly)){
     #extract weeks and create variable names for each dataset
     week_str <- tolower(str_remove(week, " datasets"))
@@ -129,7 +128,7 @@ merge_data <- function(weekly, var_name, file_name, reference_week= "W1 datasets
     for(sheet in names(data)){
       variable <- paste0(var_name, "_", sheet)
       #rbind the sheet with the sheets from other weeks
-      assign(variable, rbind(get(variable), data[[sheet]]), envir = .GlobalEnv)
+      assign(variable, plyr::rbind.fill(get(variable), data[[sheet]]), envir = .GlobalEnv)
     }
   } 
 }
